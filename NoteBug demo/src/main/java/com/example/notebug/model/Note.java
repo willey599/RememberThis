@@ -2,13 +2,15 @@ package com.example.notebug.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+
 public class Note {
 		//primary key generation
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	//table titles 
@@ -57,6 +59,5 @@ public class Note {
 	
 	public void setNoteCategory(String noteCategory) {
 		this.noteCategory = noteCategory;
-		
 	}
 }
