@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { CloudForm } from './cloud-form/cloud-form';
+import { Cloud } from './cloud/cloud';
 
 
 @Component({
   selector: 'app-root',
-  imports: [CloudForm],
+  imports: [Cloud],
   template: `
   <header class="main-header">Remember This</header>
   <h1>
-    <app-cloud-form></app-cloud-form>
+    <app-cloud></app-cloud>
   </h1>`,
   styleUrl: './app.css',
 })
