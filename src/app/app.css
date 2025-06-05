@@ -11,23 +11,11 @@
 
 .main-header {
     background-color: #58aafd;
-    color: whitesmoke;
+    color: white;
     padding: 40px;
     text-align: center;
-    font-size: 24px;
+    font-size: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/*parent*/
-.cloud {
-    text-align: center;
-    margin-top: 20px;
-}
-/* child */
-.cloud img {
-    display: circle;
-    margin: 0 auto;
-    border-radius: 10px;
-    width: 100px;
-}

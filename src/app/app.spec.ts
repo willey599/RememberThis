@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
+//this is a test file- sees if the app runs properly
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
