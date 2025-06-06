@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, model } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
@@ -14,7 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './cloud.css'
 })
 export class Cloud {
-  title = 'angular-dialog'
+  readonly name = model('');
+
   mouseDownX : Number | null = null;
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
@@ -33,7 +34,10 @@ export class Cloud {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
-      this.dialog.open(CloudCreateMenu);
+      const dialogRef = this.dialog.open(CloudCreateMenu, {data: {name: this.name()}});
+      dialogRef.afterClosed().subscribe(result => {
+        
+      })
     }
   }
 
