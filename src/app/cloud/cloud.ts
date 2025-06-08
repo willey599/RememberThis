@@ -1,27 +1,29 @@
-import { Component, signal, inject, model } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 
 
 
 @Component({
+  standalone: true,
   selector: 'app-cloud',
   imports: [DragDropModule, MatDialogModule, CloudCreateMenu],
   templateUrl: './cloud.html',
   styleUrl: './cloud.css'
 })
 export class Cloud {
-  readonly name = model('');
+  name : string = '';
 
   mouseDownX : Number | null = null;
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
+  public userWord = '';
 
-  //dependency injection
+  //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
 
   onMouseDown(mouseState: MouseEvent): void{
@@ -34,11 +36,15 @@ export class Cloud {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
-      const dialogRef = this.dialog.open(CloudCreateMenu, {data: {name: this.name()}});
+      const dialogRef = this.dialog.open(CloudCreateMenu /*, {data: {name: this.name}}*/);
+      
       dialogRef.afterClosed().subscribe(result => {
-        
-      })
+        if (result){
+          console.log('Dialog closed, data: ', result);
+          this.userWord = result;
+          //store data in DB when you create the database
+        }
+      });
     }
   }
-
 }

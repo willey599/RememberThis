@@ -14,11 +14,5 @@
 .dialog h2 {
     text-align: center;
     width: auto;
-}
-
-.dialog button {
-    border-radius: 15%;
-    border-style: solid;
-    border-color: #58aafd;
-    background-color: #58aafd;
+    height: auto;
 }
