@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "RememberThisApplication",
+      "request": "launch",
+      "mainClass": "com.github.willeylee.remember_this.RememberThisApplication",
+      "projectName": "remember-this"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
