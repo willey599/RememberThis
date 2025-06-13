@@ -1,12 +1,14 @@
-package com.github.willeylee.remember_this;
+package com.willeylee.remember_this.entities;
 
 import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AllArgsConsructor;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name="user")

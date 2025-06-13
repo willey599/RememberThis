@@ -1,10 +1,13 @@
-package main.entities;
+package com.willeylee.remember_this.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "node")
 
-public class node {
+public class Node {
     @Id
     @Column(name="node_id")
     private int node_id;
