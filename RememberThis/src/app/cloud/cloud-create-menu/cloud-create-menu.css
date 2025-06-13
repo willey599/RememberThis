@@ -1,0 +1,18 @@
+.dialog {
+    width: auto;
+    text-align: left;
+}
+
+.dialog h1 {
+    width: auto;
+    text-align: center;
+    font-size: 32px;
+    color: white;
+    background-color: #58aafd;
+}
+
+.dialog h2 {
+    text-align: center;
+    width: auto;
+    height: auto;
+}
