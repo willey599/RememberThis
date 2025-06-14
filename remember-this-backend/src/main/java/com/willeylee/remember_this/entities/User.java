@@ -1,8 +1,13 @@
 package com.willeylee.remember_this.entities;
 
-import org.springframework.data.annotation.Id;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
@@ -11,11 +16,12 @@ import java.util.Set;
 import java.util.HashSet;
 
 @Entity
-@Table(name="user")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+@Table(name="user")
 public class User {
     @Id
     @Column(name="user_id")
