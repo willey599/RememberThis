@@ -42,9 +42,14 @@ export class Cloud {
         if (result){
           console.log('Dialog closed, data: ', result);
           this.userWord = result;
-          //store data in DB when you create the database
+          //store data in DB using fetch
+          fetch("http://localhost:8080/create", )
+          .then(result => console.log(result));
+
         }
       });
     }
   }
+
+
 }

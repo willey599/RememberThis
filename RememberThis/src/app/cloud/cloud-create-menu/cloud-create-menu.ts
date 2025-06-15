@@ -21,7 +21,7 @@ export class CloudCreateMenu {
   //data: any is holding all the data that was passed in from dialog.open() through dependency injection. That data can be accessed like data.name. "public" lets you use data.name in your html
   constructor(public dialogRef: MatDialogRef<CloudCreateMenu> /*, @Inject(MAT_DIALOG_DATA) public data: any*/) {}
 
-  saveDialog(mouseEvent: MouseEvent, recallItem: any): void{
+  createDialog(mouseEvent: MouseEvent, recallItem: any): void{
     if (mouseEvent.button == 0){
       if (this.recallItem){
         this.dialogRef.close(this.recallItem);

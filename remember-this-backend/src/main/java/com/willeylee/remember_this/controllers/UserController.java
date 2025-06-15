@@ -19,8 +19,8 @@ public class UserController {
     }
 
     @GetMapping("/save")
-    void saveToDB(String name) {
-        
+    void saveToDB(User user, String email) {
+        user.setEmail(email);
         userRepositories.save(user);
     }
 }
