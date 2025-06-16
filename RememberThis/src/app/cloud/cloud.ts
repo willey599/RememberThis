@@ -43,9 +43,18 @@ export class Cloud {
           console.log('Dialog closed, data: ', result);
           this.userWord = result;
           //store data in DB using fetch
-          fetch("http://localhost:8080/create", )
-          .then(result => console.log(result));
-
+          fetch("http://localhost:8080/api/create", {
+          method: "POST", 
+          body: JSON.stringify({
+            answer: this.userWord
+          }),
+          headers: {
+            "Content-Type":  "application/json; charset=UTF=8"
+          }
+        }) //convert response to JSON
+          .then(response => response.json())
+          .then(response => console.log(response))
+          .catch(err=>console.warn(err.message))
         }
       });
     }
