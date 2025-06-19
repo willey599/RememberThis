@@ -44,18 +44,15 @@ export class Cloud {
           this.userWord = result;
           //store data in DB using fetch
           fetch("http://localhost:8080/api/create", {
-          method: "POST", 
-          body: JSON.stringify({
-            answer: this.userWord
-          }),
-          headers: {
-            "Content-Type":  "application/json; charset=UTF=8"
-          }
-        }) //convert response to JSON
+            method: "POST",
+            body: JSON.stringify({ answer: this.userWord }),
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"     // Important to send cookies or auth info if backend expects it
+          })
           .then(response => response.json())
-          .then(response => console.log(response))
-          .catch(err=>console.warn(err.message))
-        }
+          .then(data => console.log(data))
+          .catch(err => console.error(err));
+                  }
       });
     }
   }

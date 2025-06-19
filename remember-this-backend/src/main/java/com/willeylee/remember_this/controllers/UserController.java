@@ -1,26 +1,25 @@
 package com.willeylee.remember_this.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.repositories.*;
 import com.willeylee.remember_this.entities.User;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping("/api")
 public class UserController {
-    
-    UserRepository userRepositories;
-    User user;
+
+    private final UserRepository userRepositories;
 
     @Autowired
-    public UserController(UserRepository userRepository, User user){
+
+    public UserController(UserRepository userRepository){
         this.userRepositories = userRepository;
-        this.user = user;
     }
 
-    @GetMapping("/create")
-    void saveToDB(User user, String email) {
-        user.setEmail(email);
+    @PostMapping("/create")
+    public void saveToDB(@RequestBody User user) {
         userRepositories.save(user);
     }
 }
