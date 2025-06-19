@@ -49,7 +49,13 @@ export class Cloud {
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
           })
-          .then(response => response.json())
+          .then(response => {
+            if(response.ok){
+              console.log("successful data transfer")}
+            else {
+              console.log("Server error:", response.status)  
+              }
+            })
           .then(data => console.log(data))
           .catch(err => console.error(err));
                   }

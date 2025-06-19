@@ -12,7 +12,7 @@ import com.willeylee.remember_this.dto.UserEmailRequest;
 @RequestMapping("/api")
 public class UserController {
 
-  User user;
+ 
   private final UserRepository userRepositories;
 
     @Autowired
@@ -23,6 +23,8 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<?> saveToDB(@RequestBody UserEmailRequest userEmailRequest) {
+        User user = new User();
+         
         if (userEmailRequest.getEmail() == null){
             ResponseEntity.badRequest().body("Request Body is empty :( ");
         }
