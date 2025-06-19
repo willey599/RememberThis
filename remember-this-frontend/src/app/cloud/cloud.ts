@@ -45,7 +45,7 @@ export class Cloud {
           //store data in DB using fetch
           fetch("http://localhost:8080/api/create", {
             method: "POST",
-            body: JSON.stringify({ answer: this.userWord }),
+            body: JSON.stringify({ email: this.userWord }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
           })

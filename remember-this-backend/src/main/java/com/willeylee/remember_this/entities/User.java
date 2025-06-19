@@ -31,8 +31,4 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @OneToMany(mappedBy = "node_id", cascade = CascadeType.ALL)
-    @Column(name="node_id")
-    private Set<Node> Node = new HashSet<>();
-
 }

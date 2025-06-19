@@ -17,7 +17,7 @@ public class SecurityConfig {
 
     @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
-    System.out.println(">>>@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain...");
+    System.out.println("@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain... @@@@@@@@@@@@@@@@@@");
 
     http
         .cors(cors -> cors.configurationSource(corsConfigurationSource))
