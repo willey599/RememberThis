@@ -1,12 +1,17 @@
-package com.willeylee.remember_this.controllers;
+// package com.willeylee.remember_this.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class HomeController {
-    @GetMapping("/")
-    public String home() {
-        return "Hello from Remember This app!";
-    }
-}
+// @RestController
+// public class HomeController {
+//     @GetMapping("/")
+//     public String home() {
+//         return "Hello from Remember This app!";
+//     }
+
+//     @GetMapping("/authenticated")
+//     public String authenticated(){
+//         return "you are authenticated!";
+//     }
+// }
