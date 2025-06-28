@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import static org.springframework.security.config.Customizer.withDefaults;
+
 
 
 
@@ -31,8 +31,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
             auth.anyRequest().authenticated();
             }   
         )
-        .oauth2Login(withDefaults())
-        .formLogin(withDefaults());
+        .oauth2Login(oauth -> 
+            oauth.successHandler((request, response, authentication) -> {
+                response.sendRedirect("http://localhost:4200/");
+            })
+        );
 
     return http.build();
 }
@@ -52,4 +55,6 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
 
         return source;
     }
+
+    
 }
