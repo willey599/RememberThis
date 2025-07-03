@@ -9,7 +9,7 @@ import com.willeylee.remember_this.dto.UserEmailRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/authenticated")
+@RequestMapping("/api")
 public class UserController {
 
  
