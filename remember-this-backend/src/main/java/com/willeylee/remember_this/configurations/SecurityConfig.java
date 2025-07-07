@@ -32,9 +32,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
             .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
             .anyRequest().denyAll()
         )
-        .oauth2ResourceServer((oauth2) -> oauth2
-                .jwt(Customizer.withDefaults())
-                );
+        .oauth2Login(oauth -> 
+            oauth.successHandler((request, response, authentication) -> {
+                response.sendRedirect("http://localhost:4200/");
+            })
+        );
+
     return http.build();
 }
 
