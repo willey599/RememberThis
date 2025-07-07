@@ -1,16 +1,20 @@
 server:
   port: 8080
+
 spring:
   application:
     name: remember-this
+
   datasource:
     url: jdbc:mysql://localhost:3306/rememberthis_db
     username: root
     password: 123Cobblestone!
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
   security:
     oauth2:
       client:
@@ -18,17 +22,11 @@ spring:
           google:
             client-id: 633993768585-i7ne4c37l8tjfuqsc18ein85nseuhkr5.apps.googleusercontent.com
             client-secret: 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
-# Note: The redirect-uri below is often managed differently in YAML for OAuth2 clients.
-# While you can put it directly here, Spring Security often constructs it.
-# However, if you explicitly need to define it this way for your setup, here it is.
-# If it's for `spring.security.oauth2.client.registration.google.redirect-uri`,
-# it should be nested under `google`.
-# I'm assuming you want it at the root level for now, as it was in .properties,
-# but verify if it needs to be nested under `spring.security.oauth2.client.registration.google.`
-# for your specific Spring Security version and setup.
-# If it needs to be under google, it would look like this:
-#             redirect-uri: http://localhost:4200/login/oauth2/code/google
-redirect-uri: http://localhost:4200/login/oauth2/code/google
+            redirect-uri: http://localhost:4200/login/oauth2/code/google
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+
 logging:
   level:
     org:
