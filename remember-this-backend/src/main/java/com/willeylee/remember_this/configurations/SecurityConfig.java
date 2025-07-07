@@ -47,13 +47,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
 
         config.setAllowedOrigins(List.of("http://localhost:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        //this is ok for production but remember to be more specific with allowed headers once you know what kinds of headers to expect from your front end
         config.setAllowedHeaders(List.of("*"));
-        //enables sending cookies through your browser. Must be enabled to do this
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
-        //This allows you to attach certain CorsConfiguration configs to certain Url patterns 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
