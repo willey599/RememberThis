@@ -52,7 +52,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
 
         //This allows you to attach certain CorsConfiguration configs to certain Url patterns 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config);
 
         return source;
     }
