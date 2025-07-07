@@ -32,7 +32,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
             oauth.successHandler((request, response, authentication) -> {
                 response.sendRedirect("http://localhost:4200/");
             })
-        );
+        )
+        ;
 
     return http.build();
 }
@@ -51,7 +52,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
 
         //This allows you to attach certain CorsConfiguration configs to certain Url patterns 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/api/**", config);
 
         return source;
     }
