@@ -26,7 +26,7 @@ public class UserController {
         User user = new User();
          
         if (userEmailRequest.getEmail() == null){
-            ResponseEntity.badRequest().body("Request Body is empty!");
+            ResponseEntity.badRequest().body("Request Body is empty :( ");
         }
         user.setEmail(userEmailRequest.getEmail());
         userRepositories.save(user);
