@@ -32,6 +32,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
             oauth.successHandler((request, response, authentication) -> {
                 response.sendRedirect("http://localhost:4200/");
             })
+        )
+        .logout(logout -> logout
+        .logoutSuccessUrl("http://localhost:4200")
         );
 
     return http.build();
