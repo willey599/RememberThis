@@ -9,7 +9,8 @@ import { Cloud } from './cloud/cloud';
   template: `
   <header class="main-header">Remember This</header>
   <h1>
-    <app-cloud></app-cloud>
+  <button (click)="googleSignIn()">Google Sign In</button>  
+  <app-cloud></app-cloud>
     <app-cloud></app-cloud>
   </h1>`,
   styleUrl: './app.css',
@@ -17,4 +18,7 @@ import { Cloud } from './cloud/cloud';
 
 export class App {
   protected title = 'RememberThis';
+  googleSignIn(){
+    window.location.href='http://localhost:8080/oauth2/authorization/google'
+  }
 }
