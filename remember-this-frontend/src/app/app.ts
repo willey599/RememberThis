@@ -11,10 +11,17 @@ import { Cloud } from './cloud/cloud';
   <h1>
     <app-cloud></app-cloud>
     <app-cloud></app-cloud>
+    <button (click)="googleLogout()">Logout</button>
   </h1>`,
   styleUrl: './app.css',
 })
 
 export class App {
   protected title = 'RememberThis';
+
+  googleLogout(){
+    console.log("redirecting to Google logout endpoint");
+    window.location.href = '/logout';
+    localStorage.removeItem('user_settings');
+  }
 }
