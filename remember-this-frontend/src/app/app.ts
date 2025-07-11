@@ -12,8 +12,6 @@ import { Cloud } from './cloud/cloud';
   <button (click)="googleSignIn()">Google Sign In</button>  
   <app-cloud></app-cloud>
   <button (click)="googleLogout()">Logout</button>
-  <app-cloud></app-cloud>
-  <button (click)="googleLogout()">Logout</button>
   </h1>`,
   styleUrl: './app.css',
 })
