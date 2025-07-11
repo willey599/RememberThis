@@ -23,7 +23,7 @@ export class App {
   }
   googleLogout(){
     console.log("redirecting to Google logout endpoint");
-    window.location.href = '/logout';
+    window.location.href = 'http://localhost:8080/logout';
     localStorage.removeItem('user_settings');
   }
 }
