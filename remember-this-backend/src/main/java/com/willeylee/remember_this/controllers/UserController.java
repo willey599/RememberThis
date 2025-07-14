@@ -24,7 +24,6 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody UserEmailRequest userEmailRequest) {
         if (userEmailRequest.getEmail() == null || userEmailRequest.getEmail().isEmpty()){
-            // This MUST RETURN immediately.
             return ResponseEntity.badRequest().body("Email cannot be empty or null.");
         }
 
@@ -32,12 +31,10 @@ public class UserController {
             User createdUser = userService.createUser(userEmailRequest);
             return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getEmail());
         } catch (IllegalArgumentException e) {
-            // This also MUST RETURN immediately.
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
-            // This also MUST RETURN immediately.
-            System.out.println("An unexpected error occurred: " + e.getMessage()); // Or use a proper logger
-            e.printStackTrace(); // Print full stack trace for debugging
+            System.out.println("An unexpected error occurred: " + e.getMessage()); 
+            e.printStackTrace(); 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
     }
