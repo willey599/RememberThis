@@ -3,11 +3,8 @@ package com.willeylee.remember_this.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,12 +27,14 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
             .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
             .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
             .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
-            .anyRequest().denyAll()
         )
         .oauth2Login(oauth -> 
             oauth.successHandler((request, response, authentication) -> {
                 response.sendRedirect("http://localhost:4200/");
             })
+        )
+        .logout(logout -> logout
+        .logoutSuccessUrl("http://localhost:4200")
         );
 
     return http.build();
@@ -53,13 +52,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurat
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+        
 
         return source;
     }
-
-    @Bean
-    public JwtDecoder jwtDecoder(){
-        return JwtDecoders.fromIssuerLocation("https://accounts.google.com");
-    }
-    
 }

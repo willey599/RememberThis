@@ -19,5 +19,5 @@ DROP TABLE IF EXISTS `rememberthis_db`.`node` ;
 DROP TABLE IF EXISTS `rememberthis_db`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `rememberthis_db`.`user` (
-  `user_id` LONG PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `user_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NOT NULL DEFAULT 'name@domain.com');

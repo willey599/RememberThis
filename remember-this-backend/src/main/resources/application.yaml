@@ -22,10 +22,14 @@ spring:
           google:
             client-id: 633993768585-i7ne4c37l8tjfuqsc18ein85nseuhkr5.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: http://localhost:4200/login/oauth2/code/google
-      resourceserver:
-        jwt:
-          issuer-uri: https://accounts.google.com
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope: openid
+        provider:
+          google:
+              authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+              token-uri: https://oauth2.googleapis.com/token
+              user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+              user-name-attribute: sub
 
 logging:
   level:

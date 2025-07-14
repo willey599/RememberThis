@@ -1,9 +1,11 @@
 package com.willeylee.remember_this.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.repositories.*;
+import com.willeylee.remember_this.services.UserService;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.dto.UserEmailRequest;
 
@@ -12,24 +14,28 @@ import com.willeylee.remember_this.dto.UserEmailRequest;
 @RequestMapping("/api")
 public class UserController {
 
- 
-  private final UserRepository userRepositories;
-
+    private final UserService userService; 
+    
     @Autowired
-
-    public UserController(UserRepository userRepository){
-        this.userRepositories = userRepository;
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> saveToDB(@RequestBody UserEmailRequest userEmailRequest) {
-        User user = new User();
-         
-        if (userEmailRequest.getEmail() == null){
-            ResponseEntity.badRequest().body("Request Body is empty :( ");
+    public ResponseEntity<?> createUser(@RequestBody UserEmailRequest userEmailRequest) {
+        if (userEmailRequest.getEmail() == null || userEmailRequest.getEmail().isEmpty()){
+            return ResponseEntity.badRequest().body("Email cannot be empty or null.");
         }
-        user.setEmail(userEmailRequest.getEmail());
-        userRepositories.save(user);
-        return ResponseEntity.ok().body("U did it. Proud of u");
+
+        try {
+            User createdUser = userService.createUser(userEmailRequest);
+            return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getEmail());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage()); 
+            e.printStackTrace(); 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+        }
     }
 }
