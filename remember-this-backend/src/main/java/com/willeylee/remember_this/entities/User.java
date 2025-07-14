@@ -25,7 +25,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(name="email")
-    private String email;
+    @Column(name="note")
+    private String note;
+
+
 
 }
