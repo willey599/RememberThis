@@ -21,7 +21,7 @@ export class Cloud {
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
-  public userWord = '';
+  public userNote = '';
 
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
@@ -41,11 +41,11 @@ export class Cloud {
       dialogRef.afterClosed().subscribe(result => {
         if (result){
           console.log('Dialog closed, data: ', result);
-          this.userWord = result;
+          this.userNote = result;
           //store data in DB using fetch
           fetch("http://localhost:8080/api/create", {
             method: "POST",
-            body: JSON.stringify({ email: this.userWord }),
+            body: JSON.stringify({ note: this.userNote }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
           })

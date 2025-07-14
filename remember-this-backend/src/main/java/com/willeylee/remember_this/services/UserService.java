@@ -1,9 +1,8 @@
 package com.willeylee.remember_this.services;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.willeylee.remember_this.dto.UserEmailRequest;
+import com.willeylee.remember_this.dto.UserNoteRequest;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.repositories.UserRepository;
 
@@ -18,12 +17,12 @@ public class UserService {
     }
 
     
-    public User createUser(UserEmailRequest userEmailRequest){
-        if (userRepository.findByEmail(userEmailRequest.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already registered: " + userEmailRequest.getEmail());
+    public User createUser(UserNoteRequest userNoteRequest){
+        if (userRepository.findByNote(userNoteRequest.getNote()).isPresent()) {
+            throw new IllegalArgumentException("Note already registered: " + userNoteRequest.getNote());
         }
         User user = new User();
-        user.setEmail(userEmailRequest.getEmail());
+        user.setNote(userNoteRequest.getNote());
         userRepository.save(user);
         return user;
 

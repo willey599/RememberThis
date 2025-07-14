@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEmailRequest{
-    private String email;
+public class UserNoteRequest{
+    private String note;
 }
