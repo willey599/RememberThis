@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.willeylee.remember_this.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findByNote(String note);
+    Optional<User> findByNode(String node);
 }
