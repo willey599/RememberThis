@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
@@ -18,16 +20,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name="user")
-public class User {
+@Table(name="node")
+public class CloudNode {
     @Id
-    @Column(name="user_id")
+    @Column(name="node_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer nodeId;
 
-    @Column(name="oidc_id")
-    private String oidcId;
+    @Column(name="node_text")
+    private String nodeText;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 
 }

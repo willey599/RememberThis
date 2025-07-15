@@ -2,7 +2,7 @@ package com.willeylee.remember_this.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.willeylee.remember_this.dto.UserNodeRequest;
+import com.willeylee.remember_this.dto.NodeRequest;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.repositories.UserRepository;
 
@@ -15,9 +15,8 @@ public class UserService {
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
-
     
-    public User createUser(UserNodeRequest userNodeRequest){
+    public User createNode(NodeRequest userNodeRequest){
         if (userRepository.findByNode(userNodeRequest.getNode()).isPresent()) {
             throw new IllegalArgumentException("Node already registered: " + userNodeRequest.getNode());
         }
