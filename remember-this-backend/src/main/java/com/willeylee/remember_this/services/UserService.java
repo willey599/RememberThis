@@ -15,9 +15,8 @@ public class UserService {
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
-
     
-    public User createUser(NodeRequest userNodeRequest){
+    public User createNode(NodeRequest userNodeRequest){
         if (userRepository.findByNode(userNodeRequest.getNode()).isPresent()) {
             throw new IllegalArgumentException("Node already registered: " + userNodeRequest.getNode());
         }

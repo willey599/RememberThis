@@ -25,8 +25,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(name="node")
-    private String node;
+    @Column(name="oidc_id")
+    private String oidcId;
 
 
 
