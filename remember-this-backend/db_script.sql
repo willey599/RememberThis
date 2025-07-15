@@ -20,4 +20,4 @@ DROP TABLE IF EXISTS `rememberthis_db`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `rememberthis_db`.`user` (
   `user_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `note` VARCHAR(100) NOT NULL DEFAULT 'default note');
+  `node` VARCHAR(100) NOT NULL DEFAULT 'default node');

@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserNoteRequest{
-    private String note;
+public class UserNodeRequest{
+    private String node;
 }

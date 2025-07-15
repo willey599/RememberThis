@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.UserService;
 import com.willeylee.remember_this.entities.User;
-import com.willeylee.remember_this.dto.UserNoteRequest;
+import com.willeylee.remember_this.dto.UserNodeRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -21,14 +21,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody UserNoteRequest userNoteRequest) {
-        if (userNoteRequest.getNote() == null || userNoteRequest.getNote().isEmpty()){
-            return ResponseEntity.badRequest().body("Note cannot be empty or null.");
+    public ResponseEntity<?> createUser(@RequestBody UserNodeRequest userNodeRequest) {
+        if (userNodeRequest.getNode() == null || userNodeRequest.getNode().isEmpty()){
+            return ResponseEntity.badRequest().body("Node cannot be empty or null.");
         }
 
         try {
-            User createdUser = userService.createUser(userNoteRequest);
-            return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getNote());
+            User createdUser = userService.createUser(userNodeRequest);
+            return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getNode());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
