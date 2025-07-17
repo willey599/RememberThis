@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
-import com.willeylee.remember_this.services.UserService;
+import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.dto.NodeRequest;
 
@@ -15,22 +15,23 @@ import com.willeylee.remember_this.dto.NodeRequest;
 @RequestMapping("/api")
 public class CloudNodeController {
 
-    private final UserService userService; 
+    private final CloudNodeService cloudNodeService; 
     
     @Autowired
-    public CloudNodeController(UserService userService){
-        this.userService = userService;
+    public CloudNodeController(CloudNodeService cloudNodeService){
+        this.cloudNodeService = cloudNodeService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody NodeRequest NodeRequest) {
+    public ResponseEntity<?> createCloudNode(@RequestBody NodeRequest NodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
         if (NodeRequest.getNode() == null || NodeRequest.getNode().isEmpty()){
             return ResponseEntity.badRequest().body("Node cannot be empty or null.");
         }
 
         try {
-            User createdUser = userService.createNode(NodeRequest.getNode());
-            return ResponseEntity.ok().body("Node created successfully under ID: " + createdUser.getNode());
+            String oidcID = oidcUser.getSubject();
+            cloudNodeService.createCloudNode(NodeRequest, oidcID);
+            return ResponseEntity.ok().body("Node created successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
