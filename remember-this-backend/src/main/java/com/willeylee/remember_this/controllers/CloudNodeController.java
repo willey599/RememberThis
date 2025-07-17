@@ -3,32 +3,35 @@ package com.willeylee.remember_this.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
-import com.willeylee.remember_this.services.UserService;
+import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.dto.NodeRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class CloudNodeController {
 
-    private final UserService userService; 
+    private final CloudNodeService cloudNodeService; 
     
     @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
+    public CloudNodeController(CloudNodeService cloudNodeService){
+        this.cloudNodeService = cloudNodeService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody NodeRequest NodeRequest) {
+    public ResponseEntity<?> createCloudNode(@RequestBody NodeRequest NodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
         if (NodeRequest.getNode() == null || NodeRequest.getNode().isEmpty()){
             return ResponseEntity.badRequest().body("Node cannot be empty or null.");
         }
 
         try {
-            User createdUser = userService.createNode(NodeRequest.getNode());
-            return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getNode());
+            String oidcID = oidcUser.getSubject();
+            cloudNodeService.createCloudNode(NodeRequest, oidcID);
+            return ResponseEntity.ok().body("Node created successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
