@@ -3,6 +3,8 @@ package com.willeylee.remember_this.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.UserService;
 import com.willeylee.remember_this.entities.User;
@@ -11,12 +13,12 @@ import com.willeylee.remember_this.dto.NodeRequest;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class CloudNodeController {
 
     private final UserService userService; 
     
     @Autowired
-    public UserController(UserService userService){
+    public CloudNodeController(UserService userService){
         this.userService = userService;
     }
 
@@ -28,7 +30,7 @@ public class UserController {
 
         try {
             User createdUser = userService.createNode(NodeRequest.getNode());
-            return ResponseEntity.ok().body("User created successfully with ID: " + createdUser.getNode());
+            return ResponseEntity.ok().body("Node created successfully under ID: " + createdUser.getNode());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
