@@ -1,10 +1,7 @@
 package com.willeylee.remember_this.services;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
