@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name="node")
+@Table(name="cloud_node")
 public class CloudNode {
     @Id
     @Column(name="node_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer nodeId;
+    private Integer id;
 
     @Column(name="node_text")
     private String nodeText;

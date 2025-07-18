@@ -6,18 +6,27 @@
 -- -----------------------------------------------------
 -- Schema rememberthis_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `rememberthis_db` DEFAULT CHARACTER SET utf8 ;
-USE `rememberthis_db` ;
+CREATE SCHEMA IF NOT EXISTS rememberthis_db DEFAULT CHARACTER SET utf8 ;
+USE rememberthis_db;
 
 -- -----------------------------------------------------
 -- Table `rememberthis_db`.`node`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `rememberthis_db`.`node` ;
+DROP TABLE IF EXISTS rememberthis_db.node;
 -- -----------------------------------------------------
 -- Table `rememberthis_db`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `rememberthis_db`.`user` ;
+DROP TABLE IF EXISTS rememberthis_db.`user`;
 
-CREATE TABLE IF NOT EXISTS `rememberthis_db`.`user` (
-  `user_id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `node` VARCHAR(100) NOT NULL DEFAULT 'default node');
+CREATE TABLE IF NOT EXISTS rememberthis_db.`user` (
+  user_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  oidc_id VARCHAR(200) NOT NULL DEFAULT 'default oidc_id')
+  ;
+  
+  CREATE TABLE IF NOT EXISTS rememberthis_db.cloud_node (
+  node_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  user_id INT NOT NULL DEFAULT '0',
+  node_text VARCHAR(500) NOT NULL DEFAULT 'Default node text',
+  FOREIGN KEY (user_id) REFERENCES `user`(user_id)
+  )
+;

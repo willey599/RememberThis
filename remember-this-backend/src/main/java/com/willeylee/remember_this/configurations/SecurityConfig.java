@@ -10,35 +10,40 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.willeylee.remember_this.services.CustomOidcUserService;
+
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final CustomOidcUserService customOidcUserService;
 
+    public SecurityConfig(CustomOidcUserService customOidcUserService){
+        this.customOidcUserService = customOidcUserService;
+    }
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
-    System.out.println("@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain... @@@@@@@@@@@@@@@@@@");
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
+        System.out.println("@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain... @@@@@@@@@@@@@@@@@@");
+        http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
+            )
+            .oauth2Login(oauth -> 
+                oauth.successHandler((request, response, authentication) -> {
+                    response.sendRedirect("http://localhost:4200/");
+                })
+                .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOidcUserService)))
+            .logout(logout -> logout
+            .logoutSuccessUrl("http://localhost:4200")
+            );
 
-    http
-        .cors(cors -> cors.configurationSource(corsConfigurationSource))
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests((authorize) -> authorize
-            .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
-            .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
-            .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
-        )
-        .oauth2Login(oauth -> 
-            oauth.successHandler((request, response, authentication) -> {
-                response.sendRedirect("http://localhost:4200/");
-            })
-        )
-        .logout(logout -> logout
-        .logoutSuccessUrl("http://localhost:4200")
-        );
-
-    return http.build();
-}
+        return http.build();
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
