@@ -2,6 +2,7 @@ package com.willeylee.remember_this.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -19,8 +20,9 @@ public class CloudNodeController {
     private final CloudNodeService cloudNodeService; 
     private final SaveCloudNodeService saveCloudNodeService;
     @Autowired
-    public CloudNodeController(CloudNodeService cloudNodeService){
+    public CloudNodeController(CloudNodeService cloudNodeService, SaveCloudNodeService saveCloudNodeService){
         this.cloudNodeService = cloudNodeService;
+        this.saveCloudNodeService = saveCloudNodeService;
     }
 
     @PostMapping("/create")
@@ -43,6 +45,15 @@ public class CloudNodeController {
     }
 
     @PostMapping("/save")
-    public void saveNodetext(@RequestBody CloudNodeRequest nodeRequest){
-        
+    public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest nodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
+        String oidcId = oidcUser.getSubject();
+        try{
+            cloudNodeService.SaveCloudNode(nodeRequest, oidcId);
+            return ResponseEntity.ok().body("Node text sucessfully stored in DB");
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
+        }
+    }
 }
