@@ -4,8 +4,9 @@ import org.springframework.stereotype.Service;
 
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
-import com.willeylee.remember_this.dto.NodeRequest;
+import org.slf4j.LoggerFactory;
+
+import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.repositories.CloudNodeRepository;
@@ -24,12 +25,17 @@ public class CloudNodeService {
         this.cloudNodeRepository = cloudNodeRepository;
     }
     
-    public void createCloudNode(NodeRequest userNodeRequest, String oidcId){
+    public int createCloudNode(CloudNodeRequest userNodeRequest, String oidcId){
         CloudNode cloudNode = new CloudNode();
         User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("@@@@@@@@@user not found.@@@@@@@@@"));
-        cloudNode.setNodeText(userNodeRequest.getNode());
         cloudNode.setUser(user);
         cloudNodeRepository.save(cloudNode);
         logger.info("Cloud Node stored in repository");
+        return cloudNode.getId();
+    }
+    public void SaveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
+        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
+        cloudNode.setNodeText(cloudNodeRequest.getNodeText());
+        cloudNodeRepository.save(cloudNode);
     }
 }

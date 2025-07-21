@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NodeRequest{
-    private String node;
+public class CloudNodeRequest{
+    private String nodeText;
+    private int nodeId;
 }
