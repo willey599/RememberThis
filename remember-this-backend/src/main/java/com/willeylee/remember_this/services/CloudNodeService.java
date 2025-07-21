@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
-import com.willeylee.remember_this.dto.NodeRequest;
+import org.slf4j.LoggerFactory;
+
+import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.repositories.CloudNodeRepository;
@@ -27,10 +28,9 @@ public class CloudNodeService {
         this.cloudNodeRepository = cloudNodeRepository;
     }
     
-    public void createCloudNode(NodeRequest userNodeRequest, String oidcId){
+    public void createCloudNode(CloudNodeRequest userNodeRequest, String oidcId){
         CloudNode cloudNode = new CloudNode();
         User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("@@@@@@@@@user not found.@@@@@@@@@"));
-        cloudNode.setNodeText(userNodeRequest.getNode());
         cloudNode.setUser(user);
         cloudNodeRepository.save(cloudNode);
         logger.info("Cloud Node stored in repository");

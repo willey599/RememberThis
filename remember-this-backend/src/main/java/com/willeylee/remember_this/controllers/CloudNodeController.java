@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.entities.User;
-import com.willeylee.remember_this.dto.NodeRequest;
+import com.willeylee.remember_this.dto.CloudNodeRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -23,8 +23,8 @@ public class CloudNodeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCloudNode(@RequestBody NodeRequest NodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
-        if (NodeRequest.getNode() == null || NodeRequest.getNode().isEmpty()){
+    public ResponseEntity<?> createCloudNode(@RequestBody CloudNodeRequest NodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
+        if (NodeRequest.getNodeText() == null || NodeRequest.getNodeText().isEmpty()){
             return ResponseEntity.badRequest().body("Node cannot be empty or null.");
         }
 
