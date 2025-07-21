@@ -2,14 +2,13 @@ package com.willeylee.remember_this.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
-import com.willeylee.remember_this.services.SaveCloudNodeService;
-import com.willeylee.remember_this.entities.User;
+
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -18,11 +17,9 @@ import com.willeylee.remember_this.dto.CloudNodeRequest;
 public class CloudNodeController {
 
     private final CloudNodeService cloudNodeService; 
-    private final SaveCloudNodeService saveCloudNodeService;
     @Autowired
-    public CloudNodeController(CloudNodeService cloudNodeService, SaveCloudNodeService saveCloudNodeService){
+    public CloudNodeController(CloudNodeService cloudNodeService){
         this.cloudNodeService = cloudNodeService;
-        this.saveCloudNodeService = saveCloudNodeService;
     }
 
     @PostMapping("/create")
