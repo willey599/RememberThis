@@ -25,10 +25,16 @@ public class CloudNode {
     @Id
     @Column(name="node_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer nodeId;
 
     @Column(name="node_text")
     private String nodeText;
+
+    @Column(name="x_position")
+    private int xPosition;
+
+    @Column(name="y_position")
+    private int yPosition;
 
     @ManyToOne
     @JoinColumn(name="user_id")
