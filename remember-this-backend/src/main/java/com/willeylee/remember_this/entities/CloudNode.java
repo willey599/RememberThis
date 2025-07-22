@@ -30,6 +30,12 @@ public class CloudNode {
     @Column(name="node_text")
     private String nodeText;
 
+    @Column(name="x_position")
+    private int xPosition;
+
+    @Column(name="y_position")
+    private int yPosition;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
