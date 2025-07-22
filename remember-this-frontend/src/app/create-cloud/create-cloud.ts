@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
+import { CommonModule}  from '@angular/common';
+import { Cloud, CloudData } from "../cloud/cloud";
 
 @Component({
   selector: 'app-create-cloud',
-  imports: [],
+  imports: [CommonModule, Cloud],
   templateUrl: './create-cloud.html',
   styleUrl: './create-cloud.css'
 })
-export class CreateCloudComponent {
-  cloudArray : number[] = [];
+export class CreateCloud {
+  //this is an array of CloudData objects, NOT of the Cloud object. The difference is that the CloudData is a smaller and more hollow version of Cloud made only when the button is pressed. These properties are used in the html file to help the ngFor loop instantiate REAL versions of the Cloud object in the cloud.ts file, making use of @Input.
+  cloudArray : CloudData[] = [];
   
-  createCloud(){
+  createCloudButton(){
     fetch("http://localhost:8080/api/create", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -27,8 +30,14 @@ export class CreateCloudComponent {
         console.log("nodeId is null, backend controller is bugged");
       }
       else{
-        this.cloudArray.push(parsedResponseData);
-        console.log("nodeId successfully pushed into cloudArray. Array value: ");
+        const cloudData : CloudData = {
+          nodeId: parsedResponseData,
+          nodeText: '',
+          xCoordinate: 300,
+          yCoordinate: 300,
+        }
+        this.cloudArray.push(cloudData);
+        console.log("cloud object successfully pushed into cloudArray. Array value: ");
         for (let i = 0; i < this.cloudArray.length; i++) {
           console.log(this.cloudArray[i]);
         }

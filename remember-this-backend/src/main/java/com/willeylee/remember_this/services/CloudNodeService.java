@@ -35,7 +35,14 @@ public class CloudNodeService {
     }
     public void SaveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
-        cloudNode.setNodeText(cloudNodeRequest.getNodeText());
-        cloudNodeRepository.save(cloudNode);
+        try{
+            cloudNode.setNodeText(cloudNodeRequest.getNodeText());
+            logger.info("Node text saved: " + cloudNodeRequest.getNodeText());
+            cloudNodeRepository.save(cloudNode);
+        }
+        catch (Exception e){
+            logger.info("Something went wrong in SaveCloudNode.");
+            logger.info(e.getMessage());
+        }
     }
 }
