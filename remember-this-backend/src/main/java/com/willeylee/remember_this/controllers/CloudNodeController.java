@@ -22,7 +22,7 @@ public class CloudNodeController {
         this.cloudNodeService = cloudNodeService;
     }
 
-    @PostMapping("/create")
+    @GetMapping("/create")
     public ResponseEntity<?> createCloudNode(@AuthenticationPrincipal OidcUser oidcUser) {
         try {
             String oidcID = oidcUser.getSubject();

@@ -31,7 +31,7 @@ public class CloudNodeService {
         cloudNode.setUser(user);
         cloudNodeRepository.save(cloudNode);
         logger.info("Cloud Node stored in repository");
-        return cloudNode.getId();
+        return cloudNode.getNodeId();
     }
     public void SaveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));

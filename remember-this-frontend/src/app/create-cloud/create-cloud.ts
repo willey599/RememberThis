@@ -8,25 +8,31 @@ import { Component } from '@angular/core';
 })
 export class CreateCloudComponent {
   cloudArray : number[] = [];
-
-  nodeId: number | null = null;
+  
   createCloud(){
     fetch("http://localhost:8080/api/create", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       credentials: "include"
     })
+    //convert HTTP response object to json
     .then(response => {
-      if (this.nodeId == null){
+      //this returns a Json wrapped in a promise
+      return response.json();
+    })
+    .then(parsedResponseData => {
+      console.log("parsed data: " + parsedResponseData);
+      console.log("type of parsedResponseData: " + typeof parsedResponseData);
+      if (parsedResponseData == null || typeof parsedResponseData != 'number'){
         console.log("nodeId is null, backend controller is bugged");
       }
       else{
-        this.cloudArray.push(this.nodeId);
-        console.log("nodeId successfully pushed into cloudArray");
+        this.cloudArray.push(parsedResponseData);
+        console.log("nodeId successfully pushed into cloudArray. Array value: ");
+        for (let i = 0; i < this.cloudArray.length; i++) {
+          console.log(this.cloudArray[i]);
+        }
       }
-    })
-    .then(data =>{
-      console.log(data);
     })
     .catch(err =>{
       console.log(err);
