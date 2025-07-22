@@ -54,7 +54,11 @@ export class Cloud implements CloudData{
           //store data in DB using fetch
           fetch("http://localhost:8080/api/save", {
             method: "POST",
-            body: JSON.stringify({ nodeText: this.userText }),
+            body: JSON.stringify({ 
+              nodeText: this.userText,
+              nodeId: this.nodeId,
+              
+            }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
           })

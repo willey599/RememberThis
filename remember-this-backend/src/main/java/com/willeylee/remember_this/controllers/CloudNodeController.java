@@ -19,6 +19,8 @@ import com.willeylee.remember_this.dto.CloudNodeRequest;
 public class CloudNodeController {
 
     private final CloudNodeService cloudNodeService; 
+    Logger logger = LoggerFactory.getLogger(CloudNodeController.class);
+
     @Autowired
     public CloudNodeController(CloudNodeService cloudNodeService){
         this.cloudNodeService = cloudNodeService;
@@ -29,11 +31,13 @@ public class CloudNodeController {
         try {
             String oidcID = oidcUser.getSubject();
             int nodeId = cloudNodeService.createCloudNode(oidcID);
+            logger.info("Successfully acquired nodeId");
             return ResponseEntity.ok(nodeId);
         } catch (IllegalArgumentException e) {
+            logger.info("@@@@@@@@@ IllegalArgumentException, did not acquire nodeId");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage()); 
+            logger.info("@@@@@@@@@ Exception found, did not acquire nodeId.");
             e.printStackTrace(); 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
@@ -44,10 +48,13 @@ public class CloudNodeController {
         String oidcId = oidcUser.getSubject();
         try{
             cloudNodeService.SaveCloudNode(nodeRequest, oidcId);
-            return ResponseEntity.ok().body("Node text sucessfully stored in DB");
+            return ResponseEntity.ok().body("Node text successfully stored in DB");
         }catch(IllegalArgumentException e){
+            logger.info("IllegalArgumentException, did not store node text in DB");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }catch(Exception e){
+            logger.info("Exception, did not store node text in DB");
+            logger.info(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
         }
     }

@@ -23,7 +23,7 @@ public class User {
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer userId;
 
     @Column(name="oidc_id")
     private String oidcId;

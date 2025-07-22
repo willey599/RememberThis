@@ -27,14 +27,16 @@ public class CloudNodeService {
     
     public int createCloudNode(String oidcId){
         CloudNode cloudNode = new CloudNode();
-        User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("@@@@@@@@@user not found.@@@@@@@@@"));
+        User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("user not found.@@@@@@@@@"));
         cloudNode.setUser(user);
         cloudNodeRepository.save(cloudNode);
         logger.info("Cloud Node stored in repository");
         return cloudNode.getNodeId();
     }
     public void SaveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
+        logger.info("Entered SaveCloudNode");
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
+        logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
         try{
             cloudNode.setNodeText(cloudNodeRequest.getNodeText());
             logger.info("Node text saved: " + cloudNodeRequest.getNodeText());
