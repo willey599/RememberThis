@@ -25,7 +25,7 @@ public class CloudNodeService {
         this.cloudNodeRepository = cloudNodeRepository;
     }
     
-    public int createCloudNode(CloudNodeRequest userNodeRequest, String oidcId){
+    public int createCloudNode(String oidcId){
         CloudNode cloudNode = new CloudNode();
         User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("@@@@@@@@@user not found.@@@@@@@@@"));
         cloudNode.setUser(user);
