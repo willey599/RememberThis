@@ -23,14 +23,14 @@ public class CloudNodeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCloudNode(@RequestBody CloudNodeRequest NodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
-        if (NodeRequest.getNodeText() == null || NodeRequest.getNodeText().isEmpty()){
+    public ResponseEntity<?> createCloudNode(@RequestBody CloudNodeRequest cloudNodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
+        if (cloudNodeRequest.getNodeText() == null || cloudNodeRequest.getNodeText().isEmpty()){
             return ResponseEntity.badRequest().body("Node cannot be empty or null.");
         }
 
         try {
             String oidcID = oidcUser.getSubject();
-            cloudNodeService.createCloudNode(NodeRequest, oidcID);
+            cloudNodeService.createCloudNode(cloudNodeRequest, oidcID);
             return ResponseEntity.ok().body("Node created successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
