@@ -42,7 +42,6 @@ public class CloudNodeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
     }
-
     @PostMapping("/save")
     public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest nodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
         String oidcId = oidcUser.getSubject();
