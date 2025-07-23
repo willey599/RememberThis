@@ -35,7 +35,7 @@ public class SecurityConfig {
             )
             .oauth2Login(oauth -> 
                 oauth.successHandler((request, response, authentication) -> {
-                    response.sendRedirect("http://localhost:4200/");
+                    response.sendRedirect("http://localhost:4200/dashboard");
                 })
                 .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOidcUserService)))
             .logout(logout -> logout
@@ -48,15 +48,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        
+        config.setAllowedOrigins(List.of("http://localhost:4200/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/api/**", config);
         
 
         return source;
