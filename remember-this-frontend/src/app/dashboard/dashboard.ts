@@ -8,9 +8,10 @@ import { CreateCloud } from "../create-cloud/create-cloud";
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
-    googleLogout(){
+  googleLogout(){
     console.log("redirecting to Google logout endpoint");
     window.location.href = 'http://localhost:8080/logout';
     localStorage.removeItem('user_settings');
   }
+  
 }
