@@ -2,6 +2,8 @@ package com.willeylee.remember_this.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,39 +19,41 @@ import com.willeylee.remember_this.dto.CloudNodeRequest;
 public class CloudNodeController {
 
     private final CloudNodeService cloudNodeService; 
+    Logger logger = LoggerFactory.getLogger(CloudNodeController.class);
+
     @Autowired
     public CloudNodeController(CloudNodeService cloudNodeService){
         this.cloudNodeService = cloudNodeService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createCloudNode(@RequestBody CloudNodeRequest cloudNodeRequest, @AuthenticationPrincipal OidcUser oidcUser) {
-        if (cloudNodeRequest.getNodeText() == null || cloudNodeRequest.getNodeText().isEmpty()){
-            return ResponseEntity.badRequest().body("Node cannot be empty or null.");
-        }
-
+    @GetMapping("/create")
+    public ResponseEntity<?> createCloudNode(@AuthenticationPrincipal OidcUser oidcUser) {
         try {
             String oidcID = oidcUser.getSubject();
-            cloudNodeService.createCloudNode(cloudNodeRequest, oidcID);
-            return ResponseEntity.ok().body("Node created successfully");
+            int nodeId = cloudNodeService.createCloudNode(oidcID);
+            logger.info("Successfully acquired nodeId");
+            return ResponseEntity.ok(nodeId);
         } catch (IllegalArgumentException e) {
+            logger.info("@@@@@@@@@ IllegalArgumentException, did not acquire nodeId");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage()); 
+            logger.info("@@@@@@@@@ Exception found, did not acquire nodeId.");
             e.printStackTrace(); 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
     }
-
     @PostMapping("/save")
     public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest nodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
         String oidcId = oidcUser.getSubject();
         try{
             cloudNodeService.SaveCloudNode(nodeRequest, oidcId);
-            return ResponseEntity.ok().body("Node text sucessfully stored in DB");
+            return ResponseEntity.ok().body("Node text successfully stored in DB");
         }catch(IllegalArgumentException e){
+            logger.info("IllegalArgumentException, did not store node text in DB");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }catch(Exception e){
+            logger.info("Exception, did not store node text in DB");
+            logger.info(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
         }
     }

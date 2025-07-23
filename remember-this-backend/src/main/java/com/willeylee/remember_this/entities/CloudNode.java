@@ -25,7 +25,8 @@ public class CloudNode {
     @Id
     @Column(name="node_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer nodeId;
+
+    private int nodeId;
 
     @Column(name="node_text")
     private String nodeText;

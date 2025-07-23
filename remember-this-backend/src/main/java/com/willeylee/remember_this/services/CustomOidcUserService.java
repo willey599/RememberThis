@@ -28,7 +28,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         logger.info("@@@@@Your CustomOauth2UserService is being called@@@@@@");
 
         if (userRepository.findByOidcId(oidcId).isPresent()){
-            logger.info("@@@@@Matching oidcID found in database. New User not created@@@@@@");
+            logger.info("@@@@@Matching oidcID found in database. New User not created");
             return oidcUser;
         }
         else {

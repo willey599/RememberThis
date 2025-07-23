@@ -1,0 +1,9 @@
+<button (click)="createCloudButton()">Create New Cloud</button>
+<h1 *ngFor="let cloudData of cloudArray">
+        <app-cloud 
+        [nodeId]="cloudData.nodeId"
+        [nodeText]="cloudData.nodeText"
+        [xCoordinate]="cloudData.xCoordinate"
+        [yCoordinate]="cloudData.yCoordinate"></app-cloud>
+    </h1>
+

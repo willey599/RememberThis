@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { Cloud } from './cloud/cloud';
+import { CreateCloud } from "./create-cloud/create-cloud";
 
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [Cloud],
+  imports: [CreateCloud],
   //template needs custom here because of app-cloud import from Cloud
   template: `
   <header class="main-header">Remember This</header>
   <h1>
-  <button (click)="googleSignIn()">Google Sign In</button>  
-  <app-cloud></app-cloud>
+  <button (click)="googleSignIn()">Google Sign In</button>
+  <app-create-cloud></app-create-cloud>
   <button (click)="googleLogout()">Logout</button>
   </h1>`,
   styleUrl: './app.css',

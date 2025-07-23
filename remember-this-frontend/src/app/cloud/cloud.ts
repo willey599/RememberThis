@@ -1,11 +1,16 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, model, Input } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 
-
+export interface CloudData{
+  nodeId : number;
+  nodeText : string;
+  xCoordinate : number;
+  yCoordinate : number;
+}
 
 @Component({
   standalone: true,
@@ -14,14 +19,18 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './cloud.html',
   styleUrl: './cloud.css'
 })
-export class Cloud {
-  name : string = '';
 
+export class Cloud implements CloudData{
   mouseDownX : Number | null = null;
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
-  public userNode = '';
+  public userText = '';
+  @Input() nodeId! : number;
+  @Input() xCoordinate! : number;
+  @Input() yCoordinate! : number;
+  @Input() nodeText! : string;
+
 
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
@@ -41,11 +50,15 @@ export class Cloud {
       dialogRef.afterClosed().subscribe(result => {
         if (result){
           console.log('Dialog closed, data: ', result);
-          this.userNode = result;
+          this.userText = result;
           //store data in DB using fetch
-          fetch("http://localhost:8080/api/create", {
+          fetch("http://localhost:8080/api/save", {
             method: "POST",
-            body: JSON.stringify({ nodeText: this.userNode }),
+            body: JSON.stringify({ 
+              nodeText: this.userText,
+              nodeId: this.nodeId,
+              
+            }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
           })
