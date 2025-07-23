@@ -21,8 +21,17 @@ export class CreateCloud {
       }
     ).then (response => {
       return response.json();
-    }).then(parsedData => {
-      
+    }).then(parsedInitData => {
+      console.log("parsedData is: ", parsedInitData);
+      for (const cloud of parsedInitData ){
+        const initCloudData : CloudData = {
+          nodeId: cloud.nodeId,
+          nodeText: cloud.nodeText,
+          xCoordinate: cloud.xCoordinate,
+          yCoordinate: cloud.yCoordinate,
+      }
+      this.cloudArray.push(initCloudData);
+      }
     })
   }
 

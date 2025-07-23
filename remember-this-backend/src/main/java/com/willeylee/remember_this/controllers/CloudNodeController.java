@@ -22,8 +22,6 @@ import com.willeylee.remember_this.entities.CloudNode;
 @RestController
 @RequestMapping("/api")
 public class CloudNodeController {
-
-    String oidcId;
     private final CloudNodeService cloudNodeService; 
     private final InitializationService initializationService;
     Logger logger = LoggerFactory.getLogger(CloudNodeController.class);
@@ -35,9 +33,9 @@ public class CloudNodeController {
     }
 
     @GetMapping("/initialize")
-    public ResponseEntity<?> initializeCloudNode(@AuthenticationPrincipal OidcUser oidcUser){
+    public ResponseEntity<?> InitializeCloudNode(@AuthenticationPrincipal OidcUser oidcUser){
         try{
-            oidcId = oidcUser.getSubject();
+            String oidcId = oidcUser.getSubject();
             List<CloudNode> cloudNodes =  initializationService.getAllUserNodes(oidcId);
             if(cloudNodes.isEmpty()){
                 logger.info("In initializeCloudNodes(), CloudNodes were not returned returned from DB.");
@@ -57,7 +55,7 @@ public class CloudNodeController {
     @GetMapping("/create")
     public ResponseEntity<?> createCloudNode(@AuthenticationPrincipal OidcUser oidcUser) {
         try {
-            oidcId = oidcUser.getSubject();
+            String oidcId = oidcUser.getSubject();
             int nodeId = cloudNodeService.createCloudNode(oidcId);
             logger.info("Successfully acquired nodeId");
             return ResponseEntity.ok(nodeId);
@@ -69,7 +67,7 @@ public class CloudNodeController {
     }
     @PostMapping("/save")
     public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest nodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
-        oidcId = oidcUser.getSubject();
+        String oidcId = oidcUser.getSubject();
         try{
             cloudNodeService.SaveCloudNode(nodeRequest, oidcId);
             return ResponseEntity.ok().body("Node text successfully stored in DB");
