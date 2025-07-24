@@ -6,10 +6,10 @@ import { OnInit } from '@angular/core';
 @Component({
   selector: 'app-create-cloud',
   imports: [CommonModule, Cloud],
-  templateUrl: './create-cloud.html',
-  styleUrl: './create-cloud.css'
+  templateUrl: './cloud.service.html',
+  styleUrl: './cloud.service.css'
 })
-export class CreateCloud {
+export class CloudService {
   //this is an array of CloudData objects, NOT of the Cloud object. The difference is that the CloudData is a smaller and more hollow version of Cloud made only when the button is pressed. These properties are used in the html file to help the ngFor loop instantiate REAL versions of the Cloud object in the cloud.ts file, making use of @Input.
   cloudArray : CloudData[] = [];
   

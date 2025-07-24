@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Cloud } from './cloud/cloud';
-import { CreateCloud } from "./create-cloud/create-cloud";
+import { CreateCloud } from "./cloud-service/cloud.service";
 import { RouterOutlet, RouterLink } from '@angular/router';
 
 

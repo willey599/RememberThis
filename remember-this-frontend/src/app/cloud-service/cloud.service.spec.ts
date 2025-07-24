@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateCloud } from './create-cloud';
+import { CloudService } from './cloud.service';
 
 describe('CreateCloudComponent', () => {
-  let component: CreateCloud;
-  let fixture: ComponentFixture<CreateCloud>;
+  let component: CloudService;
+  let fixture: ComponentFixture<CloudService>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateCloud]
+      imports: [CloudService]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateCloud);
+    fixture = TestBed.createComponent(CloudService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

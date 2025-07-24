@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateCloud } from "../create-cloud/create-cloud";
+import { CreateCloud } from "../cloud-service/cloud.service";
 
 @Component({
   selector: 'app-dashboard',
