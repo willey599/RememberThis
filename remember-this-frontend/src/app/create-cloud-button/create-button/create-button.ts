@@ -10,13 +10,9 @@ import { Observable } from 'rxjs';
   templateUrl: './create-button.html',
   styleUrl: './create-button.css'
 })
-export class CreateButton {
-    cloudArray$: Observable<CloudData[]>;
-    
+export class CreateButton {    
     
     constructor(private cloudService: CloudService){
-      //allows this class to see cloudService's observable cloudArray$
-      this.cloudArray$ = this.cloudService.cloudArray$;
   }
   createButtonClicked(){
     this.cloudService.createCloudButton();
