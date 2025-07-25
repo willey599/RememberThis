@@ -1,4 +1,17 @@
 <h1>
   <button (click)="googleLogout()">Logout</button>
-  <app-create-cloud></app-create-cloud>
+  <app-create-button></app-create-button>  
+  
 </h1>
+<h2>
+  <ng-container *ngIf="cloudArray$ | async as cloudArray">
+    <h1 *ngFor="let cloudData of cloudArray">
+        <app-cloud 
+            [nodeId]="cloudData.nodeId"
+            [nodeText]="cloudData.nodeText"
+            [xCoordinate]="cloudData.xCoordinate"
+            [yCoordinate]="cloudData.yCoordinate">
+        </app-cloud>
+    </h1>
+</ng-container>
+</h2>

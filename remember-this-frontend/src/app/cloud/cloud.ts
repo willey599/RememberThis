@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { CloudService } from '../cloud-service/cloud.service';
 
 export interface CloudData{
   nodeId : number;
@@ -21,6 +22,9 @@ export interface CloudData{
 })
 
 export class Cloud implements CloudData{
+
+  constructor(private cloudService: CloudService){}
+
   mouseDownX : Number | null = null;
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
@@ -30,10 +34,10 @@ export class Cloud implements CloudData{
   @Input() xCoordinate! : number;
   @Input() yCoordinate! : number;
   @Input() nodeText! : string;
-
-
+  
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
+
 
   onMouseDown(mouseState: MouseEvent): void{
     this.mouseDownX = mouseState.clientX;
@@ -44,6 +48,7 @@ export class Cloud implements CloudData{
   onMouseUp(mouseState : MouseEvent): void {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
+
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
       const dialogRef = this.dialog.open(CloudCreateMenu /*, {data: {name: this.name}}*/);
       

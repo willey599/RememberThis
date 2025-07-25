@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { Cloud } from './cloud/cloud';
-import { CreateCloud } from "./create-cloud/create-cloud";
 import { RouterOutlet, RouterLink } from '@angular/router';
 
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [CreateCloud, RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink],
   //template needs custom here because of app-cloud import from Cloud
   template: `
   <header class="main-header">

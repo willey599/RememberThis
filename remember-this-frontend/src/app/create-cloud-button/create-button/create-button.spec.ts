@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateCloud } from './create-cloud';
+import { CreateButton } from './create-button';
 
-describe('CreateCloudComponent', () => {
-  let component: CreateCloud;
-  let fixture: ComponentFixture<CreateCloud>;
+describe('CreateButton', () => {
+  let component: CreateButton;
+  let fixture: ComponentFixture<CreateButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateCloud]
+      imports: [CreateButton]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateCloud);
+    fixture = TestBed.createComponent(CreateButton);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
