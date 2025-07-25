@@ -45,7 +45,11 @@ export class CloudService {
     })
   }
 
-  createCloudButton(){
+  deleteCloud(){
+
+  }
+
+  createCloud(){
     fetch("http://localhost:8080/api/create", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -77,7 +81,7 @@ export class CloudService {
         const newArray = [...currentArray, cloudData];
         //tell subscribers about update
         this._cloudArray.next(newArray);
-        console.log("cloud object successfully pushed into cloudArray. Current array: " + newArray);
+        console.log("cloud object successfully pushed into cloudArray.");
       }
     })
     .catch(err =>{

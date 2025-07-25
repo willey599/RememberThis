@@ -15,6 +15,6 @@ export class CreateButton {
     constructor(private cloudService: CloudService){
   }
   createButtonClicked(){
-    this.cloudService.createCloudButton();
+    this.cloudService.createCloud();
   }
 }
