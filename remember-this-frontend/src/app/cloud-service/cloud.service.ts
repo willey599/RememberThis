@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { CommonModule}  from '@angular/common';
 import { Cloud, CloudData } from "../cloud/cloud";
 import { OnInit } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-@Component({
-  selector: 'app-create-cloud',
-  imports: [CommonModule, Cloud],
-  templateUrl: './cloud.service.html',
-  styleUrl: './cloud.service.css'
+
+@Injectable({
+  providedIn: 'root'
 })
+
 export class CloudService {
-  //this is an array of CloudData objects, NOT of the Cloud object. The difference is that the CloudData is a smaller and more hollow version of Cloud made only when the button is pressed. These properties are used in the html file to help the ngFor loop instantiate REAL versions of the Cloud object in the cloud.ts file, making use of @Input.
-  cloudArray : CloudData[] = [];
+  //this is this class's array of CloudData objects, NOT of the Cloud object. The difference is that the CloudData is a smaller and more hollow version of Cloud made only when the button is pressed. These properties are used in the html file to help the ngFor loop instantiate REAL versions of the Cloud object in the cloud.ts file, making use of @Input.
+  private _cloudArray = new BehaviorSubject<CloudData[]>([]);
+  //create subscribable object for use in other components
+  public cloudArray$: Observable<CloudData[]> = this._cloudArray.asObservable();
+
+  
   
   ngOnInit(){
     fetch("http://localhost:8080/api/initialize", {
@@ -23,15 +27,21 @@ export class CloudService {
       return response.json();
     }).then(parsedInitData => {
       console.log("parsedData is: ", parsedInitData);
+
+      const currentArray = this._cloudArray.getValue();
+      const newArray = [...currentArray];
+      
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
           nodeId: cloud.nodeId,
           nodeText: cloud.nodeText,
           xCoordinate: cloud.xCoordinate,
           yCoordinate: cloud.yCoordinate,
+        }
+        newArray.push(initCloudData);
       }
-      this.cloudArray.push(initCloudData);
-      }
+      //update reactable array
+      this._cloudArray.next(newArray);
     })
   }
 
@@ -59,11 +69,15 @@ export class CloudService {
           xCoordinate: 300,
           yCoordinate: 300,
         }
-        this.cloudArray.push(cloudData);
-        console.log("cloud object successfully pushed into cloudArray. Array value: ");
-        for (let i = 0; i < this.cloudArray.length; i++) {
-          console.log(this.cloudArray[i]);
-        }
+        
+
+        //grab current array (it's reactive)
+        const currentArray = this._cloudArray.getValue();
+        //create new array with currentArray and include new item manually
+        const newArray = [...currentArray, cloudData];
+        //tell subscribers about update
+        this._cloudArray.next(newArray);
+        console.log("cloud object successfully pushed into cloudArray. Current array: " + newArray);
       }
     })
     .catch(err =>{

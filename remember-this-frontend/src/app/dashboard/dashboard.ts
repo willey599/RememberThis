@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { CreateCloud } from "../cloud-service/cloud.service";
+import { CloudService } from "../cloud-service/cloud.service";
+import { Cloud } from '../cloud/cloud';
+import { CommonModule } from '@angular/common';
+import { CreateButton } from "../create-cloud-button/create-button/create-button";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CreateCloud],
+  imports: [Cloud, CreateButton],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
