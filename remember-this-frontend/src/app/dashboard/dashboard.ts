@@ -14,14 +14,17 @@ import { Observable } from 'rxjs';
 export class Dashboard {
 
   cloudArray$ = new Observable<CloudData[]>;
-  constructor(cloudService : CloudService){
+  constructor(private cloudService : CloudService){
     this.cloudArray$ = cloudService.cloudArray$;
   }
-  
+
+  ngOnInit(){
+    this.cloudService.getInitialData();
+  }
+    
   googleLogout(){
     console.log("redirecting to Google logout endpoint");
     window.location.href = 'http://localhost:8080/logout';
     localStorage.removeItem('user_settings');
   }
-  
 }

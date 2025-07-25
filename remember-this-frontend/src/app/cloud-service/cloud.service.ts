@@ -17,7 +17,7 @@ export class CloudService {
 
   
   
-  ngOnInit(){
+  getInitialData(){
     fetch("http://localhost:8080/api/initialize", {
       method: "GET",
       headers: {"Content-Type": "application/json"},

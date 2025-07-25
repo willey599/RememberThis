@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { CreateCloud } from "../cloud-service/cloud.service";
 
 @Component({
   selector: 'app-home',
-  imports: [CreateCloud],
+  imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
