@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;
@@ -49,8 +50,8 @@ public class CloudNodeService {
         }
     }
 
-    public void deleteCloudNode(CloudNodeRequest cloudNodeRequest){
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
+    public void deleteCloudNode(CloudNodeDeleteRequest cloudNodeDeleteRequest, String oidcId){
+        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeDeleteRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
         logger.info("Node about to be deleted: " + cloudNode.getNodeId());
         cloudNodeRepository.delete(cloudNode);
         logger.info("Node deleted: ");
