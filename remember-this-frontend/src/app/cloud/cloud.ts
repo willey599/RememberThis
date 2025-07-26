@@ -61,15 +61,14 @@ export class Cloud implements CloudData{
           this.cloudService.deleteCloud(this.nodeId);
           return;
         }
-        if (result.recallItem && !result.deleteClicked){
+        else {
           console.log('Dialog closed, data: ', result);
-          this.userText = result;
           //store data in DB using fetch
           fetch("http://localhost:8080/api/save", {
             method: "POST",
             body: JSON.stringify({ 
-              nodeText: this.userText,
-              nodeId: this.nodeId,
+            nodeText: result.recallItem,
+            nodeId: this.nodeId,
               
             }),
             headers: { "Content-Type": "application/json" },
