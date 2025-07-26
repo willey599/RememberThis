@@ -69,7 +69,7 @@ public class CloudNodeController {
     public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest nodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
         String oidcId = oidcUser.getSubject();
         try{
-            cloudNodeService.SaveCloudNode(nodeRequest, oidcId);
+            cloudNodeService.saveCloudNode(nodeRequest, oidcId);
             return ResponseEntity.ok().body("Node text successfully stored in DB");
         }catch(IllegalArgumentException e){
             logger.info("IllegalArgumentException, did not store node text in DB");

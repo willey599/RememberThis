@@ -17,7 +17,7 @@ public class CloudNodeService {
 
     private final UserRepository userRepository;
     private final CloudNodeRepository cloudNodeRepository;
-    Logger logger = LoggerFactory.getLogger(CloudNodeService.class);
+    static final Logger logger = LoggerFactory.getLogger(CloudNodeService.class);
 
     @Autowired
     public CloudNodeService(UserRepository userRepository, CloudNodeRepository cloudNodeRepository){
@@ -26,6 +26,7 @@ public class CloudNodeService {
     }
     
     public int createCloudNode(String oidcId){
+        logger.info("Entered CreateCloudNode");
         CloudNode cloudNode = new CloudNode();
         User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("user not found.@@@@@@@@@"));
         cloudNode.setUser(user);
@@ -33,7 +34,7 @@ public class CloudNodeService {
         logger.info("Cloud Node stored in repository");
         return cloudNode.getNodeId();
     }
-    public void SaveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
+    public void saveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
         logger.info("Entered SaveCloudNode");
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
         logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
@@ -46,5 +47,12 @@ public class CloudNodeService {
             logger.info("Something went wrong in SaveCloudNode.");
             logger.info(e.getMessage());
         }
+    }
+
+    public void deleteCloudNode(CloudNodeRequest cloudNodeRequest){
+        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
+        logger.info("Node about to be deleted: " + cloudNode.getNodeId());
+        cloudNodeRepository.delete(cloudNode);
+        logger.info("Node deleted: ");
     }
 }
