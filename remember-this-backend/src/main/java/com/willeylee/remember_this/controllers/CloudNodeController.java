@@ -81,10 +81,12 @@ public class CloudNodeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
         }
     }
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
         public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest, @AuthenticationPrincipal OidcUser oidcUser){
+            logger.info("nodeId sent from fetch: " + cloudNodeDeleteRequest.getNodeId());
             String oidcId = oidcUser.getSubject();
-            cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest, oidcId);
+            //for some reason, spring security doesn't allow me to send cloudNodeDeleteRequest. I have to send its value instead.
+            cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest.getNodeId(), oidcId);
             return ResponseEntity.ok().body("successful deletion");
         }
     }
