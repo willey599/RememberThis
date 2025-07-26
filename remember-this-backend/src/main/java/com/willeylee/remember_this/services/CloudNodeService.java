@@ -50,8 +50,8 @@ public class CloudNodeService {
         }
     }
 
-    public void deleteCloudNode(CloudNodeDeleteRequest cloudNodeDeleteRequest, String oidcId){
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeDeleteRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
+    public void deleteCloudNode(int nodeId, String oidcId){
+        CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
         logger.info("Node about to be deleted: " + cloudNode.getNodeId());
         cloudNodeRepository.delete(cloudNode);
         logger.info("Node deleted: ");

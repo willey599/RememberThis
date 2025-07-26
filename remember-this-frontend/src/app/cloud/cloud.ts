@@ -5,6 +5,7 @@ import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { CloudService } from '../cloud-service/cloud.service';
+import { P } from '@angular/cdk/keycodes';
 
 export interface CloudData{
   nodeId : number;
@@ -30,6 +31,7 @@ export class Cloud implements CloudData{
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
   public userText = '';
+  public isDelete = false;
   @Input() nodeId! : number;
   @Input() xCoordinate! : number;
   @Input() yCoordinate! : number;
@@ -53,7 +55,13 @@ export class Cloud implements CloudData{
       const dialogRef = this.dialog.open(CloudCreateMenu /*, {data: {name: this.name}}*/);
       
       dialogRef.afterClosed().subscribe(result => {
-        if (result){
+        console.log("entering dialog close, result", result);
+        if (result == true){
+          console.log("delete button clicked, calling delete service");
+          this.cloudService.deleteCloud(this.nodeId);
+          return;
+        }
+        if (result.recallItem && !result.deleteClicked){
           console.log('Dialog closed, data: ', result);
           this.userText = result;
           //store data in DB using fetch

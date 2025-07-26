@@ -4,6 +4,7 @@
   
 </h1>
 <h2>
+  <!-- If value changes, continue -->
   <ng-container *ngIf="cloudArray$ | async as cloudArray">
     <h1 *ngFor="let cloudData of cloudArray">
         <app-cloud 

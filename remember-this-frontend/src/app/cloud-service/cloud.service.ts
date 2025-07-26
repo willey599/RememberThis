@@ -45,9 +45,29 @@ export class CloudService {
     })
   }
 
-  deleteCloud(){
-
-  }
+  deleteCloud(returnedNodeId: number){
+      console.log("deleteClicked returned true, activating fetch delete request");
+      const nodeId : number = returnedNodeId;
+      fetch(`http://localhost:8080/api/delete`, {
+        method: "DELETE",
+        body: JSON.stringify({ 
+          nodeId: returnedNodeId
+        }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+      }).then(response => {
+        if (response.ok){
+          let shortenedArray = this._cloudArray.getValue().filter(item => item.nodeId !== returnedNodeId);
+          this._cloudArray.next(shortenedArray);
+          //syntax: item => item.property => checkCondition
+          console.log("found node in _cloudArray, successfully deleted node");
+        }
+        else{
+          console.log("Server error:", response.status);  
+          }
+        }).then(data => console.log(data))
+      .catch(err => console.error(err));
+    }
 
   createCloud(){
     fetch("http://localhost:8080/api/create", {
@@ -87,6 +107,6 @@ export class CloudService {
     .catch(err =>{
       console.log(err);
     })
-    }
   }
+}
 
