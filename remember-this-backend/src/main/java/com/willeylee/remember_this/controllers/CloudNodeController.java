@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.services.InitializationService;
+import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 
@@ -80,4 +81,10 @@ public class CloudNodeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured");
         }
     }
-}
+    @PostMapping("/delete")
+        public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest, @AuthenticationPrincipal OidcUser oidcUser){
+            String oidcId = oidcUser.getSubject();
+            cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest, oidcId);
+            return ResponseEntity.ok().body("successful deletion");
+        }
+    }
