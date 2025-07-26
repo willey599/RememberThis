@@ -25,7 +25,7 @@ export class CloudCreateMenu {
   createDialog(mouseEvent: MouseEvent, recallItem: any): void{
     if (mouseEvent.button == 0){
       if (this.recallItem){
-        this.dialogRef.close(this.recallItem);
+        this.dialogRef.close({recallItem});
       }
     }
   }
