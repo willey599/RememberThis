@@ -53,5 +53,6 @@ public class CloudNodeService {
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
         logger.info("Node about to be deleted: " + cloudNode.getNodeId());
         cloudNodeRepository.delete(cloudNode);
+        logger.info("Node deleted: ");
     }
 }
