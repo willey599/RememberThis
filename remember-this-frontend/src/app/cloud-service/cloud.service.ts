@@ -15,8 +15,8 @@ export class CloudService {
   //create subscribable object for use in other components
 
   // public cloudArray$: Observable<CloudData[]> = this._cloudArray.asObservable();
-  private _testSignalArray : WritableSignal<CloudData[]> = signal([]);
-  public testSignalArray : Signal<CloudData[]> = this._testSignalArray.asReadonly();
+  private _cloudDataSignalArray : WritableSignal<CloudData[]> = signal([]);
+  public cloudDataSignalArray : Signal<CloudData[]> = this._cloudDataSignalArray.asReadonly();
   constructor(){
     
   }
@@ -46,7 +46,7 @@ export class CloudService {
           yPosition: signal(cloud.yCoordinate),
         }
 
-        this._testSignalArray.update(currentArray => [...currentArray, initCloudData]);
+        this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
 
       }
     })
@@ -67,7 +67,7 @@ export class CloudService {
           //first update function separates original signal array into individual elements
           //then filter takes currentArray and separates into arrayItems
           //then arrayItem.nodeId finds that element's nodeId
-          this._testSignalArray.update(currentArray => currentArray.filter(arrayItem => arrayItem.nodeId() !== returnedNodeId));
+          this._cloudDataSignalArray.update(currentArray => currentArray.filter(arrayItem => arrayItem.nodeId() !== returnedNodeId));
           //syntax: item => item.property => checkCondition
           console.log("found node in _cloudArray, successfully deleted node");
         }
@@ -110,7 +110,10 @@ export class CloudService {
         
 
         //update Signal Array
-        this._testSignalArray.update(currentArray => [...currentArray, cloudData]);
+        //syntax: update loops through _cloudDataSignalArray via current array
+        //spread operator spreads current array into individual array alements
+        //adds cloudData to the end of it
+        this._cloudDataSignalArray.update(currentArray => [...currentArray, cloudData]);
         console.log("cloud object successfully pushed into cloudArray.");
       }
     })
