@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.services.InitializationService;
 import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
+import com.willeylee.remember_this.dto.CloudNodePositionRequest;
 // import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
@@ -68,10 +69,9 @@ public class CloudNodeController {
         } 
     }
     @PostMapping("/save")
-    public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest cloudNodeRequest, @AuthenticationPrincipal OidcUser oidcUser){
-        String oidcId = oidcUser.getSubject();
+    public ResponseEntity<?> saveNodetext(@RequestBody CloudNodeRequest cloudNodeRequest){
         try{
-            cloudNodeService.saveCloudNode(cloudNodeRequest, oidcId);
+            cloudNodeService.saveCloudNode(cloudNodeRequest);
             return ResponseEntity.ok().body("Node text successfully stored in DB");
         }catch(IllegalArgumentException e){
             logger.info("IllegalArgumentException, did not store node text in DB");
@@ -83,18 +83,29 @@ public class CloudNodeController {
         }
     }
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest, @AuthenticationPrincipal OidcUser oidcUser){
+    public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest){
             logger.info("nodeId sent from fetch: " + cloudNodeDeleteRequest.getNodeId());
-            String oidcId = oidcUser.getSubject();
             //for some reason, spring security doesn't allow me to send cloudNodeDeleteRequest. I have to send its value instead.
             try{
-                cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest.getNodeId(), oidcId);
+                cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest.getNodeId());
                 return ResponseEntity.ok().body("successful deletion");
             }catch (Exception e){
                 logger.info("Exception, did not delete node successfully");
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
             }
         }
+
+    @PostMapping("/savePosition")
+    public ResponseEntity<?> savePositionCloudNode(@RequestBody CloudNodePositionRequest cloudNodePositionRequest){
+        logger.info("nodeId sent from fetch: " + cloudNodePositionRequest.getNodeId());
+        try{
+            cloudNodeService.savePositionCloudNode(cloudNodePositionRequest);
+            return ResponseEntity.ok().body("successful position storage");
+        }catch(Exception e){
+            logger.info("Exception, did not save node position successfully");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
     
     // @GetMapping("fetch")
     // public ResponseEntity<?> fetchCloudNode(@RequestBody CloudNodeFetchRequest cloudNodeFetchRequest, @AuthenticationPrincipal OidcUser oidcUser){

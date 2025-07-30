@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
+import com.willeylee.remember_this.dto.CloudNodePositionRequest;
 // import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
@@ -30,15 +31,19 @@ public class CloudNodeService {
     public int createCloudNode(String oidcId){
         logger.info("Entered CreateCloudNode");
         CloudNode cloudNode = new CloudNode();
-        User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("user not found.@@@@@@@@@"));
-        cloudNode.setUser(user);
-        cloudNodeRepository.save(cloudNode);
-        logger.info("Cloud Node stored in repository");
+        try{
+            User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("user not found.@@@@@@@@@"));
+            cloudNode.setUser(user);
+            cloudNodeRepository.save(cloudNode);
+            logger.info("Cloud Node stored in repository");
+        }catch(Exception e){
+            logger.info("Cloud Node NOT stored in repository");
+        }
         return cloudNode.getNodeId();
     }
-    public void saveCloudNode(CloudNodeRequest cloudNodeRequest, String oidcId){
+    public void saveCloudNode(CloudNodeRequest cloudNodeRequest){
         logger.info("Entered SaveCloudNode, nodeText: ", cloudNodeRequest.getNodeText());
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in SaveCloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
+        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in CloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
         logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
         try{
             cloudNode.setNodeText(cloudNodeRequest.getNodeText());
@@ -51,19 +56,23 @@ public class CloudNodeService {
         }
     }
 
-    public void deleteCloudNode(int nodeId, String oidcId){
+    public void savePositionCloudNode(CloudNodePositionRequest cloudNodePositionRequest){
+        try{
+            CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodePositionRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No CloudNode found during SavePositionCloudNode in CloudNodeService. Node ID: " + cloudNodePositionRequest.getNodeId()));
+            cloudNode.setXPosition(cloudNodePositionRequest.getXPosition());
+            cloudNode.setYPosition(cloudNodePositionRequest.getYPosition());
+            cloudNodeRepository.save(cloudNode);
+            logger.info("Node position saved ");
+        }catch(Exception e){
+            logger.info("Something went wrong in savePositionCloudNode.");
+            logger.info(e.getMessage());
+        }
+    }
+
+    public void deleteCloudNode(int nodeId){
         CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
         logger.info("Node about to be deleted: " + cloudNode.getNodeId());
         cloudNodeRepository.delete(cloudNode);
         logger.info("Node deleted: ");
     }
-
-    // public CloudNodeFetchRequest fetchCloudNode(CloudNodeFetchRequest cloudNodeFetchRequest, String oidcId){
-    //     CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeFetchRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error in updateCloudNode, failed to find cloudnode in DB"));
-    //     cloudNodeFetchRequest.setNodeId(cloudNode.getNodeId());
-    //     cloudNodeFetchRequest.setNodeText(cloudNode.getNodeText());
-    //     cloudNodeFetchRequest.setXPosition(cloudNode.getXPosition());
-    //     cloudNodeFetchRequest.setYPosition(cloudNode.getYPosition());
-    //     return cloudNodeFetchRequest;
-    // }
 }
