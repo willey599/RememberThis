@@ -1,5 +1,5 @@
 import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal, WritableSignal } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ export interface CloudData{
   imports: [DragDropModule, MatDialogModule, CloudCreateMenu],
   template: `
     <div cdkDrag>
-      <img src="cloud.png" alt="cloud" style="cursor: pointer;" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
+      <img src="cloud.png" alt="cloud" style="cursor: pointer;" (cdkDragEnded)="onMouseUp($event)">
       <h1>{{nodeText()}}</h1>
     </div>`,
   styleUrl: './cloud.css'
@@ -42,15 +42,10 @@ export class Cloud implements CloudData{
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
 
-  onMouseDown(mouseState: MouseEvent): void{
-    this.mouseDownX = mouseState.clientX;
-    this.mouseDownY = mouseState.clientY;
-  }
-
   //if mouseUp is in the same location as mouseDown, then dialog box should open
-  onMouseUp(mouseState : MouseEvent): void {
-    this.mouseUpX = mouseState.clientX;
-    this.mouseUpY = mouseState.clientY;
+  onMouseUp($event: CdkDragEnd): void {
+    this.mouseUpX = $event.distance.x;
+    this.mouseUpY = $event.distance.y;
 
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
       //opens the dialog box, contains the result after opening
