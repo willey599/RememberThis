@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   selector: 'app-dashboard',
   imports: [Cloud, CreateButton, CommonModule],
   template: `
-    <h1>
+    <h1 class="buttons">
       <button (click)="googleLogout()">Logout</button>
       <app-create-button></app-create-button>  
     
@@ -25,7 +25,8 @@ import { Observable } from 'rxjs';
                 [xPosition]="cloudData.xPosition"
                 [yPosition]="cloudData.yPosition"
                 [style.left.px]="cloudData.xPosition()"
-                [style.bottom.px]="cloudData.yPosition()">
+                [style.bottom.px]="cloudData.yPosition()"
+                >
             </app-cloud>
         </h1>
       </ul>
@@ -34,12 +35,14 @@ import { Observable } from 'rxjs';
   `,
   styles: [`
     .canvas {
+      border: 2px solid;
       position: relative;
       width: 1920px;
       height: 1080px;
       margin: 20px auto;
     }
-    app-cloud {
+    .buttons {
+      text-align: center;
     }
     `]
 })

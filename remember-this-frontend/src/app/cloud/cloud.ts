@@ -69,8 +69,8 @@ export class Cloud implements CloudData{
   onMouseUp(mouseState : MouseEvent): void {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
-
-    if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
+    
+    if (this.mouseDownX === this.mouseUpX && this.mouseDownY === this.mouseUpY){
       //opens the dialog box, contains the result after opening
       const dialogRef = this.dialog.open(CloudCreateMenu, {data: {nodeText: this.nodeText}});
       
@@ -84,6 +84,7 @@ export class Cloud implements CloudData{
         else {
             try{
               this.cloudService.saveCloud(result.recallItem, this.nodeId());
+              console.log("cloud save complete");
               this.nodeText.set(result.recallItem);
             }
             catch(error: unknown){  
@@ -94,7 +95,7 @@ export class Cloud implements CloudData{
     }
   }
 
-  //if mouseUp is in the same location as mouseDown, then dialog box should open
+
   onDragEnd($event: CdkDragEnd): void{
     this.xPosition.set($event.source.getFreeDragPosition().x);
     this.yPosition.set($event.source.getFreeDragPosition().y);
