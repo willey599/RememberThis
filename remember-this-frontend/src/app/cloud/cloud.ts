@@ -1,4 +1,4 @@
-import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal } from '@angular/core';
+import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal, WritableSignal } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
@@ -8,10 +8,10 @@ import { CloudService } from '../cloud-service/cloud.service';
 import { P } from '@angular/cdk/keycodes';
 
 export interface CloudData{
-  nodeId : Signal<number>;
-  nodeText : Signal<string>;
-  xCoordinate : Signal<number>;
-  yCoordinate : Signal<number>;
+  nodeId : WritableSignal<number>;
+  nodeText : WritableSignal<string>;
+  xPosition : WritableSignal<number>;
+  yPosition : WritableSignal<number>;
 }
 
 @Component({
@@ -30,11 +30,10 @@ export class Cloud implements CloudData{
   mouseDownY : Number | null = null;
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
-  public userText = '';
-  @Input() nodeId! : Signal<number>;
-  @Input() xCoordinate! : Signal<number>;
-  @Input() yCoordinate! : Signal<number>
-  @Input() nodeText! : Signal<string>;
+  @Input() nodeId! : WritableSignal<number>;
+  @Input() xPosition! : WritableSignal<number>;
+  @Input() yPosition! : WritableSignal<number>
+  @Input() nodeText! : WritableSignal<string>;
   
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
@@ -61,30 +60,14 @@ export class Cloud implements CloudData{
           return;
         }
         else {
-          console.log('Dialog closed, data: ', result);
-          //store data in DB using fetch
-          fetch("http://localhost:8080/api/save", {
-            method: "POST",
-            body: JSON.stringify({ 
-            nodeText: result.recallItem,
-            nodeId: this.nodeId(),
-              
-            }),
-            headers: { "Content-Type": "application/json" },
-            credentials: "include"     // Important to send cookies or auth info if backend expects it
-          })
-          .then(response => {
-            if(response.ok){
-              console.log("successful data transfer");
-              this.userText = this.nodeText();
+            try{
+              this.cloudService.saveCloud(result.recallItem, this.nodeId());
+              this.nodeText.set(result.recallItem);
             }
-            else {
-              console.log("Server error:", response.status)  
-              }
-            })
-          .then(data => console.log(data))
-          .catch(err => console.error(err));
-                  }
+            catch(error: unknown){  
+              console.error("An error occured when trying to save cloud data. Error: ", error);
+            }
+        }
       });
     }
   }

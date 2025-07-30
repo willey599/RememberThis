@@ -15,8 +15,8 @@ export class CloudService {
   //create subscribable object for use in other components
 
   // public cloudArray$: Observable<CloudData[]> = this._cloudArray.asObservable();
-  private _testSignalArray : WritableSignal<CloudData[]> = signal([]);
-  public testSignalArray : Signal<CloudData[]> = this._testSignalArray.asReadonly();
+  private _cloudDataSignalArray : WritableSignal<CloudData[]> = signal([]);
+  public cloudDataSignalArray : Signal<CloudData[]> = this._cloudDataSignalArray.asReadonly();
   constructor(){
     
   }
@@ -34,19 +34,19 @@ export class CloudService {
 
       let nodeIdSignal = signal(0);
       let nodeTextSignal = signal("text");
-      let xCoordinateSignal = signal(300);
-      let yCoordinateSignal = signal(300);
+      let xPositionSignal = signal(300);
+      let yPositionSignal = signal(300);
 
 
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          xCoordinate: signal(cloud.xCoordinate),
-          yCoordinate: signal(cloud.yCoordinate),
+          xPosition: signal(cloud.xCoordinate),
+          yPosition: signal(cloud.yCoordinate),
         }
 
-        this._testSignalArray.update(currentArray => [...currentArray, initCloudData]);
+        this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
 
       }
     })
@@ -67,7 +67,7 @@ export class CloudService {
           //first update function separates original signal array into individual elements
           //then filter takes currentArray and separates into arrayItems
           //then arrayItem.nodeId finds that element's nodeId
-          this._testSignalArray.update(currentArray => currentArray.filter(arrayItem => arrayItem.nodeId() !== returnedNodeId));
+          this._cloudDataSignalArray.update(currentArray => currentArray.filter(arrayItem => arrayItem.nodeId() !== returnedNodeId));
           //syntax: item => item.property => checkCondition
           console.log("found node in _cloudArray, successfully deleted node");
         }
@@ -98,19 +98,22 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
-        let xCoordinateSignal = signal(300);
-        let yCoordinateSignal = signal(300);
+        let xPositionSignal = signal(300);
+        let yPositionSignal = signal(300);
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
           nodeText: nodeTextSignal,
-          xCoordinate: xCoordinateSignal,
-          yCoordinate: yCoordinateSignal,
+          xPosition: xPositionSignal,
+          yPosition: yPositionSignal,
         }
         
 
         //update Signal Array
-        this._testSignalArray.update(currentArray => [...currentArray, cloudData]);
+        //syntax: update loops through _cloudDataSignalArray via current array
+        //spread operator spreads current array into individual array alements
+        //adds cloudData to the end of it
+        this._cloudDataSignalArray.update(currentArray => [...currentArray, cloudData]);
         console.log("cloud object successfully pushed into cloudArray.");
       }
     })
@@ -118,5 +121,28 @@ export class CloudService {
       console.log(err);
     })
   }
+
+  saveCloud(recallItem: string, nodeId: number){
+    fetch("http://localhost:8080/api/save", {
+            method: "POST",
+            body: JSON.stringify({ 
+            nodeText: recallItem,
+            nodeId: nodeId,
+            }),
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"     // Important to send cookies or auth info if backend expects it
+          })
+          .then(response => {
+            if(response.ok){
+              console.log("successful data transfer");
+            }
+            else {
+              console.log("Server error:", response.status)  
+              }
+            })
+          .then(data => console.log(data))
+          .catch(err => console.error(err));
+  }
 }
+  
 

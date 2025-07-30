@@ -15,7 +15,7 @@ export class Dashboard {
   serviceCloudDataArray: Signal<CloudData[]>;
 
   constructor(private cloudService : CloudService){
-    this.serviceCloudDataArray = this.cloudService.testSignalArray;
+    this.serviceCloudDataArray = this.cloudService.cloudDataSignalArray;
   }
 
   ngOnInit(){

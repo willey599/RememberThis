@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.services.InitializationService;
 import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
+import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 
@@ -82,11 +83,31 @@ public class CloudNodeController {
         }
     }
     @DeleteMapping("/delete")
-        public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest, @AuthenticationPrincipal OidcUser oidcUser){
+    public ResponseEntity<?> deleteCloudNode(@RequestBody CloudNodeDeleteRequest cloudNodeDeleteRequest, @AuthenticationPrincipal OidcUser oidcUser){
             logger.info("nodeId sent from fetch: " + cloudNodeDeleteRequest.getNodeId());
             String oidcId = oidcUser.getSubject();
             //for some reason, spring security doesn't allow me to send cloudNodeDeleteRequest. I have to send its value instead.
-            cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest.getNodeId(), oidcId);
-            return ResponseEntity.ok().body("successful deletion");
+            try{
+                cloudNodeService.deleteCloudNode(cloudNodeDeleteRequest.getNodeId(), oidcId);
+                return ResponseEntity.ok().body("successful deletion");
+            }catch (Exception e){
+                logger.info("Exception, did not delete node successfully");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            }
         }
+    
+    @GetMapping("fetch")
+    public ResponseEntity<?> fetchCloudNode(@RequestBody CloudNodeFetchRequest cloudNodeFetchRequest, @AuthenticationPrincipal OidcUser oidcUser){
+        String oidcId = oidcUser.getSubject();
+        try{
+            cloudNodeFetchRequest = cloudNodeService.fetchCloudNode(cloudNodeFetchRequest, oidcId);
+            return ResponseEntity.ok(cloudNodeFetchRequest);
+        }
+        catch (Exception e){
+                logger.info("Exception, did not fetch node successfully");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            }
+
+    }
+
     }
