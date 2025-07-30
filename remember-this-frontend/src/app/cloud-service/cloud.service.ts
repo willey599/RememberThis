@@ -34,16 +34,16 @@ export class CloudService {
 
       let nodeIdSignal = signal(0);
       let nodeTextSignal = signal("text");
-      let xCoordinateSignal = signal(300);
-      let yCoordinateSignal = signal(300);
+      let xPositionSignal = signal(300);
+      let yPositionSignal = signal(300);
 
 
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          xCoordinate: signal(cloud.xCoordinate),
-          yCoordinate: signal(cloud.yCoordinate),
+          xPosition: signal(cloud.xCoordinate),
+          yPosition: signal(cloud.yCoordinate),
         }
 
         this._testSignalArray.update(currentArray => [...currentArray, initCloudData]);
@@ -98,14 +98,14 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
-        let xCoordinateSignal = signal(300);
-        let yCoordinateSignal = signal(300);
+        let xPositionSignal = signal(300);
+        let yPositionSignal = signal(300);
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
           nodeText: nodeTextSignal,
-          xCoordinate: xCoordinateSignal,
-          yCoordinate: yCoordinateSignal,
+          xPosition: xPositionSignal,
+          yPosition: yPositionSignal,
         }
         
 
@@ -118,5 +118,28 @@ export class CloudService {
       console.log(err);
     })
   }
+
+  saveCloud(recallItem: string, nodeId: number){
+    fetch("http://localhost:8080/api/save", {
+            method: "POST",
+            body: JSON.stringify({ 
+            nodeText: recallItem,
+            nodeId: nodeId,
+            }),
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"     // Important to send cookies or auth info if backend expects it
+          })
+          .then(response => {
+            if(response.ok){
+              console.log("successful data transfer");
+            }
+            else {
+              console.log("Server error:", response.status)  
+              }
+            })
+          .then(data => console.log(data))
+          .catch(err => console.error(err));
+  }
 }
+  
 
