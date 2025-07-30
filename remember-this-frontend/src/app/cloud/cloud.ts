@@ -1,5 +1,5 @@
 import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal, WritableSignal } from '@angular/core';
-import { CdkDragEnd, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -17,23 +17,37 @@ export interface CloudData{
 @Component({
   standalone: true,
   selector: 'app-cloud',
-  imports: [DragDropModule, MatDialogModule, CloudCreateMenu],
+  imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag],
   template: `
-    <div cdkDrag>
-      <img src="cloud.png" alt="cloud" style="cursor: pointer;" (cdkDragEnded)="onMouseUp($event)">
+    <div class="draggable-cloud" cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
+      <img src="cloud.png" alt="cloud" style="cursor: pointer;" >
       <h1>{{nodeText()}}</h1>
     </div>`,
-  styleUrl: './cloud.css'
+  styles: [`
+    :host {
+      display: block;
+      position: absolute;
+      width: auto;
+      height: auto;
+      }
+    .draggable-cloud {
+      display: block;
+      color: blue;
+    }
+    .img {
+      width: 100px;
+    }
+    `]
 })
 
 export class Cloud implements CloudData{
 
-  constructor(private cloudService: CloudService){}
 
-  mouseDownX : Number | null = null;
-  mouseDownY : Number | null = null;
-  mouseUpX : Number | null = null;
-  mouseUpY : Number | null = null;
+  constructor(private cloudService: CloudService){}
+  mouseDownX : number | null = null;
+  mouseDownY : number | null = null;
+  mouseUpX : number | null = null;
+  mouseUpY : number | null = null;
   @Input() nodeId! : WritableSignal<number>;
   @Input() xPosition! : WritableSignal<number>;
   @Input() yPosition! : WritableSignal<number>
@@ -42,10 +56,15 @@ export class Cloud implements CloudData{
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
 
+  onMouseDown(mouseState: MouseEvent): void{
+    this.mouseDownX = mouseState.clientX;
+    this.mouseDownY = mouseState.clientY;
+  }
+
   //if mouseUp is in the same location as mouseDown, then dialog box should open
-  onMouseUp($event: CdkDragEnd): void {
-    this.mouseUpX = $event.distance.x;
-    this.mouseUpY = $event.distance.y;
+  onMouseUp(mouseState : MouseEvent): void {
+    this.mouseUpX = mouseState.clientX;
+    this.mouseUpY = mouseState.clientY;
 
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
       //opens the dialog box, contains the result after opening
@@ -70,4 +89,11 @@ export class Cloud implements CloudData{
       });
     }
   }
-}
+
+  //if mouseUp is in the same location as mouseDown, then dialog box should open
+  onDragEnd($event: CdkDragEnd): void{
+    this.xPosition.set($event.source.getFreeDragPosition().x);
+    this.yPosition.set($event.source.getFreeDragPosition().y);
+    console.log(this.mouseUpX, this.mouseUpY, this.mouseDownX, this.mouseDownY);
+    }
+  }

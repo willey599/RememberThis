@@ -8,8 +8,40 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   imports: [Cloud, CreateButton, CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  template: `
+    <h1>
+      <button (click)="googleLogout()">Logout</button>
+      <app-create-button></app-create-button>  
+    
+    </h1>
+  <h2>
+    <div class = "canvas">
+      <!-- If value changes, continue -->
+      <ul *ngIf="serviceCloudDataArray().length > 0">
+        <h1 *ngFor="let cloudData of serviceCloudDataArray()">
+            <app-cloud 
+                [nodeId]="cloudData.nodeId"
+                [nodeText]="cloudData.nodeText"
+                [xPosition]="cloudData.xPosition"
+                [yPosition]="cloudData.yPosition"
+                [style.left.px]="cloudData.xPosition()"
+                [style.bottom.px]="cloudData.yPosition()">
+            </app-cloud>
+        </h1>
+      </ul>
+    </div>
+  </h2>
+  `,
+  styles: [`
+    .canvas {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      margin: 20px auto;
+    }
+    app-cloud {
+    }
+    `]
 })
 export class Dashboard {
   serviceCloudDataArray: Signal<CloudData[]>;
