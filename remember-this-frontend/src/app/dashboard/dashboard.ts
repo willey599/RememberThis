@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CloudService } from "../cloud-service/cloud.service";
 import { Cloud, CloudData } from '../cloud/cloud';
 import { CommonModule } from '@angular/common';
@@ -12,10 +12,10 @@ import { Observable } from 'rxjs';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
+  serviceCloudDataArray: Signal<CloudData[]>;
 
-  cloudArray$ = new Observable<CloudData[]>;
   constructor(private cloudService : CloudService){
-    this.cloudArray$ = cloudService.cloudArray$;
+    this.serviceCloudDataArray = this.cloudService.testSignalArray;
   }
 
   ngOnInit(){
