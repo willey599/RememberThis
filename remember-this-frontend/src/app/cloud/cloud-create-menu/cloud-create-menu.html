@@ -1,5 +1,6 @@
 <header class="dialog">
     <h1  mat-dialog-title>Create New Cloud</h1>
+
     <li>
         <mat-form-field >
             <mat-label style="font-size: small">Word or phrase to recall</mat-label>
@@ -8,8 +9,8 @@
     </li>
     
     <h2>
-        <button matButton="elevated" (click)="cancelDialog($event, recallItem)" style="-webkit-text-fill-color: #58acff;">Cancel</button>
-        <button matButton="elevated" (click)="createDialog($event, recallItem)" style="background-color: #58acff; -webkit-text-fill-color: white;">Create</button> 
+        <button matButton="elevated" (click)="cancelDialog($event)" style="-webkit-text-fill-color: #58acff;">Cancel</button>
+        <button matButton="elevated" (click)="saveDialog($event, recallItem)" style="background-color: #58acff; -webkit-text-fill-color: white;">save</button> 
         <button matButton="elevated" (click)="deleteButton($event)" style="-webkit-text-fill-color: #ff5757;">Delete</button>
     </h2>
     

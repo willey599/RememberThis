@@ -5,8 +5,8 @@
 </h1>
 <h2>
   <!-- If value changes, continue -->
-  <ng-container *ngIf="cloudArray$ | async as cloudArray">
-    <h1 *ngFor="let cloudData of cloudArray">
+  <ul *ngIf="serviceCloudDataArray().length > 0">
+    <h1 *ngFor="let cloudData of serviceCloudDataArray()">
         <app-cloud 
             [nodeId]="cloudData.nodeId"
             [nodeText]="cloudData.nodeText"
@@ -14,5 +14,5 @@
             [yCoordinate]="cloudData.yCoordinate">
         </app-cloud>
     </h1>
-</ng-container>
+  </ul>
 </h2>

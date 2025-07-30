@@ -1,4 +1,4 @@
-import { Component, inject, model, Input } from '@angular/core';
+import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
@@ -8,10 +8,10 @@ import { CloudService } from '../cloud-service/cloud.service';
 import { P } from '@angular/cdk/keycodes';
 
 export interface CloudData{
-  nodeId : number;
-  nodeText : string;
-  xCoordinate : number;
-  yCoordinate : number;
+  nodeId : Signal<number>;
+  nodeText : Signal<string>;
+  xCoordinate : Signal<number>;
+  yCoordinate : Signal<number>;
 }
 
 @Component({
@@ -31,15 +31,13 @@ export class Cloud implements CloudData{
   mouseUpX : Number | null = null;
   mouseUpY : Number | null = null;
   public userText = '';
-  public isDelete = false;
-  @Input() nodeId! : number;
-  @Input() xCoordinate! : number;
-  @Input() yCoordinate! : number;
-  @Input() nodeText! : string;
+  @Input() nodeId! : Signal<number>;
+  @Input() xCoordinate! : Signal<number>;
+  @Input() yCoordinate! : Signal<number>
+  @Input() nodeText! : Signal<string>;
   
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
-
 
   onMouseDown(mouseState: MouseEvent): void{
     this.mouseDownX = mouseState.clientX;
@@ -52,13 +50,14 @@ export class Cloud implements CloudData{
     this.mouseUpY = mouseState.clientY;
 
     if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
-      const dialogRef = this.dialog.open(CloudCreateMenu /*, {data: {name: this.name}}*/);
+      //opens the dialog box, contains the result after opening
+      const dialogRef = this.dialog.open(CloudCreateMenu, {data: {nodeText: this.nodeText}});
       
       dialogRef.afterClosed().subscribe(result => {
         console.log("entering dialog close, result", result);
         if (result == true){
           console.log("delete button clicked, calling delete service");
-          this.cloudService.deleteCloud(this.nodeId);
+          this.cloudService.deleteCloud(this.nodeId());
           return;
         }
         else {
@@ -68,7 +67,7 @@ export class Cloud implements CloudData{
             method: "POST",
             body: JSON.stringify({ 
             nodeText: result.recallItem,
-            nodeId: this.nodeId,
+            nodeId: this.nodeId(),
               
             }),
             headers: { "Content-Type": "application/json" },
@@ -76,7 +75,9 @@ export class Cloud implements CloudData{
           })
           .then(response => {
             if(response.ok){
-              console.log("successful data transfer")}
+              console.log("successful data transfer");
+              this.userText = this.nodeText();
+            }
             else {
               console.log("Server error:", response.status)  
               }
@@ -87,6 +88,4 @@ export class Cloud implements CloudData{
       });
     }
   }
-
-
 }

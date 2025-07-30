@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule}  from '@angular/common';
 import { Cloud, CloudData } from "../cloud/cloud";
 import { OnInit } from '@angular/core';
@@ -11,12 +11,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class CloudService {
   //this is this class's array of CloudData objects, NOT of the Cloud object. The difference is that the CloudData is a smaller and more hollow version of Cloud made only when the button is pressed. These properties are used in the html file to help the ngFor loop instantiate REAL versions of the Cloud object in the cloud.ts file, making use of @Input.
-  private _cloudArray = new BehaviorSubject<CloudData[]>([]);
+  
   //create subscribable object for use in other components
-  public cloudArray$: Observable<CloudData[]> = this._cloudArray.asObservable();
 
-  
-  
+  // public cloudArray$: Observable<CloudData[]> = this._cloudArray.asObservable();
+  private _testSignalArray : WritableSignal<CloudData[]> = signal([]);
+  public testSignalArray : Signal<CloudData[]> = this._testSignalArray.asReadonly();
+  constructor(){
+    
+  }
+   
   getInitialData(){
     fetch("http://localhost:8080/api/initialize", {
       method: "GET",
@@ -28,20 +32,23 @@ export class CloudService {
     }).then(parsedInitData => {
       console.log("parsedData is: ", parsedInitData);
 
-      const currentArray = this._cloudArray.getValue();
-      const newArray = [...currentArray];
-      
+      let nodeIdSignal = signal(0);
+      let nodeTextSignal = signal("text");
+      let xCoordinateSignal = signal(300);
+      let yCoordinateSignal = signal(300);
+
+
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
-          nodeId: cloud.nodeId,
-          nodeText: cloud.nodeText,
-          xCoordinate: cloud.xCoordinate,
-          yCoordinate: cloud.yCoordinate,
+          nodeId: signal(cloud.nodeId),
+          nodeText: signal(cloud.nodeText),
+          xCoordinate: signal(cloud.xCoordinate),
+          yCoordinate: signal(cloud.yCoordinate),
         }
-        newArray.push(initCloudData);
+
+        this._testSignalArray.update(currentArray => [...currentArray, initCloudData]);
+
       }
-      //update reactable array
-      this._cloudArray.next(newArray);
     })
   }
 
@@ -57,8 +64,10 @@ export class CloudService {
         credentials: "include"
       }).then(response => {
         if (response.ok){
-          let shortenedArray = this._cloudArray.getValue().filter(item => item.nodeId !== returnedNodeId);
-          this._cloudArray.next(shortenedArray);
+          //first update function separates original signal array into individual elements
+          //then filter takes currentArray and separates into arrayItems
+          //then arrayItem.nodeId finds that element's nodeId
+          this._testSignalArray.update(currentArray => currentArray.filter(arrayItem => arrayItem.nodeId() !== returnedNodeId));
           //syntax: item => item.property => checkCondition
           console.log("found node in _cloudArray, successfully deleted node");
         }
@@ -80,27 +89,28 @@ export class CloudService {
       //this returns a Json wrapped in a promise
       return response.json();
     })
-    .then(parsedResponseData => {
-      console.log("parsed data: " + parsedResponseData);
-      console.log("type of parsedResponseData: " + typeof parsedResponseData);
-      if (parsedResponseData == null || typeof parsedResponseData != 'number'){
+    .then(parsedNodeId => {
+      console.log("parsed data: " + parsedNodeId);
+      console.log("type of parsedResponseData: " + typeof parsedNodeId);
+      if (parsedNodeId == null || typeof parsedNodeId != 'number'){
         console.log("nodeId is null, backend controller is bugged");
       }
       else{
+        let nodeTextSignal = signal('');
+        let nodeIdSignal = signal(parsedNodeId);
+        let xCoordinateSignal = signal(300);
+        let yCoordinateSignal = signal(300);
+
         const cloudData : CloudData = {
-          nodeId: parsedResponseData,
-          nodeText: '',
-          xCoordinate: 300,
-          yCoordinate: 300,
+          nodeId: nodeIdSignal,
+          nodeText: nodeTextSignal,
+          xCoordinate: xCoordinateSignal,
+          yCoordinate: yCoordinateSignal,
         }
         
 
-        //grab current array (it's reactive)
-        const currentArray = this._cloudArray.getValue();
-        //create new array with currentArray and include new item manually
-        const newArray = [...currentArray, cloudData];
-        //tell subscribers about update
-        this._cloudArray.next(newArray);
+        //update Signal Array
+        this._testSignalArray.update(currentArray => [...currentArray, cloudData]);
         console.log("cloud object successfully pushed into cloudArray.");
       }
     })
