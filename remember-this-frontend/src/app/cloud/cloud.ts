@@ -1,5 +1,5 @@
 import { Component, inject, model, Input, SimpleChanges, OnChanges, Signal, signal, WritableSignal } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButton } from '@angular/material/button';
 import { CloudCreateMenu } from './cloud-create-menu/cloud-create-menu';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -17,19 +17,41 @@ export interface CloudData{
 @Component({
   standalone: true,
   selector: 'app-cloud',
-  imports: [DragDropModule, MatDialogModule, CloudCreateMenu],
-  templateUrl: './cloud.html',
-  styleUrl: './cloud.css'
+  imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag],
+  template: `
+    <div cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
+      <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
+      <h1 class="display-text">{{nodeText()}}</h1>
+    </div>`,
+  styles: [`
+    :host {
+      display: block;
+      position: absolute;
+      text-align: center;
+      width: auto;
+      height: auto;
+      z-index: 2;
+      }
+    .display-text {
+      position: absolute;
+      display: block;
+      top: 0%;
+      left: 40%;
+      color: blue;
+      text-align: center;
+      z-index: 1;
+    }
+    `]
 })
 
 export class Cloud implements CloudData{
 
-  constructor(private cloudService: CloudService){}
 
-  mouseDownX : Number | null = null;
-  mouseDownY : Number | null = null;
-  mouseUpX : Number | null = null;
-  mouseUpY : Number | null = null;
+  constructor(private cloudService: CloudService){}
+  mouseDownX : number | null = null;
+  mouseDownY : number | null = null;
+  mouseUpX : number | null = null;
+  mouseUpY : number | null = null;
   @Input() nodeId! : WritableSignal<number>;
   @Input() xPosition! : WritableSignal<number>;
   @Input() yPosition! : WritableSignal<number>
@@ -47,8 +69,8 @@ export class Cloud implements CloudData{
   onMouseUp(mouseState : MouseEvent): void {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
-
-    if (this.mouseDownX == this.mouseUpX && this.mouseDownY == this.mouseUpY){
+    
+    if (this.mouseDownX === this.mouseUpX && this.mouseDownY === this.mouseUpY){
       //opens the dialog box, contains the result after opening
       const dialogRef = this.dialog.open(CloudCreateMenu, {data: {nodeText: this.nodeText}});
       
@@ -62,6 +84,7 @@ export class Cloud implements CloudData{
         else {
             try{
               this.cloudService.saveCloud(result.recallItem, this.nodeId());
+              console.log("cloud save complete");
               this.nodeText.set(result.recallItem);
             }
             catch(error: unknown){  
@@ -71,4 +94,11 @@ export class Cloud implements CloudData{
       });
     }
   }
-}
+
+
+  onDragEnd($event: CdkDragEnd): void{
+    this.xPosition.set($event.source.getFreeDragPosition().x);
+    this.yPosition.set($event.source.getFreeDragPosition().y);
+    console.log(this.mouseUpX, this.mouseUpY, this.mouseDownX, this.mouseDownY);
+    }
+  }

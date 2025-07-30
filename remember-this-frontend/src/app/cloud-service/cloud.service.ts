@@ -121,7 +121,7 @@ export class CloudService {
       console.log(err);
     })
   }
-
+  
   saveCloud(recallItem: string, nodeId: number){
     fetch("http://localhost:8080/api/save", {
             method: "POST",
@@ -143,6 +143,30 @@ export class CloudService {
           .then(data => console.log(data))
           .catch(err => console.error(err));
   }
+
+  savePosition(xPosition: number, yPosition: number, nodeId: number){
+    fetch("http://localhost:8080/api/savePosition", {
+            method: "POST",
+            body: JSON.stringify({ 
+            nodeId: nodeId,
+            xPosition: xPosition,
+            yPosition: yPosition,
+            }),
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"     // Important to send cookies or auth info if backend expects it
+          })
+          .then(response => {
+            if(response.ok){
+              console.log("successful data transfer");
+            }
+            else {
+              console.log("Server error:", response.status)  
+              }
+            })
+          .then(data => console.log(data))
+          .catch(err => console.error(err));
+  }
+
 }
   
 
