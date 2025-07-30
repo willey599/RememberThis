@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.services.InitializationService;
 import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
-import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
+// import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 
@@ -96,18 +96,18 @@ public class CloudNodeController {
             }
         }
     
-    @GetMapping("fetch")
-    public ResponseEntity<?> fetchCloudNode(@RequestBody CloudNodeFetchRequest cloudNodeFetchRequest, @AuthenticationPrincipal OidcUser oidcUser){
-        String oidcId = oidcUser.getSubject();
-        try{
-            cloudNodeFetchRequest = cloudNodeService.fetchCloudNode(cloudNodeFetchRequest, oidcId);
-            return ResponseEntity.ok(cloudNodeFetchRequest);
-        }
-        catch (Exception e){
-                logger.info("Exception, did not fetch node successfully");
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-            }
+    // @GetMapping("fetch")
+    // public ResponseEntity<?> fetchCloudNode(@RequestBody CloudNodeFetchRequest cloudNodeFetchRequest, @AuthenticationPrincipal OidcUser oidcUser){
+    //     String oidcId = oidcUser.getSubject();
+    //     try{
+    //         cloudNodeFetchRequest = cloudNodeService.fetchCloudNode(cloudNodeFetchRequest, oidcId);
+    //         return ResponseEntity.ok(cloudNodeFetchRequest);
+    //     }
+    //     catch (Exception e){
+    //             logger.info("Exception, did not fetch node successfully");
+    //             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    //         }
 
-    }
+    // }
 
     }

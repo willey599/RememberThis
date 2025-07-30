@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
-import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
+// import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;
@@ -58,12 +58,12 @@ public class CloudNodeService {
         logger.info("Node deleted: ");
     }
 
-    public CloudNodeFetchRequest fetchCloudNode(CloudNodeFetchRequest cloudNodeFetchRequest, String oidcId){
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeFetchRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error in updateCloudNode, failed to find cloudnode in DB"));
-        cloudNodeFetchRequest.setNodeId(cloudNode.getNodeId());
-        cloudNodeFetchRequest.setNodeText(cloudNode.getNodeText());
-        cloudNodeFetchRequest.setXPosition(cloudNode.getXPosition());
-        cloudNodeFetchRequest.setYPosition(cloudNode.getYPosition());
-        return cloudNodeFetchRequest;
-    }
+    // public CloudNodeFetchRequest fetchCloudNode(CloudNodeFetchRequest cloudNodeFetchRequest, String oidcId){
+    //     CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeFetchRequest.getNodeId()).orElseThrow(() -> new RuntimeException("Error in updateCloudNode, failed to find cloudnode in DB"));
+    //     cloudNodeFetchRequest.setNodeId(cloudNode.getNodeId());
+    //     cloudNodeFetchRequest.setNodeText(cloudNode.getNodeText());
+    //     cloudNodeFetchRequest.setXPosition(cloudNode.getXPosition());
+    //     cloudNodeFetchRequest.setYPosition(cloudNode.getYPosition());
+    //     return cloudNodeFetchRequest;
+    // }
 }
