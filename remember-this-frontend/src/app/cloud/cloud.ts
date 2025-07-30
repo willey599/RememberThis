@@ -18,7 +18,11 @@ export interface CloudData{
   standalone: true,
   selector: 'app-cloud',
   imports: [DragDropModule, MatDialogModule, CloudCreateMenu],
-  templateUrl: './cloud.html',
+  template: `
+    <div cdkDrag>
+      <img src="cloud.png" alt="cloud" style="cursor: pointer;" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
+      <h1>{{nodeText()}}</h1>
+    </div>`,
   styleUrl: './cloud.css'
 })
 
