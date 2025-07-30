@@ -97,13 +97,15 @@ public class CloudNodeController {
 
     @PostMapping("/savePosition")
     public ResponseEntity<?> savePositionCloudNode(@RequestBody CloudNodePositionRequest cloudNodePositionRequest){
+        logger.info("DTO request body: " + cloudNodePositionRequest.toString());
         logger.info("nodeId sent from fetch: " + cloudNodePositionRequest.getNodeId());
+        logger.info("Positions sent from fetch: " + cloudNodePositionRequest.getNodeXPosition() + cloudNodePositionRequest.getNodeYPosition());
         try{
             cloudNodeService.savePositionCloudNode(cloudNodePositionRequest);
             return ResponseEntity.ok().body("successful position storage");
         }catch(Exception e){
             logger.info("Exception, did not save node position successfully");
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
     

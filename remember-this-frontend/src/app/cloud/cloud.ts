@@ -99,6 +99,7 @@ export class Cloud implements CloudData{
   onDragEnd($event: CdkDragEnd): void{
     this.xPosition.set($event.source.getFreeDragPosition().x);
     this.yPosition.set($event.source.getFreeDragPosition().y);
-    console.log(this.mouseUpX, this.mouseUpY, this.mouseDownX, this.mouseDownY);
+    console.log("position signal data: ", this.xPosition(), this.yPosition());
+    this.cloudService.savePosition(this.xPosition(), this.yPosition(), this.nodeId());
     }
   }

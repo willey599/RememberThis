@@ -42,8 +42,8 @@ export class CloudService {
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          xPosition: signal(cloud.xCoordinate),
-          yPosition: signal(cloud.yCoordinate),
+          xPosition: signal(cloud.xPosition),
+          yPosition: signal(cloud.yPosition),
         }
 
         this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
@@ -145,12 +145,13 @@ export class CloudService {
   }
 
   savePosition(xPosition: number, yPosition: number, nodeId: number){
+    console.log("position data: ", xPosition, yPosition);
     fetch("http://localhost:8080/api/savePosition", {
             method: "POST",
             body: JSON.stringify({ 
-            nodeId: nodeId,
-            xPosition: xPosition,
-            yPosition: yPosition,
+              nodeId: nodeId,
+              nodeXPosition: xPosition,
+              nodeYPosition: yPosition,
             }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it
