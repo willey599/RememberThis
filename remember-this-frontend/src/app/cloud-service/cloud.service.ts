@@ -34,16 +34,16 @@ export class CloudService {
 
       let nodeIdSignal = signal(0);
       let nodeTextSignal = signal("text");
-      let xPositionSignal = signal(300);
-      let yPositionSignal = signal(300);
+      let nodeXPositionSignal = signal(300);
+      let nodeYPositionSignal = signal(300);
 
 
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          xPosition: signal(cloud.xCoordinate),
-          yPosition: signal(cloud.yCoordinate),
+          nodeXPosition: signal(cloud.nodeXPosition),
+          nodeYPosition: signal(cloud.nodeYPosition),
         }
 
         this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
@@ -98,14 +98,14 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
-        let xPositionSignal = signal(300);
-        let yPositionSignal = signal(300);
+        let nodeXPositionSignal = signal(300);
+        let nodeYPositionSignal = signal(300);
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
           nodeText: nodeTextSignal,
-          xPosition: xPositionSignal,
-          yPosition: yPositionSignal,
+          nodeXPosition: nodeXPositionSignal,
+          nodeYPosition: nodeYPositionSignal,
         }
         
 
@@ -144,13 +144,14 @@ export class CloudService {
           .catch(err => console.error(err));
   }
 
-  savePosition(xPosition: number, yPosition: number, nodeId: number){
+  savePosition(nodeXPosition: number, nodeYPosition: number, nodeId: number){
+    console.log("position data: ", nodeXPosition, nodeYPosition);
     fetch("http://localhost:8080/api/savePosition", {
             method: "POST",
             body: JSON.stringify({ 
-            nodeId: nodeId,
-            xPosition: xPosition,
-            yPosition: yPosition,
+              nodeId: nodeId,
+              nodeXPosition: nodeXPosition,
+              nodeYPosition: nodeYPosition,
             }),
             headers: { "Content-Type": "application/json" },
             credentials: "include"     // Important to send cookies or auth info if backend expects it

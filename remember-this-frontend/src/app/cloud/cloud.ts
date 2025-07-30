@@ -10,8 +10,8 @@ import { P } from '@angular/cdk/keycodes';
 export interface CloudData{
   nodeId : WritableSignal<number>;
   nodeText : WritableSignal<string>;
-  xPosition : WritableSignal<number>;
-  yPosition : WritableSignal<number>;
+  nodeXPosition : WritableSignal<number>;
+  nodeYPosition : WritableSignal<number>;
 }
 
 @Component({
@@ -53,8 +53,8 @@ export class Cloud implements CloudData{
   mouseUpX : number | null = null;
   mouseUpY : number | null = null;
   @Input() nodeId! : WritableSignal<number>;
-  @Input() xPosition! : WritableSignal<number>;
-  @Input() yPosition! : WritableSignal<number>
+  @Input() nodeXPosition! : WritableSignal<number>;
+  @Input() nodeYPosition! : WritableSignal<number>
   @Input() nodeText! : WritableSignal<string>;
   
   //dependency injection, create handle for MatDialog object
@@ -97,8 +97,9 @@ export class Cloud implements CloudData{
 
 
   onDragEnd($event: CdkDragEnd): void{
-    this.xPosition.set($event.source.getFreeDragPosition().x);
-    this.yPosition.set($event.source.getFreeDragPosition().y);
-    console.log(this.mouseUpX, this.mouseUpY, this.mouseDownX, this.mouseDownY);
+    this.nodeXPosition.set($event.source.getFreeDragPosition().x);
+    this.nodeYPosition.set($event.source.getFreeDragPosition().y);
+    console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
+    this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
     }
   }

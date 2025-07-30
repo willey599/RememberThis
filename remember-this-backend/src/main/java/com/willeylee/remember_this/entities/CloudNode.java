@@ -31,11 +31,11 @@ public class CloudNode {
     @Column(name="node_text")
     private String nodeText;
 
-    @Column(name="x_position")
-    private int xPosition;
+    @Column(name="node_x_position")
+    private int nodeXPosition;
 
-    @Column(name="y_position")
-    private int yPosition;
+    @Column(name="node_y_position")
+    private int nodeYPosition;
 
     @ManyToOne
     @JoinColumn(name="user_id")
