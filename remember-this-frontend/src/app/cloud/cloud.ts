@@ -19,23 +19,27 @@ export interface CloudData{
   selector: 'app-cloud',
   imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag],
   template: `
-    <div class="draggable-cloud" cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
-      <img src="cloud.png" alt="cloud" style="cursor: pointer;" >
-      <h1>{{nodeText()}}</h1>
+    <div cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
+      <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
+      <h1 class="display-text">{{nodeText()}}</h1>
     </div>`,
   styles: [`
     :host {
       display: block;
       position: absolute;
+      text-align: center;
       width: auto;
       height: auto;
+      z-index: 2;
       }
-    .draggable-cloud {
+    .display-text {
+      position: absolute;
       display: block;
+      top: 0%;
+      left: 40%;
       color: blue;
-    }
-    .img {
-      width: 100px;
+      text-align: center;
+      z-index: 1;
     }
     `]
 })
