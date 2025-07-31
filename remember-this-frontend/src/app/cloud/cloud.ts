@@ -97,8 +97,15 @@ export class Cloud implements CloudData{
 
 
   onDragEnd($event: CdkDragEnd): void{
-    this.nodeXPosition.set($event.source.getFreeDragPosition().x);
-    this.nodeYPosition.set($event.source.getFreeDragPosition().y);
+    //grab HTML element of this cloud inside DOM
+    const cloudElement = $event.source.element.nativeElement;
+    //grab HTML element of the surrounding client
+    const clientRectangle = cloudElement.getBoundingClientRect();
+    //x is distance from the left edge of viewport
+    this.nodeXPosition.set(clientRectangle.x);
+    //y is distance from top edge of viewport
+    this.nodeYPosition.set(clientRectangle.y);
+
     console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
     this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
     }

@@ -32,12 +32,6 @@ export class CloudService {
     }).then(parsedInitData => {
       console.log("parsedData is: ", parsedInitData);
 
-      let nodeIdSignal = signal(0);
-      let nodeTextSignal = signal("text");
-      let nodeXPositionSignal = signal(300);
-      let nodeYPositionSignal = signal(300);
-
-
       for (const cloud of parsedInitData ){
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),

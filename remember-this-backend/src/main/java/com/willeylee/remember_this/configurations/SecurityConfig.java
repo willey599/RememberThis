@@ -27,6 +27,8 @@ public class SecurityConfig {
         System.out.println("@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain... @@@@@@@@@@@@@@@@@@");
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            //disabling will enable some strange default security behavior. Need to fix later
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/**").authenticated()

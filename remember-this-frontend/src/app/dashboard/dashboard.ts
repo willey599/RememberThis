@@ -25,7 +25,7 @@ import { Observable } from 'rxjs';
                 [nodeXPosition]="cloudData.nodeXPosition"
                 [nodeYPosition]="cloudData.nodeYPosition"
                 [style.left.px]="cloudData.nodeXPosition()"
-                [style.bottom.px]="cloudData.nodeYPosition()"
+                [style.top.px]="cloudData.nodeYPosition()"
                 >
             </app-cloud>
         </h1>
@@ -35,10 +35,10 @@ import { Observable } from 'rxjs';
   `,
   styles: [`
     .canvas {
-      border: 2px solid;
+      border: 3px solid;
       position: relative;
-      width: 1920px;
-      height: 1080px;
+      width: 1080px;
+      height: 720px;
       margin: 20px auto;
     }
     .buttons {
