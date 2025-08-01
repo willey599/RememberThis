@@ -52,11 +52,12 @@ export class Cloud implements CloudData{
   mouseDownY : number | null = null;
   mouseUpX : number | null = null;
   mouseUpY : number | null = null;
+ 
   @Input() nodeId! : WritableSignal<number>;
   @Input() nodeXPosition! : WritableSignal<number>;
-  @Input() nodeYPosition! : WritableSignal<number>
+  @Input() nodeYPosition! : WritableSignal<number>;
   @Input() nodeText! : WritableSignal<string>;
-  
+
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
 
@@ -95,18 +96,33 @@ export class Cloud implements CloudData{
     }
   }
 
-
   onDragEnd($event: CdkDragEnd): void{
-    //grab HTML element of this cloud inside DOM
-    const cloudElement = $event.source.element.nativeElement;
-    //grab HTML element of the surrounding client
-    const clientRectangle = cloudElement.getBoundingClientRect();
-    //x is distance from the left edge of viewport
-    this.nodeXPosition.set(clientRectangle.x);
-    //y is distance from top edge of viewport
-    this.nodeYPosition.set(clientRectangle.y);
+    let aggregateDragPositionX, aggregateDragPositionY;
+    const xPos = $event.distance.x;
+    //for historical reasons, y is inverted. Top left is 0,0
+    const yPos = $event.distance.y;
+    aggregateDragPositionX = this.nodeXPosition() + xPos;
+    aggregateDragPositionY = this.nodeYPosition() + yPos;
 
-    console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
-    this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
+    console.log("x: ", xPos, "y: ", yPos, "aggregateDragPositionX: ", aggregateDragPositionX, "aggregateDragPositionY: ", aggregateDragPositionY);
+    try{
+      this.cloudService.savePosition(aggregateDragPositionX, aggregateDragPositionY, this.nodeId());
+      // this.nodeXPosition.set(aggregateDragPositionX);
+      // this.nodeYPosition.set(aggregateDragPositionY);
+    }
+    catch(error: unknown){
+      console.error("An error occured when trying to save or set position of cloud node. Error: ", error);
+    }
+    // //grab HTML element of this cloud inside DOM
+    // const cloudElement = $event.source.element.nativeElement;
+    // //grab HTML element of the surrounding client
+    // const clientRectangle = cloudElement.getBoundingClientRect();
+    // //x is distance from the left edge of viewport
+    // this.nodeXPosition.set(clientRectangle.x);
+    // //y is distance from top edge of viewport
+    // this.nodeYPosition.set(clientRectangle.y);
+
+    // console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
+    // this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
     }
   }

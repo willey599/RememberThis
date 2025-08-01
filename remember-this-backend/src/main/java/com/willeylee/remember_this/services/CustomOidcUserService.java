@@ -32,10 +32,13 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
             return oidcUser;
         }
         else {
-            User user = new User();
+            try{User user = new User();
             user.setOidcId(oidcId);
             userRepository.save(user);
             logger.info("New User created and added to database, id: " + oidcId);
+            }catch(Exception e){
+                logger.info("error in adding oidcID to database. User may not have been created");
+            }
         }
         return oidcUser;
     }

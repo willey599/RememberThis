@@ -92,8 +92,8 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
-        let nodeXPositionSignal = signal(300);
-        let nodeYPositionSignal = signal(300);
+        let nodeXPositionSignal = signal(0);
+        let nodeYPositionSignal = signal(0);
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
@@ -161,7 +161,6 @@ export class CloudService {
           .then(data => console.log(data))
           .catch(err => console.error(err));
   }
-
 }
   
 
