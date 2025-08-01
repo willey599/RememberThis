@@ -4,13 +4,26 @@
     <li>
         <mat-form-field >
             <mat-label style="font-size: small">Word or phrase to recall</mat-label>
-            <input matInput [(ngModel)]="recallItem" />
+            <input matInput [(ngModel)]="recallText[0]" />
         </mat-form-field>
+        <mat-form-field >
+            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <input matInput [(ngModel)]="nodeContext1" />
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <input matInput [(ngModel)]="nodeContext2" />
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <input matInput [(ngModel)]="nodeContext3" />
+        </mat-form-field>
+        
     </li>
     
     <h2>
         <button matButton="elevated" (click)="cancelDialog($event)" style="-webkit-text-fill-color: #58acff;">Cancel</button>
-        <button matButton="elevated" (click)="saveDialog($event, recallItem)" style="background-color: #58acff; -webkit-text-fill-color: white;">Save</button> 
+        <button matButton="elevated" (click)="saveDialog($event, recallText)" style="background-color: #58acff; -webkit-text-fill-color: white;">Save</button> 
         <button matButton="elevated" (click)="deleteButton($event)" style="-webkit-text-fill-color: #ff5757;">Delete</button>
     </h2>
     

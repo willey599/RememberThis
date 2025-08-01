@@ -15,7 +15,10 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrl: './cloud-create-menu.css'
 })
 export class CloudCreateMenu {
-  recallItem: string = '';
+  recallText: string = '';
+  nodeContext1: string = '';
+  nodeContext2: string = '';
+  nodeContext3: string = '';
   readonly dialogRef = inject(MatDialogRef<CloudCreateMenu>);
   //contains data from cloud.ts
   readonly data = inject(MAT_DIALOG_DATA);
@@ -29,8 +32,11 @@ export class CloudCreateMenu {
   saveDialog(mouseEvent: MouseEvent, recallItem: any): void{
     if (mouseEvent.button == 0){
       console.log("closing dialog box.");
-      if (this.recallItem){
-        this.dialogRef.close({recallItem});
+      if (this.recallText){
+        const recallArray = [
+          this.nodeContext1, this.nodeContext2, this.nodeContext3
+        ]
+        this.dialogRef.close({recallArray});
       }
     }
   }

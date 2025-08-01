@@ -36,6 +36,9 @@ export class CloudService {
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
+          nodeContext1: signal(cloud.nodeContext1Signal),
+          nodeContext2: signal(cloud.nodeContext2Signal),
+          nodeContext3: signal(cloud.nodeContext3Signal),
           nodeXPosition: cloud.nodeXPosition,
           nodeYPosition: cloud.nodeYPosition,
         }
@@ -92,12 +95,18 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
+        let nodeContext1Signal = signal('');
+        let nodeContext2Signal = signal('');
+        let nodeContext3Signal = signal('');
         let nodeXPosition = 0;
         let nodeYPosition = 0;
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
           nodeText: nodeTextSignal,
+          nodeContext1: nodeContext1Signal,
+          nodeContext2: nodeContext2Signal,
+          nodeContext3: nodeContext3Signal,
           nodeXPosition: nodeXPosition,
           nodeYPosition: nodeYPosition,
         }
@@ -116,11 +125,14 @@ export class CloudService {
     })
   }
   
-  saveCloud(recallItem: string, nodeId: number){
+  saveCloud(recallArray: string[], nodeId: number){
     fetch("http://localhost:8080/api/save", {
             method: "POST",
             body: JSON.stringify({ 
-            nodeText: recallItem,
+            nodeText: recallArray[0],
+            nodeContext1: recallArray[1],
+            nodeContext2: recallArray[2],
+            nodeContext3: recallArray[3],
             nodeId: nodeId,
             }),
             headers: { "Content-Type": "application/json" },
