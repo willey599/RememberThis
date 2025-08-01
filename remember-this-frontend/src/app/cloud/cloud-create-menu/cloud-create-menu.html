@@ -4,31 +4,31 @@
     <ul>
         <mat-form-field >
             <mat-label style="font-size: small">Word or phrase to recall</mat-label>
-            <input matInput placeholder="{{recallText}}" [(ngModel)]="recallText" />
+            <input matInput placeholder="{{nodeText}}" [(ngModel)]="nodeText" />
         </mat-form-field>
     </ul>
     <ul>
         <mat-form-field >
-            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <mat-label style="font-size: small">Related context word/phrase</mat-label>
             <input matInput placeholder="{{nodeContext1}}" [(ngModel)]="nodeContext1" />
         </mat-form-field>
     </ul>
     <ul>
         <mat-form-field >
-            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <mat-label style="font-size: small">Related context word/phrase</mat-label>
             <input matInput placeholder="{{nodeContext2}}" [(ngModel)]="nodeContext2" />
         </mat-form-field>
     </ul>
     <ul>
         <mat-form-field >
-            <mat-label style="font-size: small">Contextual info or word related to recall item</mat-label>
+            <mat-label style="font-size: small">Related context word/phrase</mat-label>
             <input matInput placeholder="{{nodeContext3}}" [(ngModel)]="nodeContext3" />
         </mat-form-field>
         
     </ul>
     <ul>
         <button matButton="elevated" (click)="cancelDialog($event)" style="-webkit-text-fill-color: #58acff;">Cancel</button>
-        <button matButton="elevated" (click)="saveDialog($event, recallText)" style="background-color: #58acff; -webkit-text-fill-color: white;">Save</button> 
+        <button matButton="elevated" (click)="saveDialog($event)" style="background-color: #58acff; -webkit-text-fill-color: white;">Save</button> 
         <button matButton="elevated" (click)="deleteButton($event)" style="-webkit-text-fill-color: #ff5757;">Delete</button>
     </ul>
     

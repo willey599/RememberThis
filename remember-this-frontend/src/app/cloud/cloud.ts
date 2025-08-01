@@ -38,7 +38,7 @@ export interface CloudData{
   styleUrls: ['./cloud.css']
 })
 
-export class Cloud implements CloudData{
+export class Cloud{
 
 
   constructor(private cloudService: CloudService){}
@@ -89,6 +89,9 @@ export class Cloud implements CloudData{
         if (result == true){
           console.log("delete button clicked, calling delete service");
           this.cloudService.deleteCloud(this.nodeId());
+          return;
+        }
+        else if(result == null){
           return;
         }
         else {
