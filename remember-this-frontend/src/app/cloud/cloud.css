@@ -1,20 +1,48 @@
-/*parent*/
-.cloud {
-    text-align: center;
-    margin-top: 20px;
+:host {
+  display: block;
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  z-index: 2;
+  }
+.display-text {
+  position: absolute;
+  font-size: 48px;
+  display: block;
+  top: 0%;
+  left: 40%;
+  color: blue;
+  text-align: center;
+  z-index: 1;
 }
-/* child */
-.cloud img {
-    display: flex;
-    margin: 0 auto;
-    border-radius: 10px;
-    width: 100px;
+.display-context1 {
+  position: absolute;
+  font-size: 24px;
+  display: block;
+  top: -60px;
+  left: 0;
+  color: black;
+  text-align: center;
+  z-index: 1;
 }
-.cloud-menu {
-    background-color: red;
-    flex-direction: column;
-    display: inline-flex;
-    min-width: auto;
-    box-shadow: false;
-    
+.display-context2 {
+  position: absolute;
+  font-size: 24px;
+  display: block;
+  top: -60px;
+  left: 345px;
+  color: black;
+  text-align: center;
+  z-index: 1;
+}
+.display-context3 {
+  position: absolute;
+  font-size: 24px;
+  display: block;
+  top: 250px;
+  left: 45%;
+  color: black;
+  text-align: center;
+  z-index: 1;
 }

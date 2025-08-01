@@ -30,56 +30,7 @@ export interface CloudData{
       <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2()}}</h2>
       <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>
     </div>`,
-  styles: [`
-    :host {
-      display: block;
-      position: absolute;
-      text-align: center;
-      width: auto;
-      height: auto;
-      z-index: 2;
-      }
-    .display-text {
-      position: absolute;
-      font-size: 48px;
-      display: block;
-      top: 0%;
-      left: 40%;
-      color: blue;
-      text-align: center;
-      z-index: 1;
-    }
-    .display-context1 {
-      position: absolute;
-      font-size: 24px;
-      display: block;
-      top: -60px;
-      left: 0;
-      color: black;
-      text-align: center;
-      z-index: 1;
-    }
-    .display-context2 {
-      position: absolute;
-      font-size: 24px;
-      display: block;
-      top: -60px;
-      left: 345px;
-      color: black;
-      text-align: center;
-      z-index: 1;
-    }
-    .display-context3 {
-      position: absolute;
-      font-size: 24px;
-      display: block;
-      top: 250px;
-      left: 45%;
-      color: black;
-      text-align: center;
-      z-index: 1;
-    }
-    `]
+  styleUrls: ['./cloud.css']
 })
 
 export class Cloud implements CloudData{
