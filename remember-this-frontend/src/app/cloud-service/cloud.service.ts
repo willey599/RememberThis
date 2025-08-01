@@ -36,9 +36,9 @@ export class CloudService {
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          nodeContext1: signal(cloud.nodeContext1Signal),
-          nodeContext2: signal(cloud.nodeContext2Signal),
-          nodeContext3: signal(cloud.nodeContext3Signal),
+          nodeContext1: signal(cloud.nodeContext1),
+          nodeContext2: signal(cloud.nodeContext2),
+          nodeContext3: signal(cloud.nodeContext3),
           nodeXPosition: cloud.nodeXPosition,
           nodeYPosition: cloud.nodeYPosition,
         }

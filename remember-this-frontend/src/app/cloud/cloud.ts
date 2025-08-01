@@ -26,9 +26,9 @@ export interface CloudData{
     <div cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
       <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
       <h1 class="display-text" *ngIf="displayText">{{nodeText()}}</h1>
-      <h2 class="display-context1" *ngIf="displayContext">{{nodeContext1}}</h2>
-      <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2}}</h2>
-      <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3}}</h2>
+      <h2 class="display-context1" *ngIf="displayContext">{{nodeContext1()}}</h2>
+      <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2()}}</h2>
+      <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>
     </div>`,
   styles: [`
     :host {
@@ -99,10 +99,10 @@ export class Cloud implements CloudData{
       //opens the dialog box, contains the result after opening
       const dialogRef = this.dialog.open(CloudCreateMenu, {
         data: {
-          nodeText: this.nodeText,
-          nodeContext1: this.nodeContext1,
-          nodeContext2: this.nodeContext2,
-          nodeContext3: this.nodeContext3
+          nodeText: this.nodeText(),
+          nodeContext1: this.nodeContext1(),
+          nodeContext2: this.nodeContext2(),
+          nodeContext3: this.nodeContext3()
         }
       
       });
@@ -118,7 +118,11 @@ export class Cloud implements CloudData{
             try{
               this.cloudService.saveCloud(result.recallArray, this.nodeId());
               console.log("cloud save complete");
-              this.nodeText.set(result.recallItem);
+              //setting these values can probably offset in a service. ###TODO
+              this.nodeText.set(result.nodeText);
+              this.nodeContext1.set(result.context1);
+              this.nodeContext2.set(result.context2);
+              this.nodeContext3.set(result.context3);
             }
             catch(error: unknown){  
               console.error("An error occured when trying to save cloud data. Error: ", error);
@@ -131,7 +135,7 @@ export class Cloud implements CloudData{
   onDragEnd($event: CdkDragEnd): void{
     let aggregateDragPositionX, aggregateDragPositionY;
     const xPos = $event.distance.x;
-    //for historical reasons, y is inverted. Top left is 0,0
+    //for historical reasons beyond my control, y is inverted. Top left is 0,0
     const yPos = $event.distance.y;
     aggregateDragPositionX = this.nodeXPosition + xPos;
     aggregateDragPositionY = this.nodeYPosition + yPos;

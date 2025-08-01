@@ -15,13 +15,14 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrl: './cloud-create-menu.css'
 })
 export class CloudCreateMenu {
-  recallText: string = '';
-  nodeContext1: string = '';
-  nodeContext2: string = '';
-  nodeContext3: string = '';
+  readonly data = inject(MAT_DIALOG_DATA);
+  recallText: string = this.data.recallText;
+  nodeContext1: string = this.data.context1;
+  nodeContext2: string = this.data.context2;
+  nodeContext3: string = this.data.context3;
   readonly dialogRef = inject(MatDialogRef<CloudCreateMenu>);
   //contains data from cloud.ts
-  readonly data = inject(MAT_DIALOG_DATA);
+  
 
   
   //@Inject and inject() are very similar, but @Inject(token) is supposed to be used inside a constructor parameter to inject. inject() avoids the need to use @Inject.
