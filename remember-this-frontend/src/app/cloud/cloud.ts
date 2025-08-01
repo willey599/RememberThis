@@ -24,11 +24,16 @@ export interface CloudData{
   imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag, CommonModule],
   template: `
     <div cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
-      <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
+      <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">      
+    </div>
+    <div>
       <h1 class="display-text" *ngIf="displayText">{{nodeText()}}</h1>
       <h2 class="display-context1" *ngIf="displayContext">{{nodeContext1()}}</h2>
       <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2()}}</h2>
-      <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>
+      <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>  
+    </div>
+    <div class="flip">
+      <button (click)="flipCloud()">Flip</button>
     </div>`,
   styleUrls: ['./cloud.css']
 })
@@ -43,6 +48,7 @@ export class Cloud implements CloudData{
   mouseUpY : number | null = null;
   displayContext : boolean = true;
   displayText : boolean = false;
+
  
   @Input() nodeId! : WritableSignal<number>;
   @Input() nodeText! : WritableSignal<string>;
@@ -133,4 +139,15 @@ export class Cloud implements CloudData{
     // console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
     // this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
     }
-  }
+
+    flipCloud(){
+      if(!this.displayContext){
+        this.displayContext = true;
+        this.displayText = false;
+      }
+      else{
+        this.displayContext = false;
+        this.displayText = true;
+      }
+    }
+}

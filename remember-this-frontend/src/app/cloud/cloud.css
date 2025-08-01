@@ -46,3 +46,13 @@
   text-align: center;
   z-index: 1;
 }
+.flip {
+  position: absolute;
+  font-size: 24px;
+  display: block;
+  top: -10px;
+  left: 45%;
+  color: black;
+  text-align: center;
+  z-index: 1;
+}
