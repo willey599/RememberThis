@@ -36,8 +36,8 @@ export class CloudService {
         const initCloudData : CloudData = {
           nodeId: signal(cloud.nodeId),
           nodeText: signal(cloud.nodeText),
-          nodeXPosition: signal(cloud.nodeXPosition),
-          nodeYPosition: signal(cloud.nodeYPosition),
+          nodeXPosition: cloud.nodeXPosition,
+          nodeYPosition: cloud.nodeYPosition,
         }
 
         this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
@@ -92,14 +92,14 @@ export class CloudService {
       else{
         let nodeTextSignal = signal('');
         let nodeIdSignal = signal(parsedNodeId);
-        let nodeXPositionSignal = signal(0);
-        let nodeYPositionSignal = signal(0);
+        let nodeXPosition = 0;
+        let nodeYPosition = 0;
 
         const cloudData : CloudData = {
           nodeId: nodeIdSignal,
           nodeText: nodeTextSignal,
-          nodeXPosition: nodeXPositionSignal,
-          nodeYPosition: nodeYPositionSignal,
+          nodeXPosition: nodeXPosition,
+          nodeYPosition: nodeYPosition,
         }
         
 

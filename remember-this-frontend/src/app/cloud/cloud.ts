@@ -10,8 +10,8 @@ import { P } from '@angular/cdk/keycodes';
 export interface CloudData{
   nodeId : WritableSignal<number>;
   nodeText : WritableSignal<string>;
-  nodeXPosition : WritableSignal<number>;
-  nodeYPosition : WritableSignal<number>;
+  nodeXPosition : number;
+  nodeYPosition : number;
 }
 
 @Component({
@@ -54,9 +54,10 @@ export class Cloud implements CloudData{
   mouseUpY : number | null = null;
  
   @Input() nodeId! : WritableSignal<number>;
-  @Input() nodeXPosition! : WritableSignal<number>;
-  @Input() nodeYPosition! : WritableSignal<number>;
   @Input() nodeText! : WritableSignal<string>;
+  @Input() nodeXPosition! : number;
+  @Input() nodeYPosition! : number;
+  
 
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
@@ -101,14 +102,15 @@ export class Cloud implements CloudData{
     const xPos = $event.distance.x;
     //for historical reasons, y is inverted. Top left is 0,0
     const yPos = $event.distance.y;
-    aggregateDragPositionX = this.nodeXPosition() + xPos;
-    aggregateDragPositionY = this.nodeYPosition() + yPos;
+    aggregateDragPositionX = this.nodeXPosition + xPos;
+    aggregateDragPositionY = this.nodeYPosition + yPos;
 
     console.log("x: ", xPos, "y: ", yPos, "aggregateDragPositionX: ", aggregateDragPositionX, "aggregateDragPositionY: ", aggregateDragPositionY);
     try{
       this.cloudService.savePosition(aggregateDragPositionX, aggregateDragPositionY, this.nodeId());
-      // this.nodeXPosition.set(aggregateDragPositionX);
-      // this.nodeYPosition.set(aggregateDragPositionY);
+      //reassign nodeXPosition on this cloud
+      this.nodeXPosition = aggregateDragPositionX;
+      this.nodeYPosition = aggregateDragPositionY;
     }
     catch(error: unknown){
       console.error("An error occured when trying to save or set position of cloud node. Error: ", error);

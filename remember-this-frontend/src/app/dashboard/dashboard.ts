@@ -24,8 +24,8 @@ import { Observable } from 'rxjs';
                 [nodeText]="cloudData.nodeText"
                 [nodeXPosition]="cloudData.nodeXPosition"
                 [nodeYPosition]="cloudData.nodeYPosition"
-                [style.left.px]="cloudData.nodeXPosition()"
-                [style.top.px]="cloudData.nodeYPosition()"
+                [style.left.px]="cloudData.nodeXPosition"
+                [style.top.px]="cloudData.nodeYPosition"
                 >
             </app-cloud>
         </h1>
