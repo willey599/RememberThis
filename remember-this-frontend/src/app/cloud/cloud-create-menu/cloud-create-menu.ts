@@ -35,14 +35,12 @@ export class CloudCreateMenu {
     if (mouseEvent.button == 0){
       console.log("closing dialog box.");
       console.log("data: ", this.data.context1, this.data.context2, this.data.context3);
-      if (this.nodeText){
-        const recallArray = [
+      const recallArray = [
         this.nodeText, this.nodeContext1, this.nodeContext2, this.nodeContext3
-        ]
-        this.dialogRef.close({recallArray});
+      ]
+      this.dialogRef.close({recallArray});
       }
     }
-  }
 
   cancelDialog(mouseEvent: MouseEvent): void{
     if (mouseEvent.button == 0){
