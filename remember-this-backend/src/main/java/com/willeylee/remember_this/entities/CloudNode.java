@@ -31,6 +31,16 @@ public class CloudNode {
     @Column(name="node_text")
     private String nodeText;
 
+    @Column(name="node_context_1")
+    private String nodeContext1;
+
+    @Column(name="node_context_2")
+    private String nodeContext2;
+
+    @Column(name="node_context_3")
+    private String nodeContext3;
+
+
     @Column(name="node_x_position")
     private int nodeXPosition;
 

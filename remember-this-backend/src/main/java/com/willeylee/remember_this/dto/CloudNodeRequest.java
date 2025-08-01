@@ -11,5 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CloudNodeRequest{
     private String nodeText;
+    private String nodeContext1;
+    private String nodeContext2;
+    private String nodeContext3;
     private int nodeId;
 }

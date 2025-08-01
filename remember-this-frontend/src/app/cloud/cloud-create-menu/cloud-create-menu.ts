@@ -34,7 +34,7 @@ export class CloudCreateMenu {
       console.log("closing dialog box.");
       if (this.recallText){
         const recallArray = [
-          this.nodeContext1, this.nodeContext2, this.nodeContext3
+        this.recallText, this.nodeContext1, this.nodeContext2, this.nodeContext3
         ]
         this.dialogRef.close({recallArray});
       }

@@ -47,7 +47,6 @@ public class CloudNodeController {
                 logger.info("initializeCloudNodes() was a success, returning CloudNodes.");
             }
             return ResponseEntity.ok(cloudNodes); 
-            
         }
         catch (Exception e){
             logger.error("Exception in initializeCloudNode: " + e);
