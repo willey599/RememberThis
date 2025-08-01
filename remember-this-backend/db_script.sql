@@ -12,7 +12,7 @@ USE rememberthis_db;
 -- -----------------------------------------------------
 -- Table `rememberthis_db`.`node`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS rememberthis_db.node;
+DROP TABLE IF EXISTS rememberthis_db.cloud_node;
 -- -----------------------------------------------------
 -- Table `rememberthis_db`.`user`
 -- -----------------------------------------------------
@@ -26,7 +26,12 @@ CREATE TABLE IF NOT EXISTS rememberthis_db.`user` (
   CREATE TABLE IF NOT EXISTS rememberthis_db.cloud_node (
   node_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL DEFAULT '0',
-  node_text VARCHAR(500) NOT NULL DEFAULT 'Default node text',
+  node_text VARCHAR(500) NOT NULL DEFAULT '',
+  node_context_1 VARCHAR(500) NOT NULL DEFAULT '',
+  node_context_2 VARCHAR(500) NOT NULL DEFAULT '',
+  node_context_3 VARCHAR(500) NOT NULL DEFAULT '',
+  node_x_position INT NOT NULL DEFAULT 300,
+  node_y_position INT NOT NULL DEFAULT 300,
   FOREIGN KEY (user_id) REFERENCES `user`(user_id)
   )
 ;

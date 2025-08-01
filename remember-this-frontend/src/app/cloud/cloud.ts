@@ -6,10 +6,14 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { CloudService } from '../cloud-service/cloud.service';
 import { P } from '@angular/cdk/keycodes';
+import { CommonModule } from '@angular/common';
 
 export interface CloudData{
   nodeId : WritableSignal<number>;
   nodeText : WritableSignal<string>;
+  nodeContext1 : WritableSignal<string>;
+  nodeContext2 : WritableSignal<string>;
+  nodeContext3 : WritableSignal<string>;
   nodeXPosition : number;
   nodeYPosition : number;
 }
@@ -17,34 +21,29 @@ export interface CloudData{
 @Component({
   standalone: true,
   selector: 'app-cloud',
-  imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag],
+  imports: [DragDropModule, MatDialogModule, CloudCreateMenu, CdkDrag, CommonModule],
   template: `
-    <div cdkDrag (cdkDragEnded)="onDragEnd($event)" (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
-      <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
-      <h1 class="display-text">{{nodeText()}}</h1>
-    </div>`,
-  styles: [`
-    :host {
-      display: block;
-      position: absolute;
-      text-align: center;
-      width: auto;
-      height: auto;
-      z-index: 2;
-      }
-    .display-text {
-      position: absolute;
-      display: block;
-      top: 0%;
-      left: 40%;
-      color: blue;
-      text-align: center;
-      z-index: 1;
-    }
-    `]
+    <div cdkDrag (cdkDragEnded)="onDragEnd($event)" >
+      <div (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
+        <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
+      </div>  
+      <div>
+        <h1 class="display-text" *ngIf="displayText">{{nodeText()}}</h1>
+        <h2 class="display-context1" *ngIf="displayContext">{{nodeContext1()}}</h2>
+        <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2()}}</h2>
+        <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>    
+      </div>
+      
+      <div class="flip">
+        <button (click)="flipCloud()">Flip</button>
+      </div>
+
+    </div>
+`,
+  styleUrls: ['./cloud.css']
 })
 
-export class Cloud implements CloudData{
+export class Cloud{
 
 
   constructor(private cloudService: CloudService){}
@@ -52,9 +51,15 @@ export class Cloud implements CloudData{
   mouseDownY : number | null = null;
   mouseUpX : number | null = null;
   mouseUpY : number | null = null;
+  displayContext : boolean = true;
+  displayText : boolean = false;
+
  
   @Input() nodeId! : WritableSignal<number>;
   @Input() nodeText! : WritableSignal<string>;
+  @Input() nodeContext1!: WritableSignal<string>;
+  @Input() nodeContext2!: WritableSignal<string>;
+  @Input() nodeContext3!: WritableSignal<string>;
   @Input() nodeXPosition! : number;
   @Input() nodeYPosition! : number;
   
@@ -74,7 +79,15 @@ export class Cloud implements CloudData{
     
     if (this.mouseDownX === this.mouseUpX && this.mouseDownY === this.mouseUpY){
       //opens the dialog box, contains the result after opening
-      const dialogRef = this.dialog.open(CloudCreateMenu, {data: {nodeText: this.nodeText}});
+      const dialogRef = this.dialog.open(CloudCreateMenu, {
+        data: {
+          nodeText: this.nodeText(),
+          nodeContext1: this.nodeContext1(),
+          nodeContext2: this.nodeContext2(),
+          nodeContext3: this.nodeContext3()
+        }
+      
+      });
       
       dialogRef.afterClosed().subscribe(result => {
         console.log("entering dialog close, result", result);
@@ -83,11 +96,18 @@ export class Cloud implements CloudData{
           this.cloudService.deleteCloud(this.nodeId());
           return;
         }
+        else if(result == null){
+          return;
+        }
         else {
             try{
-              this.cloudService.saveCloud(result.recallItem, this.nodeId());
+              this.cloudService.saveCloud(result.recallArray, this.nodeId());
               console.log("cloud save complete");
-              this.nodeText.set(result.recallItem);
+              //setting these values can probably offset in a service. ###TODO
+              this.nodeText.set(result.recallArray[0]);
+              this.nodeContext1.set(result.recallArray[1]);
+              this.nodeContext2.set(result.recallArray[2]);
+              this.nodeContext3.set(result.recallArray[3]);
             }
             catch(error: unknown){  
               console.error("An error occured when trying to save cloud data. Error: ", error);
@@ -100,7 +120,7 @@ export class Cloud implements CloudData{
   onDragEnd($event: CdkDragEnd): void{
     let aggregateDragPositionX, aggregateDragPositionY;
     const xPos = $event.distance.x;
-    //for historical reasons, y is inverted. Top left is 0,0
+    //for historical reasons beyond my control, y is inverted. Top left is 0,0
     const yPos = $event.distance.y;
     aggregateDragPositionX = this.nodeXPosition + xPos;
     aggregateDragPositionY = this.nodeYPosition + yPos;
@@ -127,4 +147,15 @@ export class Cloud implements CloudData{
     // console.log("position signal data: ", this.nodeXPosition(), this.nodeYPosition());
     // this.cloudService.savePosition(this.nodeXPosition(), this.nodeYPosition(), this.nodeId());
     }
-  }
+
+    flipCloud(){
+      if(!this.displayContext){
+        this.displayContext = true;
+        this.displayText = false;
+      }
+      else{
+        this.displayContext = false;
+        this.displayText = true;
+      }
+    }
+}

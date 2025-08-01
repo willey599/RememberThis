@@ -35,6 +35,9 @@ public class CloudNodeService {
             User user = userRepository.findByOidcId(oidcId).orElseThrow(() -> new RuntimeException("user not found.@@@@@@@@@"));
             cloudNode.setUser(user);
             cloudNode.setNodeText("");
+            cloudNode.setNodeContext1("");
+            cloudNode.setNodeContext2("");
+            cloudNode.setNodeContext3("");
             cloudNodeRepository.save(cloudNode);
             logger.info("Cloud Node stored in repository");
         }catch(Exception e){
@@ -48,7 +51,10 @@ public class CloudNodeService {
         logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
         try{
             cloudNode.setNodeText(cloudNodeRequest.getNodeText());
-            logger.info("Node text saved: " + cloudNodeRequest.getNodeText());
+            cloudNode.setNodeContext1(cloudNodeRequest.getNodeContext1());
+            cloudNode.setNodeContext2(cloudNodeRequest.getNodeContext2());
+            cloudNode.setNodeContext3(cloudNodeRequest.getNodeContext3());
+            logger.info("Node text fields saved: ");
             cloudNodeRepository.save(cloudNode);
         }
         catch (Exception e){

@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
@@ -15,10 +15,15 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrl: './cloud-create-menu.css'
 })
 export class CloudCreateMenu {
-  recallItem: string = '';
-  readonly dialogRef = inject(MatDialogRef<CloudCreateMenu>);
   //contains data from cloud.ts
   readonly data = inject(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<CloudCreateMenu>);
+  nodeText: string = this.data.nodeText;
+  nodeContext1: string = this.data.nodeContext1;
+  nodeContext2: string = this.data.nodeContext2;
+  nodeContext3: string = this.data.nodeContext3;
+  
+  
 
   
   //@Inject and inject() are very similar, but @Inject(token) is supposed to be used inside a constructor parameter to inject. inject() avoids the need to use @Inject.
@@ -26,14 +31,16 @@ export class CloudCreateMenu {
   //data: any is holding all the data that was passed in from dialog.open() through dependency injection. That data can be accessed like data.name. "public" lets you use data.name in your html
   
 
-  saveDialog(mouseEvent: MouseEvent, recallItem: any): void{
+  saveDialog(mouseEvent: MouseEvent): void{
     if (mouseEvent.button == 0){
       console.log("closing dialog box.");
-      if (this.recallItem){
-        this.dialogRef.close({recallItem});
+      console.log("data: ", this.data.context1, this.data.context2, this.data.context3);
+      const recallArray = [
+        this.nodeText, this.nodeContext1, this.nodeContext2, this.nodeContext3
+      ]
+      this.dialogRef.close({recallArray});
       }
     }
-  }
 
   cancelDialog(mouseEvent: MouseEvent): void{
     if (mouseEvent.button == 0){
