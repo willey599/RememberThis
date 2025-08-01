@@ -53,8 +53,28 @@ export interface CloudData{
       position: absolute;
       font-size: 24px;
       display: block;
-      top: 30%;
-      left: 30%;
+      top: -60px;
+      left: 0;
+      color: black;
+      text-align: center;
+      z-index: 1;
+    }
+    .display-context2 {
+      position: absolute;
+      font-size: 24px;
+      display: block;
+      top: -60px;
+      left: 345px;
+      color: black;
+      text-align: center;
+      z-index: 1;
+    }
+    .display-context3 {
+      position: absolute;
+      font-size: 24px;
+      display: block;
+      top: 250px;
+      left: 45%;
       color: black;
       text-align: center;
       z-index: 1;
