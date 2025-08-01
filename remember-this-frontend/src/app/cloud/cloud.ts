@@ -119,10 +119,10 @@ export class Cloud implements CloudData{
               this.cloudService.saveCloud(result.recallArray, this.nodeId());
               console.log("cloud save complete");
               //setting these values can probably offset in a service. ###TODO
-              this.nodeText.set(result.nodeText);
-              this.nodeContext1.set(result.context1);
-              this.nodeContext2.set(result.context2);
-              this.nodeContext3.set(result.context3);
+              this.nodeText.set(result.recallArray[0]);
+              this.nodeContext1.set(result.recallArray[1]);
+              this.nodeContext2.set(result.recallArray[2]);
+              this.nodeContext3.set(result.recallArray[3]);
             }
             catch(error: unknown){  
               console.error("An error occured when trying to save cloud data. Error: ", error);
