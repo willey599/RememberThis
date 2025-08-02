@@ -38,10 +38,9 @@ import { Observable } from 'rxjs';
   `,
   styles: [`
     .canvas {
-      border: 3px solid;
       position: relative;
-      width: 1080px;
-      height: 720px;
+      width: 1920px;
+      height: 1080px;
       margin: 20px auto;
     }
     .buttons {
