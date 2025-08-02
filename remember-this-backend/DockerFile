@@ -1,0 +1,4 @@
+FROM java:17
+WORKDIR /remember-this-backend
+COPY package*.json ./
+RUN mvn spring-boot:run
