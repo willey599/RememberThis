@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.willeylee.remember_this.dto.CloudNodeDeleteRequest;
 import com.willeylee.remember_this.dto.CloudNodePositionRequest;
 // import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
