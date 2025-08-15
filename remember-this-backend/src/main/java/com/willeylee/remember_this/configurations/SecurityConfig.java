@@ -7,13 +7,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.willeylee.remember_this.services.CustomOidcUserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.List;
+import java.util.function.Supplier;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +37,9 @@ public class SecurityConfig {
         System.out.println("@@@@@@@@@@@@@@@@@@@@ Building SecurityFilterChain... @@@@@@@@@@@@@@@@@@");
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
-            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            //this creates the csrfTokenRepo and allows it to be handled when received
+            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()) )
+            
             .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/**").authenticated()
@@ -62,6 +73,28 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/api/**", config);
         return source;
     }
+
+    //specific handler for single page applications, taken from Spring Security Docs. Try to figure out exactly what this does later
+    final class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler{
+        private final CsrfTokenRequestHandler plain = new CsrfTokenRequestAttributeHandler();
+        private final CsrfTokenRequestHandler xor = new XorCsrfTokenRequestAttributeHandler();
+
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response, Supplier<CsrfToken> csrfToken){
+            this.xor.handle(request, response, csrfToken);
+            csrfToken.get();
+        }
+
+        @Override
+        public String resolveCsrfTokenValue(HttpServletRequest request, CsrfToken csrfToken){
+            String headerValue = request.getHeader(csrfToken.getHeaderName());
+            return (StringUtils.hasText(headerValue) ? this.plain : this.xor).resolveCsrfTokenValue(request, csrfToken);
+        }
+        
+
+
+    }
+}
     //Authorization code flow
     //When the user arrives at the login URL /api/login, the backend uses a redirect URI to redirect the user to the Google login endpoint.
     //upon logging in, Google sends an authorization code back through the browser. The browser immediately sends that code to the backend.
