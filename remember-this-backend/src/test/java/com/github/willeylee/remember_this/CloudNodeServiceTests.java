@@ -110,7 +110,7 @@ class CloudNodeServiceTests {
         CloudNodeRequest mockRequest = new CloudNodeRequest();
         mockRequest.setNodeId(-1);
         when(cloudNodeRepository.findByNodeId(mockRequest.getNodeId())).thenReturn(Optional.empty());
-        //Act
+    
         assertThrows(Exception.class, () -> cloudNodeService.saveCloudNode(mockRequest));
         
         //verify
@@ -134,6 +134,15 @@ class CloudNodeServiceTests {
         //assert
         verify(cloudNodeRepository).findByNodeId(1);
         verify(cloudNodeRepository).delete(mockNode);
+    }
 
+    @Test
+    void deleteCloudNode_Failure(){
+        //Arrange
+        int mockNodeId = -1;
+        when(cloudNodeRepository.findByNodeId(mockNodeId)).thenReturn(Optional.empty());
+        //Act and Assert
+        assertThrows(Exception.class, () -> cloudNodeService.deleteCloudNode(mockNodeId));
+        verify(cloudNodeRepository).findByNodeId(mockNodeId);
     }
 }

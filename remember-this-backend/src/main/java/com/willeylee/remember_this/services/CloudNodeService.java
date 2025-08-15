@@ -75,13 +75,19 @@ public class CloudNodeService {
         }catch(Exception e){
             logger.info("Something went wrong in savePositionCloudNode.");
             logger.info(e.getMessage());
+            throw e;
         }
     }
 
     public void deleteCloudNode(int nodeId){
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
-        logger.info("Node about to be deleted: " + cloudNode.getNodeId());
-        cloudNodeRepository.delete(cloudNode);
-        logger.info("Node deleted: ");
+        try{
+            CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
+            logger.info("Node about to be deleted: " + cloudNode.getNodeId());
+            cloudNodeRepository.delete(cloudNode);
+            logger.info("Node deleted");
+        }catch(Exception e){
+            logger.info("Node not deleted ");
+            throw e;
+        }
     }
 }
