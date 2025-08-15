@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
@@ -62,6 +63,21 @@ class CloudNodeServiceTests {
     }
 
     @Test
+    void createCloudNode_failure(){
+        //arrange
+        String mockOicdId = "mock";
+        User user = new User();
+        user.setOidcId(mockOicdId);
+        when(userRepository.findByOidcId(mockOicdId)).thenReturn(Optional.empty());
+        
+        //act
+        assertThrows(Exception.class, () -> cloudNodeService.createCloudNode(mockOicdId));
+        //assert
+        verify(userRepository).findByOidcId(user.getOidcId());
+
+    }
+
+    @Test
     void saveCloudNode_success() {
         CloudNodeRequest mockRequest = new CloudNodeRequest();
         mockRequest.setNodeId(1);
@@ -83,10 +99,24 @@ class CloudNodeServiceTests {
         assertEquals("c2", mockNode.getNodeContext2());
         assertEquals("c3", mockNode.getNodeContext3());
 
-        //verify that mock repo has things in it
+        //verify that mock repo methods were used
         verify(cloudNodeRepository).findByNodeId(1);
         verify(cloudNodeRepository).save(mockNode);
     }
+
+    @Test
+    void saveCloudnode_failure(){
+        //Arrange
+        CloudNodeRequest mockRequest = new CloudNodeRequest();
+        mockRequest.setNodeId(-1);
+        when(cloudNodeRepository.findByNodeId(mockRequest.getNodeId())).thenReturn(Optional.empty());
+        //Act
+        assertThrows(Exception.class, () -> cloudNodeService.saveCloudNode(mockRequest));
+        
+        //verify
+        verify(cloudNodeRepository).findByNodeId(mockRequest.getNodeId());
+    }
+
 
     @Test
     void deleteCloudNode_Success(){
