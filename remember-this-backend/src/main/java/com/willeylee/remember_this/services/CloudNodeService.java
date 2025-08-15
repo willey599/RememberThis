@@ -41,14 +41,16 @@ public class CloudNodeService {
             logger.info("Cloud Node stored in repository");
         }catch(Exception e){
             logger.info("Cloud Node NOT stored in repository");
+            throw e;
         }
         return cloudNode.getNodeId();
     }
     public void saveCloudNode(CloudNodeRequest cloudNodeRequest){
-        logger.info("Entered SaveCloudNode, nodeText: ", cloudNodeRequest.getNodeText());
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in CloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
-        logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
         try{
+            logger.info("Entered SaveCloudNode, nodeText: ", cloudNodeRequest.getNodeText());
+            CloudNode cloudNode = cloudNodeRepository.findByNodeId(cloudNodeRequest.getNodeId()).orElseThrow(() -> new RuntimeException("No NodeId found during SaveCloudeNode in CloudNodeService. Node ID: " + cloudNodeRequest.getNodeId()));
+            logger.info("cloudNode found, cloudNodeId: " + cloudNode.getNodeId());
+        
             cloudNode.setNodeText(cloudNodeRequest.getNodeText());
             cloudNode.setNodeContext1(cloudNodeRequest.getNodeContext1());
             cloudNode.setNodeContext2(cloudNodeRequest.getNodeContext2());
@@ -59,6 +61,7 @@ public class CloudNodeService {
         catch (Exception e){
             logger.info("Something went wrong in SaveCloudNode.");
             logger.info(e.getMessage());
+            throw e;
         }
     }
 
@@ -72,13 +75,19 @@ public class CloudNodeService {
         }catch(Exception e){
             logger.info("Something went wrong in savePositionCloudNode.");
             logger.info(e.getMessage());
+            throw e;
         }
     }
 
     public void deleteCloudNode(int nodeId){
-        CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
-        logger.info("Node about to be deleted: " + cloudNode.getNodeId());
-        cloudNodeRepository.delete(cloudNode);
-        logger.info("Node deleted: ");
+        try{
+            CloudNode cloudNode = cloudNodeRepository.findByNodeId(nodeId).orElseThrow(() -> new RuntimeException("Error finding CloudNode"));
+            logger.info("Node about to be deleted: " + cloudNode.getNodeId());
+            cloudNodeRepository.delete(cloudNode);
+            logger.info("Node deleted");
+        }catch(Exception e){
+            logger.info("Node not deleted ");
+            throw e;
+        }
     }
 }
