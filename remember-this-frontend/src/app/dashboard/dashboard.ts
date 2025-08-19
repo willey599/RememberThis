@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, WritableSignal } from '@angular/core';
 import { CloudService } from "../cloud-service/cloud.service";
 import { Cloud, CloudData } from '../cloud/cloud';
 import { CommonModule } from '@angular/common';
@@ -56,7 +56,16 @@ export class Dashboard {
   }
 
   ngOnInit(){
-    this.cloudService.getInitialData();
+    console.log("getInitialData() method invoked");
+    try{
+      this.cloudService.getInitialData();
+    }catch(error){ 
+      console.log("Something went wrong when initializing data");
+    }
+  }
+  ngOnDestroy(){
+    console.log("clearing cloudServiceArray");
+    this.cloudService.clearCloudArray();
   }
     
   googleLogout(){

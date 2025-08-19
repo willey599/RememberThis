@@ -38,7 +38,6 @@ export class CloudService {
   constructor(){
     
   }
-   
 
   getInitialData(){
     fetch("http://localhost:8080/api/initialize", {
@@ -63,7 +62,6 @@ export class CloudService {
         }
 
         this._cloudDataSignalArray.update(currentArray => [...currentArray, initCloudData]);
-
       }
     })
   }
@@ -205,6 +203,11 @@ export class CloudService {
             })
           .then(data => console.log(data))
           .catch(err => console.error(err));
+  }
+
+  clearCloudArray(){
+    console.log("Clearing _cloudDataSignalArray");
+    this._cloudDataSignalArray.set([]);
   }
 }
   
