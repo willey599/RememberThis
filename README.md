@@ -28,4 +28,4 @@ I hope to implement the following features in future updates:
 
 # I intend to deploy this onto a cloud soon, but for now, here are some screenshots:
 
-![alt text](https://github.com/willey599/RememberThis/tree/main/readme_images/RememberThisScreenshot.png) "Screenshot")
+![screenshot](readme_images/RememberThisScreenshot.jpg)
