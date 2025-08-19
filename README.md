@@ -25,3 +25,7 @@ I hope to implement the following features in future updates:
 3) Customizable sound effects
 4) Game mode functionality for self-testing purposes
 5) Asset caching
+
+# I intend to deploy this onto a cloud soon, but for now, here are some screenshots:
+
+![alt text](https://github.com/willey599/RememberThis/tree/main/readme_images/RememberThisScreenshot.png) "Screenshot")
