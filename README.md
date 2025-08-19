@@ -28,4 +28,5 @@ I hope to implement the following features in future updates:
 
 # I intend to deploy this onto a cloud soon, but for now, here are some screenshots:
 
-![screenshot](readme_images/RememberThisScreenshot.jpg)
+![screenshot1](readme_images/RememberThisScreenshotHome.jpg)
+![screenshot2](readme_images/RememberThisScreenshot.jpg)
