@@ -17,7 +17,7 @@ The backend follows a typical MVC architecture with RESTful functionality to con
 OAuth2.0 via Spring Security allows users to securely access their data. The flow is an Authorization Code Flow, and the user sends an XSRF token as well as a JSESSIONID cookie through the browser for fetch requests.
 
 ## Optimizations/Future Features
-There are not many optimizations at the moment, other than the baked-in features of Angular 20. The only special technology at the moment is Signals, which completely replaces the need for RxJS observables. In doing this, the code base is far more intuitive, easy to understand, and reactive to changes across the app.
+The only shiny optimization at the moment is Signals, which completely replaces the need for RxJS observables. In doing this, the code base is far more intuitive, easy to understand, and reactive to changes across the app.
 
 I hope to implement the following features in future updates: 
 1) Color and font customizations for texts and clouds
