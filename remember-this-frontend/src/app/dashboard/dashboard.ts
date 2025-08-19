@@ -3,7 +3,6 @@ import { CloudService } from "../cloud-service/cloud.service";
 import { Cloud, CloudData } from '../cloud/cloud';
 import { CommonModule } from '@angular/common';
 import { CreateButton } from "../create-cloud-button/create-button/create-button";
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,6 +56,14 @@ export class Dashboard {
 
   ngOnInit(){
     this.cloudService.getInitialData();
+  }
+  ngOnDestroy(){
+    try{
+      console.log("clearing cloudDataSignalArray");
+      this.cloudService.clearCloudArray();
+    }catch (error){
+      console.log("error clearing cloudDataSignalArray in ngOnDestroy: ", error);
+    }
   }
     
   googleLogout(){

@@ -206,6 +206,14 @@ export class CloudService {
           .then(data => console.log(data))
           .catch(err => console.error(err));
   }
+
+  clearCloudArray(){
+    console.log("Clearing _cloudDataSignalArray");
+    this._cloudDataSignalArray.set([]);
+    console.log("array successfully deleted");
+  }
+
+
 }
   
 
