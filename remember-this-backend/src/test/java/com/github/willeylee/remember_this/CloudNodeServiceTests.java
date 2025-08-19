@@ -93,7 +93,7 @@ class CloudNodeServiceTests {
     //act
         cloudNodeService.saveCloudNode(mockRequest);
     //assert
-        
+        assertEquals(1, mockNode.getNodeId());
         assertEquals("mock test", mockNode.getNodeText());
         assertEquals("c1", mockNode.getNodeContext1());
         assertEquals("c2", mockNode.getNodeContext2());
