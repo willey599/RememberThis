@@ -5,6 +5,12 @@ spring:
   application:
     name: remember-this
 
+  profiles:
+    active: secrets
+
+  config:
+    import: optional:file:.env[.properties]
+
   datasource:
     url: jdbc:mysql://localhost:3306/rememberthis_db
     username: root
@@ -21,7 +27,6 @@ spring:
         registration:
           google:
             client-id: 633993768585-i7ne4c37l8tjfuqsc18ein85nseuhkr5.apps.googleusercontent.com
-            client-secret: ${CLIENT_SECRET}
             redirect-uri: http://localhost:8080/login/oauth2/code/google
             scope: openid
         provider:
