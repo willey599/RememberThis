@@ -100,7 +100,7 @@ public class SecurityConfig {
     //upon logging in, Google sends an authorization code back through the browser. The browser immediately sends that code to the backend.
     //The backend makes a request to the Google token endpoint, exchanging that authorization code for an access token (which grants access to Google's resources pertaining to that user like photos, calendar, etc) AS WELL AS a JWT ID Token. 
     //This app doesn't use the access token after this, but the ID token contains the user's info. The backend sends the ID token through a series of cryptographic tests to ensure that its digital signature is authentic.
-    //Once validated, the backend creates a user session object within the framework containing all of the session and user data. It sends a JSESSION cookie to the user through the browser. 
+    //Once validated, the backend creates a user session object within the framework containing all of the session and user data. It sends a JSESSION cookie andn SRF token to the user through the browser. 
     //This JSESSION cookie is used by the user to make requests to the backend and is validated each time by the user session data inside the user object. 
     //In my app, the user OIDC info extracted from the JWT ID token is placed in the backend server to identify the user and retrieve their data. 
     //The backend protects its own resources this way, only allowing that user to access its data through the JSESSION cookie

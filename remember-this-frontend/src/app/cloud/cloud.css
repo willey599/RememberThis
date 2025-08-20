@@ -11,16 +11,16 @@
   font-size: 48px;
   display: block;
   top: 20%;
-  left: 40%;
+  left: 20%;
   color: blue;
   text-align: center;
   z-index: 1;
 }
 .display-context1 {
   position: absolute;
-  font-size: 24px;
+  font-size: 20px;
   display: block;
-  top: -60px;
+  top: 0px;
   left: 0;
   color: black;
   text-align: center;
@@ -28,19 +28,19 @@
 }
 .display-context2 {
   position: absolute;
-  font-size: 24px;
+  font-size: 20px;
   display: block;
-  top: -60px;
-  left: 345px;
+  top: 60px;
+  left: 15%;
   color: black;
   text-align: center;
   z-index: 1;
 }
 .display-context3 {
   position: absolute;
-  font-size: 24px;
+  font-size: 20px;
   display: block;
-  top: 250px;
+  top: 120px;
   left: 45%;
   color: black;
   text-align: center;
