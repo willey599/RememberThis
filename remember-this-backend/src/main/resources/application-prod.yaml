@@ -1,0 +1,12 @@
+spring:    
+  datasource:
+    url: jdbc:mysql://localhost:3306/rememberthis_db
+    username: root
+    password: 123Cobblestone!
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google

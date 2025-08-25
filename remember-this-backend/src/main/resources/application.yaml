@@ -6,7 +6,9 @@ spring:
     name: remember-this
 
   profiles:
-    active: secrets
+    active: 
+      - secrets
+      - dev
 
   config:
     import: optional:file:.env[.properties]
