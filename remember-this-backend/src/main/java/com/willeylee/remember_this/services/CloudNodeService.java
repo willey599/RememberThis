@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.willeylee.remember_this.dto.CloudNodePositionRequest;
-// import com.willeylee.remember_this.dto.CloudNodeFetchRequest;
 import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;

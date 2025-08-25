@@ -1,11 +1,9 @@
 package com.github.willeylee.remember_this;
 
-import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 import com.willeylee.remember_this.entities.User;
 import com.willeylee.remember_this.repositories.CloudNodeRepository;
 import com.willeylee.remember_this.repositories.UserRepository;
-import com.willeylee.remember_this.services.CloudNodeService;
 import com.willeylee.remember_this.services.InitializationService;
 
 import org.junit.jupiter.api.BeforeEach;
