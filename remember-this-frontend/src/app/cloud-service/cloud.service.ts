@@ -184,7 +184,7 @@ export class CloudService {
     const xsrfToken = getXsrfTokenFromCookie();
     console.log("position data: ", nodeXPosition, nodeYPosition);
     fetch("http://localhost:8080/api/savePosition", {
-            method: "POST",
+            method: "POST", 
             body: JSON.stringify({ 
               nodeId: nodeId,
               nodeXPosition: nodeXPosition,

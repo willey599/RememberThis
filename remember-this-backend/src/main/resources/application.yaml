@@ -5,10 +5,14 @@ spring:
   application:
     name: remember-this
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/rememberthis_db
-    username: root
-    password: 123Cobblestone!
+  profiles:
+    active: 
+      - secrets
+      - prod
+      - dev
+
+  config:
+    import: optional:file:.env[.properties]
 
   jpa:
     hibernate:
@@ -21,8 +25,6 @@ spring:
         registration:
           google:
             client-id: 633993768585-i7ne4c37l8tjfuqsc18ein85nseuhkr5.apps.googleusercontent.com
-            client-secret: ${CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
             scope: openid
         provider:
           google:

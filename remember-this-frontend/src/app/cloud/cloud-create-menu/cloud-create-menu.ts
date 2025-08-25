@@ -14,6 +14,7 @@ import { DialogRef } from '@angular/cdk/dialog';
   templateUrl: './cloud-create-menu.html',
   styleUrl: './cloud-create-menu.css'
 })
+
 export class CloudCreateMenu {
   //contains data from cloud.ts
   readonly data = inject(MAT_DIALOG_DATA);
@@ -23,14 +24,11 @@ export class CloudCreateMenu {
   nodeContext2: string = this.data.nodeContext2;
   nodeContext3: string = this.data.nodeContext3;
   
-  
-
-  
   //@Inject and inject() are very similar, but @Inject(token) is supposed to be used inside a constructor parameter to inject. inject() avoids the need to use @Inject.
   //MAT_DIALOG_DATA is a token that keeps track of data throughout the dialog lifecycle. It's passed in by the dialog.open() function in cloud.ts and carries with it any specified data that it's passed in with in the function (in this case- name: this.name). That data is now in MAT_DIALOG_DATA
   //data: any is holding all the data that was passed in from dialog.open() through dependency injection. That data can be accessed like data.name. "public" lets you use data.name in your html
-  
 
+  
   saveDialog(mouseEvent: MouseEvent): void{
     if (mouseEvent.button == 0){
       console.log("closing dialog box.");

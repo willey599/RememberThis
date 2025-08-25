@@ -1,0 +1,12 @@
+spring:    
+  datasource:
+    url: database-1.c47es0iauas2.us-east-1.rds.amazonaws.com
+    username: admin
+    password: 123Cobblestone!
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: remember-this-backend-env.us-east-1.elasticbeanstalk.com/login/oauth2/code/google
