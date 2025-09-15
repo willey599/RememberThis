@@ -4,6 +4,6 @@ run_tests:
     - apt-get update
     - apt-get install -y maven
   script:
-    - cd RememberThis/remember-this-backend
+    - cd remember-this-backend
     - mvn clean package
     - mvn test
