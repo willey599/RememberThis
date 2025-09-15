@@ -6,3 +6,4 @@ run_tests:
   script:
     - mvn clean package
     - mvn test
+    
