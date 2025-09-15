@@ -1,8 +1,8 @@
 run_tests:
-    image: 
-        - eclipse-temurin:17-jdk-jammy
-    before_script:
-        - sudo apt-get update && sudo apt-get install maven
-    scripts:
-        - mvn clean package
-        - mvn test
+  image: eclipse-temurin:17-jdk-jammy
+  before_script:
+    - apt-get update
+    - apt-get install -y maven
+  script:
+    - mvn clean package
+    - mvn test
