@@ -8,6 +8,11 @@ spring:
       - prod
       - dev
 
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:}
+
   config:
     import: optional:file:.env[.properties]
 
@@ -29,6 +34,7 @@ spring:
               token-uri: https://oauth2.googleapis.com/token
               user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
               user-name-attribute: sub
+              client-secret: ${client-secret:}
 
 logging:
   level:
