@@ -16,6 +16,7 @@ build_image:
   script:
     - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
     - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
+    
 
     
 # run_tests:
