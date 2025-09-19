@@ -1,9 +1,20 @@
-run_tests:
-  image: eclipse-temurin:17-jdk-jammy
+variables:
+  BACKEND_IMAGE_NAME: willey599/backend
+  BACKEND_IMAGE_TAG: "1.0"
+
+# run_tests:
+#   image: eclipse-temurin:17-jdk-jammy
+#   before_script:
+#     - apt-get update
+#     - apt-get install -y maven
+#   script:
+#     - cd remember-this-backend
+#     - mvn clean package
+#     - mvn test
+
+build_image:
   before_script:
-    - apt-get update
-    - apt-get install -y maven
+    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
   script:
-    - cd remember-this-backend
-    - mvn clean package
-    - mvn test
+    - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG.
+    - docker push $BACKEND_IMAGE_TAG
