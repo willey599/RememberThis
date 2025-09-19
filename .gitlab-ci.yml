@@ -2,6 +2,21 @@ variables:
   BACKEND_IMAGE_NAME: willey599/backend
   BACKEND_IMAGE_TAG: "1.0"
 
+build_image:
+  image: docker:28.4.0-cli-alpine3.22
+  # runs daemon
+  services:
+    - docker:28.4.0-dind
+  #helps the daemon and docker cli communicate with each other
+  variables:
+    DOCKER_TLS_CERTSDIR: "/certs"
+  before_script:
+    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
+  script:
+    - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG.
+    - docker push $BACKEND_IMAGE_TAG
+
+    
 # run_tests:
 #   image: eclipse-temurin:17-jdk-jammy
 #   before_script:
@@ -11,10 +26,3 @@ variables:
 #     - cd remember-this-backend
 #     - mvn clean package
 #     - mvn test
-
-build_image:
-  before_script:
-    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
-  script:
-    - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG.
-    - docker push $BACKEND_IMAGE_TAG
