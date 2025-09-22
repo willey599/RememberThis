@@ -13,6 +13,7 @@ build_image:
   before_script:
     - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
     - cd remember-this-backend
+    - ls -a
   script:
     - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
     - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
