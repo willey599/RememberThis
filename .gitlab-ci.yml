@@ -11,9 +11,10 @@ build_image:
   variables:
     DOCKER_TLS_CERTSDIR: "/certs"
   before_script:
-    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
     - cd remember-this-backend
     - ls -a
+    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}!"
+
   script:
     - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
     - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
