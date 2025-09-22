@@ -20,6 +20,7 @@ build_image:
     - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
     
 
+
     
 # run_tests:
 #   image: eclipse-temurin:17-jdk-jammy
