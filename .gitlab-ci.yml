@@ -12,7 +12,7 @@ run_tests:
     - apt-get update
     - apt-get install -y maven
   services:
-    - name: willey599/mysql
+    - name: willey599/mysql:1.0
       alias: rememberthis_db
   script:
     - cd remember-this-backend
