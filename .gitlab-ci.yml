@@ -2,6 +2,22 @@ variables:
   BACKEND_IMAGE_NAME: willey599/backend
   BACKEND_IMAGE_TAG: "1.0"
 
+run_tests:
+  image: eclipse-temurin:17-jdk-jammy
+  before_script:
+    - apt-get update
+    - apt-get install -y maven
+  services:
+    - name: willey599/mysql
+    - DATABASE_HOST: rememberthis_db
+    - DATABASE_PORT: 3306 
+    - DATABASE_USER: user
+    - DATABASE_PASSWORD: '123456'
+  script:
+    - cd remember-this-backend
+    - mvn clean package
+    - mvn test
+
 build_image:
   image: docker:28.4.0-cli-alpine3.22
   # runs daemon
@@ -19,15 +35,3 @@ build_image:
     - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
     - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
     
-
-
-    
-run_tests:
-  image: eclipse-temurin:17-jdk-jammy
-  before_script:
-    - apt-get update
-    - apt-get install -y maven
-  script:
-    - cd remember-this-backend
-    - mvn clean package
-    - mvn test
