@@ -1,6 +1,10 @@
 variables:
   BACKEND_IMAGE_NAME: willey599/backend
   BACKEND_IMAGE_TAG: "1.0"
+  DATABASE_HOST: 'rememberthis_db'
+  DATABASE_PORT: 3306 
+  DATABASE_USER: 'user'
+  DATABASE_PASSWORD: '123456'
 
 run_tests:
   image: eclipse-temurin:17-jdk-jammy
@@ -9,10 +13,7 @@ run_tests:
     - apt-get install -y maven
   services:
     - name: willey599/mysql
-    - DATABASE_HOST: rememberthis_db
-    - DATABASE_PORT: 3306 
-    - DATABASE_USER: user
-    - DATABASE_PASSWORD: '123456'
+      alias: rememberthis_db
   script:
     - cd remember-this-backend
     - mvn clean package
