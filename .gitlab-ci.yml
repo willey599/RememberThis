@@ -19,6 +19,7 @@ run_tests:
     - mvn clean package
     - mvn test
 
+
 build_image:
   image: docker:28.4.0-cli-alpine3.22
   # runs daemon
