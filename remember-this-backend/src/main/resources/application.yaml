@@ -2,16 +2,10 @@ spring:
   application:
     name: remember-this
 
-  profiles:
-    active: 
-      - secrets
-      - prod
-      - dev
-
   datasource:
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:}
+    url: jdbc:mysql://mysql:3306/rememberthis_db
+    username: ${MYSQL_USER:user}
+    password: ${MYSQL_PASSWORD:"12345"}
 
   config:
     import: optional:file:.env[.properties]
