@@ -14,6 +14,7 @@ run_tests:
     - apt-get install -y maven
   services:
     - name: $DATABASE_IMAGE_NAME
+      alias: rememberthis_db
   script:
     - cd remember-this-backend
     - mvn clean package
