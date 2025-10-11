@@ -1,20 +1,37 @@
+stages:
+  - test
+  - push
 variables:
-  BACKEND_IMAGE_NAME: willey599/backend
-  BACKEND_IMAGE_TAG: "1.4"
   DATABASE_IMAGE_NAME: "willey599/mysql:1.1"
-  DATABASE_HOST: 'rememberthis_db'
-  DATABASE_PORT: 3306 
-  DATABASE_USER: 'user'
-  DATABASE_PASSWORD: '12345'
 
 run_tests:
+  stage: test
+  variables:
+    DATABASE_IMAGE_NAME: "willey599/mysql:1.1"
+    DATABASE_HOST: 'rememberthis_db'
+    DATABASE_PORT: 3306 
+    DATABASE_USER: 'user'
+    DATABASE_PASSWORD: '12345'
+    BACKEND_IMAGE_NAME: willey599/backend
+    BACKEND_IMAGE_TAG: "1.4"
   image: eclipse-temurin:17-jdk-jammy
   before_script:
     - apt-get update
     - apt-get install -y maven
+    - echo "Waiting for database to be ready..."
+    # 'rememberthis_db' is the hostname (alias)
+    # '$DATABASE_PORT' is the port (3306)
+    - for i in $(seq 1 10); do nc -z $DATABASE_HOST $DATABASE_PORT && break || sleep 10; done
+    - echo "Database is ready!"
   services:
     - name: $DATABASE_IMAGE_NAME
       alias: rememberthis_db
+      variables:
+        DATABASE_IMAGE_NAME: "willey599/mysql:1.1"
+        DATABASE_HOST: 'rememberthis_db'
+        DATABASE_PORT: 3306 
+        DATABASE_USER: 'user'
+        DATABASE_PASSWORD: '12345'
   script:
     - cd remember-this-backend
     - mvn clean package
@@ -22,6 +39,7 @@ run_tests:
 
 
 build_image:
+  stage: push
   image: docker:28.4.0-cli-alpine3.22
   # runs daemon
   services:
