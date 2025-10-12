@@ -12,7 +12,7 @@ run_tests:
   stage: test
   image: node:22.15.0-alpine
   before_script:
-    - cd remember-this-backend
+    - cd remember-this-frontend
     - npm run build
   script:
     - ng test
