@@ -7,6 +7,9 @@ variables:
   DATABASE_PORT: 3306 
   DATABASE_USER: 'user'
   DATABASE_PASSWORD: '12345'
+  BACKEND_IMAGE_NAME: willey599/backend
+  BACKEND_IMAGE_TAG: "1.4"
+
 
 build_app:
   stage: build
