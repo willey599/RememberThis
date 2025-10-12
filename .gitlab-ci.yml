@@ -17,9 +17,6 @@ build_app:
     - npm install
     - npm install -g @angular/cli
     - npm run build
-  artifacts:
-    paths:
-      - /public
 
 push_image:
   stage: push
