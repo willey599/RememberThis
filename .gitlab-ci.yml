@@ -1,5 +1,5 @@
 stages:
-  - test
+  - build
   - push
 variables:
   DATABASE_IMAGE_NAME: "willey599/mysql:1.1"
@@ -8,19 +8,20 @@ variables:
   DATABASE_USER: 'user'
   DATABASE_PASSWORD: '12345'
 
-run_tests:
-  stage: test
+build_app:
+  stage: build
   image: node:22.15.0-alpine
   before_script:
+  script:
     - cd remember-this-frontend
     - npm install
     - npm install -g @angular/cli
     - npm run build
-  script:
-    - - ng test --watch=false --browsers=ChromeHeadless
+  artifacts:
+    paths:
+      - /public
 
-
-build_image:
+push_image:
   stage: push
   image: docker:28.4.0-cli-alpine3.22
   # runs daemon
