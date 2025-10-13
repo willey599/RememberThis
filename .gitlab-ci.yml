@@ -7,8 +7,8 @@ variables:
   DATABASE_PORT: 3306 
   DATABASE_USER: 'user'
   DATABASE_PASSWORD: '12345'
-  BACKEND_IMAGE_NAME: willey599/backend
-  BACKEND_IMAGE_TAG: "1.4"
+  FRONTEND_IMAGE_NAME: willey599/frontend
+  FRONTEND_IMAGE_TAG: "${CI_COMMIT_SHA}"
 
 
 build_app:
@@ -19,7 +19,11 @@ build_app:
     - cd remember-this-frontend
     - npm install
     - npm install -g @angular/cli
+    - npm run lint
     - npm run build
+  only: 
+    - merge_requests
+    - main
 
 push_image:
   stage: push
@@ -31,11 +35,11 @@ push_image:
   variables:
     DOCKER_TLS_CERTSDIR: "/certs"
   before_script:
-    - cd remember-this-backend
+    - cd remember-this-frontend
     - ls -a
     - docker login -u $DOCKER_USER -p "${DOCKER_PASS}"
 
   script:
-    - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
-    - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
+    - docker build -t $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG .
+    - docker push $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG
     
