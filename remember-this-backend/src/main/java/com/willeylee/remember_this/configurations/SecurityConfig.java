@@ -48,7 +48,7 @@ public class SecurityConfig {
             )
             .oauth2Login(oauth -> 
                 oauth.successHandler((request, response, authentication) -> {
-                    response.sendRedirect("http://localhost:4200");
+                    response.sendRedirect("http://localhost:4200/dashboard");
                 })
                 .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOidcUserService)))
             .logout(logout -> logout

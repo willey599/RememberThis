@@ -31,7 +31,6 @@ build/
 
 ###
 application-secrets.yaml
-application-dev.yaml
 
 ### VS Code ###
 .vscode/

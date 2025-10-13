@@ -10,7 +10,6 @@ class RememberThisApplicationTests {
 
 	@Test
 	void contextLoads() {
-		
 	}
 
 }

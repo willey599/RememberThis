@@ -1,0 +1,45 @@
+stages:
+  - build
+  - push
+variables:
+  DATABASE_IMAGE_NAME: "willey599/mysql:1.1"
+  DATABASE_HOST: 'rememberthis_db'
+  DATABASE_PORT: 3306 
+  DATABASE_USER: 'user'
+  DATABASE_PASSWORD: '12345'
+  FRONTEND_IMAGE_NAME: willey599/frontend
+  FRONTEND_IMAGE_TAG: "$CI_COMMIT_SHA"
+
+
+build_app:
+  stage: build
+  image: node:22.15.0-alpine
+  before_script:
+  script:
+    - cd remember-this-frontend
+    - npm install
+    - npm install -g @angular/cli
+    - npm run build
+  only: 
+    - merge_requests
+    - main
+
+push_image:
+  stage: push
+  image: docker:28.4.0-cli-alpine3.22
+  # runs daemon
+  services:
+    - docker:28.4.0-dind
+  #helps the daemon and docker cli communicate with each other
+  variables:
+    DOCKER_TLS_CERTSDIR: "/certs"
+  before_script:
+    - cd remember-this-frontend
+    - ls -a
+    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}"
+
+  script:
+    - echo "$CI_COMMIT_SHA"
+    - docker build -t $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG .
+    - docker push $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG
+    
