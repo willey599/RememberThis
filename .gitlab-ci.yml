@@ -8,7 +8,7 @@ variables:
   DATABASE_USER: 'user'
   DATABASE_PASSWORD: '12345'
   FRONTEND_IMAGE_NAME: willey599/frontend
-  FRONTEND_IMAGE_TAG: "${CI_COMMIT_SHA}"
+  FRONTEND_IMAGE_TAG: "$CI_COMMIT_SHA"
 
 
 build_app:
@@ -19,7 +19,6 @@ build_app:
     - cd remember-this-frontend
     - npm install
     - npm install -g @angular/cli
-    - npm run lint
     - npm run build
   only: 
     - merge_requests
@@ -40,6 +39,7 @@ push_image:
     - docker login -u $DOCKER_USER -p "${DOCKER_PASS}"
 
   script:
+    - echo "$CI_COMMIT_SHA"
     - docker build -t $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG .
     - docker push $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG
     
