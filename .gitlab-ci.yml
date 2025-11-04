@@ -32,7 +32,7 @@ build_backend:
     - ls -la
     - whoami
     - chmod +x mvnw
-    - ./mvnw
+    - ./mvnw clean package
     - echo "before_script complete"
   script: 
     - ./mvnw package
