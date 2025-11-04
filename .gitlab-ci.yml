@@ -9,6 +9,8 @@ variables:
   DATABASE_PASSWORD: '12345'
   FRONTEND_IMAGE_NAME: willey599/frontend
   FRONTEND_IMAGE_TAG: "$CI_COMMIT_SHA"
+  BACKEND_IMAGE_NAME: willey599/backend
+  BACKEND_IMAGE_TAG: "$CI_COMMIT_SHA"
 
 
 build_frontend:
@@ -47,13 +49,19 @@ push_image:
   #helps the daemon and docker cli communicate with each other
   variables:
     DOCKER_TLS_CERTSDIR: "/certs"
-  before_script:
+  script:    
+    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}"    
     - cd remember-this-frontend
-    - ls -a
-    - docker login -u $DOCKER_USER -p "${DOCKER_PASS}"
-
-  script:
+    - ls -la
     - echo "$CI_COMMIT_SHA"
     - docker build -t $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG .
     - docker push $FRONTEND_IMAGE_NAME:$FRONTEND_IMAGE_TAG
+    - echo "frontend push complete, moving to push backend image"
+    - cd ../remember-this-backend/
+    - ls -la
+    - docker build -t $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG .
+    - docker push $BACKEND_IMAGE_NAME:$BACKEND_IMAGE_TAG
+    - echo "backend image push complete"
+
+
     
