@@ -30,6 +30,8 @@ build_backend:
   before_script:
     - cd remember-this-backend
     - ls -a
+    - whoami
+    - chmod -x mvnw
     - ./mvnw
     - echo "before_script complete"
   script: 
