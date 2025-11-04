@@ -29,9 +29,9 @@ build_backend:
   image: eclipse-temurin:17-jdk-jammy
   before_script:
     - cd remember-this-backend
-    - ls -a
+    - ls -la
     - whoami
-    - chmod -x mvnw
+    - chmod +x mvnw
     - ./mvnw
     - echo "before_script complete"
   script: 
