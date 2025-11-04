@@ -11,7 +11,7 @@ variables:
   FRONTEND_IMAGE_TAG: "$CI_COMMIT_SHA"
 
 
-build_app:
+build_frontend:
   stage: build
   image: node:22.15.0-alpine
   before_script:
@@ -23,6 +23,19 @@ build_app:
   only: 
     - merge_requests
     - main
+
+build_backend:
+  stage: build
+  image: eclipse-temurin:17-jdk-jammy
+  before_script:
+    - cd remember-this-backend
+    - ls -a
+    - ./mvnw
+    - echo "before_script complete"
+  script: 
+    - ./mvnw package
+
+  
 
 push_image:
   stage: push
