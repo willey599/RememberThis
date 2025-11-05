@@ -2,8 +2,8 @@
 spring:
   datasource:
     url: jdbc:mysql://mysql:3306/rememberthis_db
-    username: root
-    password: 123Cobblestone!
+    username: user
+    password: "12345"
 
   security:
     oauth2:
