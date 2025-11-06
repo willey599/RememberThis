@@ -102,7 +102,7 @@ export class CloudService {
     }
 
   createCloud(){
-    fetch("http://localhost:8080/api/create", {
+    fetch("http://rememberthis.local/api/create", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       credentials: "include"
@@ -154,7 +154,7 @@ export class CloudService {
   saveCloud(recallArray: string[], nodeId: number){
     const xsrfToken = getXsrfTokenFromCookie();
 
-    fetch("http://localhost:8080/api/save", {
+    fetch("http://rememberthis.local/api/save", {
             method: "POST",
             body: JSON.stringify({ 
             nodeText: recallArray[0],
@@ -183,7 +183,7 @@ export class CloudService {
   savePosition(nodeXPosition: number, nodeYPosition: number, nodeId: number){
     const xsrfToken = getXsrfTokenFromCookie();
     console.log("position data: ", nodeXPosition, nodeYPosition);
-    fetch("http://localhost:8080/api/savePosition", {
+    fetch("http://rememberthis.local/api/savePosition", {
             method: "POST", 
             body: JSON.stringify({ 
               nodeId: nodeId,
