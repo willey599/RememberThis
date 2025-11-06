@@ -48,11 +48,11 @@ public class SecurityConfig {
             )
             .oauth2Login(oauth -> 
                 oauth.successHandler((request, response, authentication) -> {
-                    response.sendRedirect("http://rememberthis.local/dashboard");
+                    response.sendRedirect("https://remember-this-app.app/dashboard");
                 })
                 .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOidcUserService)))
             .logout(logout -> logout
-            .logoutSuccessUrl("http://rememberthis.local")
+            .logoutSuccessUrl("https://remember-this-app.app/")
             );
 
         return http.build();
@@ -63,7 +63,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         
-        config.setAllowedOrigins(List.of("http://rememberthis.local"));
+        config.setAllowedOrigins(List.of("https://remember-this-app.app/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

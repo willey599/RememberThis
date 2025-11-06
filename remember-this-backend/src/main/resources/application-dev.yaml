@@ -10,4 +10,4 @@ spring:
       client:
         registration:
           google:
-            redirect-uri: http://rememberthis.local/login/oauth2/code/google
+            redirect-uri: https://remember-this-app.app/login/oauth2/code/google

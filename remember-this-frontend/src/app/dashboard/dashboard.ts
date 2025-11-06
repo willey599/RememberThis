@@ -68,7 +68,7 @@ export class Dashboard {
     
   googleLogout(){
     console.log("redirecting to Google logout endpoint");
-    window.location.href = 'http://rememberthis.local/logout';
+    window.location.href = 'https://remember-this-app.app/logout';
     localStorage.removeItem('user_settings');
   }
 }
