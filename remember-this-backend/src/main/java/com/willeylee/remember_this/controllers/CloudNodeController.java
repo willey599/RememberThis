@@ -21,7 +21,7 @@ import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://rememberthis.local")
 @RestController
 @RequestMapping("/api")
 public class CloudNodeController {
