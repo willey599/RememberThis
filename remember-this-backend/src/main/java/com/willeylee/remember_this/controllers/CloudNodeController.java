@@ -21,7 +21,7 @@ import com.willeylee.remember_this.dto.CloudNodeRequest;
 import com.willeylee.remember_this.entities.CloudNode;
 
 
-@CrossOrigin(origins = "http://rememberthis.local")
+@CrossOrigin(origins = "https://remember-this-app.app")
 @RestController
 @RequestMapping("/api")
 public class CloudNodeController {

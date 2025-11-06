@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 })
 export class Home {
   googleSignIn(){
-    window.location.href='http://rememberthis.local/oauth2/authorization/google'
+    window.location.href='https://remember-this-app.app/oauth2/authorization/google'
   }
 }

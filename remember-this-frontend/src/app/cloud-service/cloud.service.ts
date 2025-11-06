@@ -41,7 +41,7 @@ export class CloudService {
    
 
   getInitialData(){
-    fetch("http://rememberthis.local/api/initialize", {
+    fetch("https://remember-this-app.app/api/initialize", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       credentials: "include"
@@ -75,7 +75,7 @@ export class CloudService {
 
       console.log("extracted XSRF token from document cookies");
       const nodeId : number = returnedNodeId;
-      fetch(`http://rememberthis.local/api/delete`, {
+      fetch(`https://remember-this-app.app/api/delete`, {
         method: "DELETE",
         body: JSON.stringify({ 
           nodeId: returnedNodeId
@@ -102,7 +102,7 @@ export class CloudService {
     }
 
   createCloud(){
-    fetch("http://rememberthis.local/api/create", {
+    fetch("https://remember-this-app.app/api/create", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       credentials: "include"
@@ -154,7 +154,7 @@ export class CloudService {
   saveCloud(recallArray: string[], nodeId: number){
     const xsrfToken = getXsrfTokenFromCookie();
 
-    fetch("http://rememberthis.local/api/save", {
+    fetch("https://remember-this-app.app/api/save", {
             method: "POST",
             body: JSON.stringify({ 
             nodeText: recallArray[0],
@@ -183,7 +183,7 @@ export class CloudService {
   savePosition(nodeXPosition: number, nodeYPosition: number, nodeId: number){
     const xsrfToken = getXsrfTokenFromCookie();
     console.log("position data: ", nodeXPosition, nodeYPosition);
-    fetch("http://rememberthis.local/api/savePosition", {
+    fetch("https://remember-this-app.app/api/savePosition", {
             method: "POST", 
             body: JSON.stringify({ 
               nodeId: nodeId,
