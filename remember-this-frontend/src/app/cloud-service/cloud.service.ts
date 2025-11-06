@@ -41,7 +41,7 @@ export class CloudService {
    
 
   getInitialData(){
-    fetch("http://localhost:8080/api/initialize", {
+    fetch("http://rememberthis.local/api/initialize", {
       method: "GET",
       headers: {"Content-Type": "application/json"},
       credentials: "include"
@@ -75,7 +75,7 @@ export class CloudService {
 
       console.log("extracted XSRF token from document cookies");
       const nodeId : number = returnedNodeId;
-      fetch(`http://localhost:8080/api/delete`, {
+      fetch(`http://rememberthis.local/api/delete`, {
         method: "DELETE",
         body: JSON.stringify({ 
           nodeId: returnedNodeId
