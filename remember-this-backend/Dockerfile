@@ -66,8 +66,8 @@ RUN adduser \
     --shell "/sbin/nologin" \
     --no-create-home \
     --uid "${UID}" \
-    appuser
-USER appuser
+    user
+USER user
 
 # Copy the executable from the "package" stage.
 COPY --from=package build/target/app.jar app.jar
