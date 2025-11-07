@@ -3,12 +3,7 @@ server:
 
 spring:
   application:
-    name: remember-this
-
-  profiles:
-    active: 
-    - dev
-    
+    name: remember-this    
 
   config:
     import: optional:file:.env[.properties]
@@ -23,8 +18,9 @@ spring:
       client:
         registration:
           google:
-            client-id: 633993768585-i7ne4c37l8tjfuqsc18ein85nseuhkr5.apps.googleusercontent.com
+            client-id: ${GOOGLE_CLIENT_ID}
             scope: openid
+            client-secret: ${GOOGLE_CLIENT_SECRET}
         provider:
           google:
               authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
