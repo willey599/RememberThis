@@ -61,6 +61,8 @@ public class SecurityConfig {
             .oauth2Login(oauth -> oauth
                 .successHandler((request, response, authentication) -> {
                     response.sendRedirect("https://remember-this-app.app/dashboard");
+                    //the line below does work locally, but I'm having trouble getting it to work with k8/ingress (probably has to do with SPA weirdness). I'll come back to this later
+                    // response.sendRedirect("https://remember-this-app.app/dashboard");
                 })
                 .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOidcUserService))
             )
