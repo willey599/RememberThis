@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 @Injectable({
     providedIn: "root"
 })
+
+//these are custom methods to handle or extract tokens provided by the backend, for security purposes.
 export class CsrfInterceptor implements HttpInterceptor{
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
         console.log("CsrfInterceptor class Intercept Called @@@@@@@@@");
@@ -28,10 +30,12 @@ export class CsrfInterceptor implements HttpInterceptor{
         for (let i = 0; i < cookieArray.length; i++){
             //trims extra spaces
             let arrayItem = cookieArray[i].trim();
+            //if current array item matches xsrfToken, then return item
             if (arrayItem.indexOf(xsrfToken) === 0){
-            return arrayItem.substring(xsrfToken.length, arrayItem.length);
+                return arrayItem.substring(xsrfToken.length, arrayItem.length);
             }
         }
+        //if not found, do not return anything
         return '';
     }
 }
