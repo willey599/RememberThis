@@ -26,14 +26,14 @@ export interface CloudData{
     <div cdkDrag (cdkDragEnded)="onDragEnd($event)" >
       <div (mouseup)="onMouseUp($event)" (mousedown)="onMouseDown($event)">
         <img src="cloud.png" alt="a blue cloud" style="cursor: pointer;">
-      </div>  
+      </div>
       <div>
         <h1 class="display-text" *ngIf="displayText">{{nodeText()}}</h1>
         <h2 class="display-context1" *ngIf="displayContext">{{nodeContext1()}}</h2>
         <h2 class="display-context2" *ngIf="displayContext">{{nodeContext2()}}</h2>
-        <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>    
+        <h2 class="display-context3" *ngIf="displayContext">{{nodeContext3()}}</h2>
       </div>
-      
+
       <div class="flip">
         <button (click)="flipCloud()">Flip</button>
       </div>
@@ -47,6 +47,7 @@ export class Cloud{
 
 
   constructor(private cloudService: CloudService){}
+
   mouseDownX : number | null = null;
   mouseDownY : number | null = null;
   mouseUpX : number | null = null;
@@ -54,7 +55,7 @@ export class Cloud{
   displayContext : boolean = true;
   displayText : boolean = false;
 
- 
+
   @Input() nodeId! : WritableSignal<number>;
   @Input() nodeText! : WritableSignal<string>;
   @Input() nodeContext1!: WritableSignal<string>;
@@ -62,7 +63,7 @@ export class Cloud{
   @Input() nodeContext3!: WritableSignal<string>;
   @Input() nodeXPosition! : number;
   @Input() nodeYPosition! : number;
-  
+
 
   //dependency injection, create handle for MatDialog object
   readonly dialog = inject(MatDialog);
@@ -76,7 +77,7 @@ export class Cloud{
   onMouseUp(mouseState : MouseEvent): void {
     this.mouseUpX = mouseState.clientX;
     this.mouseUpY = mouseState.clientY;
-    
+
     if (this.mouseDownX === this.mouseUpX && this.mouseDownY === this.mouseUpY){
       //opens the dialog box, contains the result after opening
       const dialogRef = this.dialog.open(CloudCreateMenu, {
@@ -86,9 +87,9 @@ export class Cloud{
           nodeContext2: this.nodeContext2(),
           nodeContext3: this.nodeContext3()
         }
-      
+
       });
-      
+
       dialogRef.afterClosed().subscribe(result => {
         console.log("entering dialog close, result", result);
         if (result == true){
@@ -109,7 +110,7 @@ export class Cloud{
               this.nodeContext2.set(result.recallArray[2]);
               this.nodeContext3.set(result.recallArray[3]);
             }
-            catch(error: unknown){  
+            catch(error: unknown){
               console.error("An error occured when trying to save cloud data. Error: ", error);
             }
         }
