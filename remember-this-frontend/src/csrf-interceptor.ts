@@ -1,8 +1,6 @@
-import { LoginStatusService } from './app/home/login-status-service';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable, Signal } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { signal, WritableSignal } from '@angular/core'
 
 @Injectable({
     providedIn: "root"
@@ -10,21 +8,15 @@ import { signal, WritableSignal } from '@angular/core'
 
 //these are custom methods to handle or extract tokens provided by the backend, for security purposes.
 export class CsrfInterceptor implements HttpInterceptor{
-
-    constructor(private loginStatusService:LoginStatusService){
-    }
-
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
         console.log("CsrfInterceptor class Intercept Called @@@@@@@@@");
         const csrfToken = this.getXsrfTokenFromCookie();
         if (csrfToken) {
-            this.loginStatusService.setLoggedIn();
             const clonedRequest = req.clone({
                 headers: req.headers.set('X-CSRF-TOKEN', csrfToken)
             });
             return next.handle(clonedRequest);
         }
-        this.loginStatusService.setLoggedOut();
         return next.handle(req);''
     }
 
@@ -40,8 +32,7 @@ export class CsrfInterceptor implements HttpInterceptor{
             let arrayItem = cookieArray[i].trim();
             //if current array item matches xsrfToken, then return item
             if (arrayItem.indexOf(xsrfToken) === 0){
-
-              return arrayItem.substring(xsrfToken.length, arrayItem.length);
+                return arrayItem.substring(xsrfToken.length, arrayItem.length);
             }
         }
         //if not found, do not return anything

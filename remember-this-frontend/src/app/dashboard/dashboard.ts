@@ -8,11 +8,11 @@ import { CreateButton } from "../create-cloud-button/create-button/create-button
   selector: 'app-dashboard',
   imports: [Cloud, CreateButton, CommonModule],
   template: `
-  <h1 class="buttons">
-    <button (click)="googleLogout()">Logout</button>
-    <app-create-button></app-create-button>  
+    <h1 class="buttons">
+      <button (click)="googleLogout()">Logout</button>
+      <app-create-button></app-create-button>  
     
-  </h1>
+    </h1>
   <h2>
     <div class = "canvas">
       <!-- If value changes, continue -->
