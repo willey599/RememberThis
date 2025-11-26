@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: backend-deployment
+  namespace: remember-this
+  labels:
+    app: remember-this
+    tier: backend
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: remember-this
+      tier: backend
+  template:
+    metadata:
+      name: spring-boot
+      namespace: remember-this
+      labels:
+        app: remember-this
+        tier: backend
+    spec: 
+      containers: 
+        - name: backend-pod
+          image: willey599/backend:605bfbf54db42b5d2c222108f3d3934b7702294f
+          ports: 
+            - containerPort: 8080
+          env:
+            - name: MYSQL_HOST
+              value: "mysql"
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: mysql-database-name
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: secrets
+                  key: mysql-password
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef: 
+                  name: secrets
+                  key: google-client-id
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: google-client-secret
+          resources: 
+            requests:
+              cpu: "300m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

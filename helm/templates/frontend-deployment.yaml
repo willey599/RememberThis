@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: {{ .Release.Name }}-frontend-deployment
+  namespace: {{ .Values.namespace }}
+  labels: {{- include "rememberthis.v1.frontend-pod-labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount.frontend}}
+  selector:
+    matchLabels: {{- include "rememberthis.v1.frontend-pod-labels" . | indent 6 }}
+  template: {{- include "rememberthis.v1.frontend-pod-info" . | indent 4 }}
