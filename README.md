@@ -1,6 +1,6 @@
 # Remember This
 
-App can be accessed [here](remember-this-app.app)
+App can be accessed [here](https://remember-this-app.app/)
 
 This is my first full-stack application, made as a study tool to help me remember terms and concepts during my CS degree.
 The project is still very much in development and needs tidying up, but it is currently usable as a "flashcard" app. The concept was to incorporate spatial elements into a note-taking app, almost like a memory palace. I am planning to add more customizable elements and the ability to store BLOBS into the database.
