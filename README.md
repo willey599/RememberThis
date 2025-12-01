@@ -1,5 +1,8 @@
 # Remember This
-This is my first full-stack application, made as a study tool to help me remember terms during my CS degree.
+
+App can be accessed [here](remember-this-app.app)
+
+This is my first full-stack application, made as a study tool to help me remember terms and concepts during my CS degree.
 The project is still very much in development and needs tidying up, but it is currently usable as a "flashcard" app. The concept was to incorporate spatial elements into a note-taking app, almost like a memory palace. I am planning to add more customizable elements and the ability to store BLOBS into the database.
 
 ## Technologies Used: 
@@ -16,17 +19,9 @@ The backend follows a typical MVC architecture with RESTful functionality to con
 
 OAuth2.0 via Spring Security allows users to securely access their data. The flow is an Authorization Code Flow, and the user sends an XSRF token as well as a JSESSIONID cookie through the browser for fetch requests.
 
-## Optimizations/Future Features
-The only shiny optimization at the moment is Signals, which completely replaces the need for RxJS observables. In doing this, the code base is far more intuitive, easy to understand, and reactive to changes across the app.
+# Kubernetes
 
-I hope to implement the following features in future updates: 
-1) Color and font customizations for texts and clouds
-2) BLOB/image uploading functionality
-3) Customizable sound effects
-4) Game mode functionality for self-testing purposes
-5) Asset caching
-
-# I intend to deploy this onto a cloud soon, but for now, here are some screenshots:
+This app is deployed as a kubernetes cluster on the Digital Ocean cloud. It uses a helm chart for easy deployment, and there is GitLab CI/CD integration for rolling out new features. The cluster itself additionally uses an nginx ingress load balancer to route all external traffic to the correct service, as well as a cloudflare tunnel to direct traffic from remember-this-app.app to the cluster on the cloud. 
 
 ![screenshot1](readme_images/RememberThisScreenshotHome.jpg)
 ![screenshot2](readme_images/RememberThisScreenshot.jpg)
